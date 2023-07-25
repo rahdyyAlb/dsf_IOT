@@ -2,3 +2,8 @@ body {
     background-color: rgb(243, 243, 243);
     height: 100vh;
 }
+
+
+.btn-small {
+    width:105px;
+}

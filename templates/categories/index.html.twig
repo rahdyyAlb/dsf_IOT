@@ -3,33 +3,42 @@
 {% block title %}Categories index{% endblock %}
 
 {% block body %}
-    <h1>Categories index</h1>
+<div class="text-center d-flex align-items-center justify-content-center align-middle" style="height: 100vh">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for category in categories %}
-            <tr>
-                <td>{{ category.id }}</td>
-                <td>{{ category.name }}</td>
-                <td>
-                    <a href="{{ path('app_categories_show', {'id': category.id}) }}">show</a>
-                    <a href="{{ path('app_categories_edit', {'id': category.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="text-center align-items-center justify-content-center">
 
-    <a href="{{ path('app_categories_new') }}">Create new</a>
+        <div class ="card card-body text-center align-items-center justify-content-center" style="width:80vw">
+            <h1 class="m-2 pb-3 text-center">Catégorie</h1>
+
+            <table class="table table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nom du produit</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <th scope="row">{{ category.id }}</th>
+                        <td>{{ category.name }}</td>
+                        <td>
+                            <a class="btn btn-info" href="{{ path('app_categories_show', {'id': category.id}) }}">Info</a>
+                            <a class="btn btn-warning" href="{{ path('app_categories_edit', {'id': category.id}) }}">Editer</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">Aucune catégorie</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <a href="{{ path('app_categories_new') }}" class="m-2 btn btn-success">Créer une catégorie</a>
+            
+        </div>  
+    </div>
+</div>
 {% endblock %}
