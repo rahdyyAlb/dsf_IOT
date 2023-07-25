@@ -9,6 +9,11 @@
 import './styles/app.css';
 // Import Bootstrap's CSS
 import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap-grid.css';
+import 'bootstrap/dist/css/bootstrap-reboot.css';
+import 'bootstrap/dist/css/bootstrap-grid.rtl.css';
 
 // Import Bootstrap's JavaScript
-import 'bootstrap';
+import 'bootstrap/dist/js/bootstrap.js';
+import 'bootstrap/dist/js/bootstrap.js';
+
