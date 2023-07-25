@@ -26,13 +26,15 @@ class Day
     #[ORM\Column]
     private ?float $cheque_total = null;
 
-	#[ORM\OneToMany(mappedBy: 'caisse', targetEntity: Caisse::class)]
-	private Collection $caisse_id;
+    #[ORM\ManyToOne(inversedBy: 'days')]
+    private ?caisse $caisse_id = null;
+
+
 
 	public function getId(): ?int
-    {
-        return $this->id;
-    }
+             {
+                 return $this->id;
+             }
 
     public function getDate(): ?\DateTimeInterface
     {
@@ -78,6 +80,18 @@ class Day
     public function setChequeTotal(float $cheque_total): static
     {
         $this->cheque_total = $cheque_total;
+
+        return $this;
+    }
+
+    public function getCaisseId(): ?caisse
+    {
+        return $this->caisse_id;
+    }
+
+    public function setCaisseId(?caisse $caisse_id): static
+    {
+        $this->caisse_id = $caisse_id;
 
         return $this;
     }
