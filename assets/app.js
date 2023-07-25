@@ -7,3 +7,8 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
+// Import Bootstrap's CSS
+import 'bootstrap/dist/css/bootstrap.css';
+
+// Import Bootstrap's JavaScript
+import 'bootstrap';

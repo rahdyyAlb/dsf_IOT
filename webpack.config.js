@@ -70,4 +70,23 @@ Encore
     //.autoProvidejQuery()
 ;
 
+const path = require('path');
+
+module.exports = {
+    // ...other webpack configurations...
+    module: {
+        rules: [
+            // Rule for processing Bootstrap's CSS files
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
+            },
+            // Rule for processing Bootstrap's JavaScript files
+            {
+                test: /bootstrap\.js$/,
+                use: 'imports-loader?jQuery=jquery,$=jquery,this=>window'
+            }
+        ]
+    }
+};
 module.exports = Encore.getWebpackConfig();
