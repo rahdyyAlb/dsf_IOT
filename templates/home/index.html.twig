@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
 <style>
@@ -8,31 +8,21 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <a class="navbar-brand" href="#">Hidden brand</a>
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+   <body class="text-center d-flex align-items-center justify-content-center">
+   
+  <div class="card p-5"> 
+        <form class="form-signin">
+        <img class="mb-5" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+        <h1 class="h3 mb-4 font-weight-normal">CONNECTER-VOUS</h1>
+        <label for="inputEmail" class="sr-only">Nom d'utilisateur</label>
+        <input type="text" id="inputEmail" class="form-control mb-3" placeholder="Nom d'utilisateur" required autofocus>
+        <label for="inputPassword" class="sr-only">Mot de passe</label>
+        <input type="password" id="inputPassword" class="form-control mb-2" placeholder="Mot de passe" required>
+        <div class="checkbox mb-3">
         </div>
-    </nav>
-</div>
+        <button class="btn btn-lg btn-primary btn-block mt-3" type="submit" onclick="window.location.href='/';">Se connecter</button>
+        </form>
+  </div>
+
+  </body>
 {% endblock %}
