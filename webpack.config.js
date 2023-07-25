@@ -70,8 +70,6 @@ Encore
     //.autoProvidejQuery()
 ;
 
-const path = require('path');
-
 module.exports = {
     // ...other webpack configurations...
     module: {
