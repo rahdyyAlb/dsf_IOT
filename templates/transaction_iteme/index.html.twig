@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TransactionIteme index{% endblock %}
+
+{% block body %}
+    <h1>TransactionIteme index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for transaction_iteme in transaction_itemes %}
+            <tr>
+                <td>{{ transaction_iteme.id }}</td>
+                <td>{{ transaction_iteme.quantity }}</td>
+                <td>{{ transaction_iteme.total }}</td>
+                <td>
+                    <a href="{{ path('app_transaction_iteme_show', {'id': transaction_iteme.id}) }}">show</a>
+                    <a href="{{ path('app_transaction_iteme_edit', {'id': transaction_iteme.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_transaction_iteme_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TransactionIteme{% endblock %}
+
+{% block body %}
+    <h1>TransactionIteme</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ transaction_iteme.id }}</td>
+            </tr>
+            <tr>
+                <th>Quantity</th>
+                <td>{{ transaction_iteme.quantity }}</td>
+            </tr>
+            <tr>
+                <th>Total</th>
+                <td>{{ transaction_iteme.total }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_transaction_iteme_index') }}">back to list</a>
+
+    <a href="{{ path('app_transaction_iteme_edit', {'id': transaction_iteme.id}) }}">edit</a>
+
+    {{ include('transaction_iteme/_delete_form.html.twig') }}
+{% endblock %}

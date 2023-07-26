@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Day index{% endblock %}
+
+{% block body %}
+    <h1>Day index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Cash_total</th>
+                <th>Card_total</th>
+                <th>Cheque_total</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for day in days %}
+            <tr>
+                <td>{{ day.id }}</td>
+                <td>{{ day.date ? day.date|date('Y-m-d') : '' }}</td>
+                <td>{{ day.cashTotal }}</td>
+                <td>{{ day.cardTotal }}</td>
+                <td>{{ day.chequeTotal }}</td>
+                <td>
+                    <a href="{{ path('app_day_show', {'id': day.id}) }}">show</a>
+                    <a href="{{ path('app_day_edit', {'id': day.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_day_new') }}">Create new</a>
+{% endblock %}

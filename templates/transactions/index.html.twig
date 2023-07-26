@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transactions index{% endblock %}
+
+{% block body %}
+    <h1>Transactions index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Transactions_date</th>
+                <th>Total_amount</th>
+                <th>Cash_amount</th>
+                <th>Card_amount</th>
+                <th>Cheque_amount</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.id }}</td>
+                <td>{{ transaction.transactionsDate ? transaction.transactionsDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ transaction.totalAmount }}</td>
+                <td>{{ transaction.cashAmount }}</td>
+                <td>{{ transaction.cardAmount }}</td>
+                <td>{{ transaction.chequeAmount }}</td>
+                <td>
+                    <a href="{{ path('app_transactions_show', {'id': transaction.id}) }}">show</a>
+                    <a href="{{ path('app_transactions_edit', {'id': transaction.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_transactions_new') }}">Create new</a>
+{% endblock %}

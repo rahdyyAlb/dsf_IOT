@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Day{% endblock %}
+
+{% block body %}
+    <h1>Day</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ day.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ day.date ? day.date|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Cash_total</th>
+                <td>{{ day.cashTotal }}</td>
+            </tr>
+            <tr>
+                <th>Card_total</th>
+                <td>{{ day.cardTotal }}</td>
+            </tr>
+            <tr>
+                <th>Cheque_total</th>
+                <td>{{ day.chequeTotal }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_day_index') }}">back to list</a>
+
+    <a href="{{ path('app_day_edit', {'id': day.id}) }}">edit</a>
+
+    {{ include('day/_delete_form.html.twig') }}
+{% endblock %}
