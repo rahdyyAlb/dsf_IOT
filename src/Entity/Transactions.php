@@ -17,26 +17,26 @@ class Transactions
     private ?int $id = null;
 
     #[ORM\OneToMany(mappedBy: 'transactions', targetEntity: Customers::class)]
-    private Collection $custumer_id;
+    private Collection $custumerId;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $transactions_date = null;
+    private ?\DateTimeInterface $transactionsDate = null;
 
     #[ORM\Column]
-    private ?float $total_amount = null;
+    private ?float $totalAmount = null;
 
     #[ORM\Column(nullable: true)]
-    private ?float $cash_amount = null;
+    private ?float $cashAmount = null;
 
     #[ORM\Column(nullable: true)]
-    private ?float $card_amount = null;
+    private ?float $cardAmount = null;
 
     #[ORM\Column(nullable: true)]
-    private ?float $cheque_amount = null;
+    private ?float $chequeAmount = null;
 
     public function __construct()
     {
-        $this->custumer_id = new ArrayCollection();
+        $this->custumerId = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -49,13 +49,13 @@ class Transactions
      */
     public function getCustumerId(): Collection
     {
-        return $this->custumer_id;
+        return $this->custumerId;
     }
 
     public function addCustumerId(Customers $custumerId): static
     {
-        if (!$this->custumer_id->contains($custumerId)) {
-            $this->custumer_id->add($custumerId);
+        if (!$this->custumerId->contains($custumerId)) {
+            $this->custumerId->add($custumerId);
             $custumerId->setTransactions($this);
         }
 
@@ -64,7 +64,7 @@ class Transactions
 
     public function removeCustumerId(Customers $custumerId): static
     {
-        if ($this->custumer_id->removeElement($custumerId)) {
+        if ($this->custumerId->removeElement($custumerId)) {
             // set the owning side to null (unless already changed)
             if ($custumerId->getTransactions() === $this) {
                 $custumerId->setTransactions(null);
@@ -76,61 +76,76 @@ class Transactions
 
     public function getTransactionsDate(): ?\DateTimeInterface
     {
-        return $this->transactions_date;
+        return $this->transactionsDate;
     }
 
-    public function setTransactionsDate(\DateTimeInterface $transactions_date): static
+    public function setTransactionsDate(\DateTimeInterface $transactionsDate): static
     {
-        $this->transactions_date = $transactions_date;
+        $this->transactionsDate = $transactionsDate;
 
         return $this;
     }
 
     public function getTotalAmount(): ?float
     {
-        return $this->total_amount;
+        return $this->totalAmount;
     }
 
-    public function setTotalAmount(float $total_amount): static
+    public function setTotalAmount(float $totalAmount): static
     {
-        $this->total_amount = $total_amount;
+        $this->totalAmount = $totalAmount;
 
         return $this;
     }
 
     public function getCashAmount(): ?float
     {
-        return $this->cash_amount;
+        return $this->cashAmount;
     }
 
-    public function setCashAmount(?float $cash_amount): static
+    public function setCashAmount(?float $cashAmount): static
     {
-        $this->cash_amount = $cash_amount;
+        $this->cashAmount = $cashAmount;
 
         return $this;
     }
 
     public function getCardAmount(): ?float
     {
-        return $this->card_amount;
+        return $this->cardAmount;
     }
 
-    public function setCardAmount(?float $card_amount): static
+    public function setCardAmount(?float $cardAmount): static
     {
-        $this->card_amount = $card_amount;
+        $this->cardAmount = $cardAmount;
 
         return $this;
     }
 
     public function getChequeAmount(): ?float
     {
-        return $this->cheque_amount;
+        return $this->chequeAmount;
     }
 
-    public function setChequeAmount(?float $cheque_amount): static
+    public function setChequeAmount(?float $chequeAmount): static
     {
-        $this->cheque_amount = $cheque_amount;
+        $this->chequeAmount = $chequeAmount;
 
         return $this;
     }
+
+	public function calculateCashAmount(): float
+	{
+		$cashAmount = 0.0;
+
+		foreach ($this->custumerId as $customer) {
+			// Assuming the method for getting cash amount from the customer entity is 'getCashAmount()'
+			$customerCashAmount = $customer->getCashAmount();
+			if ($customerCashAmount !== null) {
+				$cashAmount += $customerCashAmount;
+			}
+		}
+
+		return $cashAmount;
+	}
 }

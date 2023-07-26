@@ -22,17 +22,17 @@ class Products
     private ?float $price = null;
 
     #[ORM\Column]
-    private ?int $stock_quantity = null;
+    private ?int $stockQuantity = null;
 
     #[ORM\OneToMany(mappedBy: 'products', targetEntity: categories::class)]
-    private Collection $categorie_id;
+    private Collection $categorieId;
 
     #[ORM\ManyToMany(targetEntity: TransactionIteme::class, mappedBy: 'product_id')]
     private Collection $transactionItemes;
 
     public function __construct()
     {
-        $this->categorie_id = new ArrayCollection();
+        $this->categorieId = new ArrayCollection();
         $this->transactionItemes = new ArrayCollection();
     }
 
@@ -67,12 +67,12 @@ class Products
 
     public function getStockQuantity(): ?int
     {
-        return $this->stock_quantity;
+        return $this->stockQuantity;
     }
 
-    public function setStockQuantity(int $stock_quantity): static
+    public function setStockQuantity(int $stockQuantity): static
     {
-        $this->stock_quantity = $stock_quantity;
+        $this->stockQuantity = $stockQuantity;
 
         return $this;
     }
@@ -82,13 +82,13 @@ class Products
      */
     public function getCategorieId(): Collection
     {
-        return $this->categorie_id;
+        return $this->categorieId;
     }
 
     public function addCategorieId(categories $categorieId): static
     {
-        if (!$this->categorie_id->contains($categorieId)) {
-            $this->categorie_id->add($categorieId);
+        if (!$this->categorieId->contains($categorieId)) {
+            $this->categorieId->add($categorieId);
             $categorieId->setProducts($this);
         }
 
@@ -97,7 +97,7 @@ class Products
 
     public function removeCategorieId(categories $categorieId): static
     {
-        if ($this->categorie_id->removeElement($categorieId)) {
+        if ($this->categorieId->removeElement($categorieId)) {
             // set the owning side to null (unless already changed)
             if ($categorieId->getProducts() === $this) {
                 $categorieId->setProducts(null);
