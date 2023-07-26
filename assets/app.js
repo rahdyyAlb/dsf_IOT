@@ -17,3 +17,5 @@ import 'bootstrap/dist/css/bootstrap-grid.rtl.css';
 import 'bootstrap/dist/js/bootstrap.js';
 import 'bootstrap/dist/js/bootstrap.js';
 
+//import img
+import logoPath from './images/logo.png';

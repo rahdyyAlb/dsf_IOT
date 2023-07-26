@@ -3,7 +3,25 @@ body {
     height: 100vh;
 }
 
-
 .btn-small {
     width:105px;
 }
+
+.img-logo {
+    width: 130px;
+    height: 165px;
+    object-fit: cover;
+}
+
+.height-100 {
+    height: 100vh;
+}
+
+.width-40 {
+    width: 40vw;
+}
+
+.width-80 {
+    width: 80vw;
+}
+

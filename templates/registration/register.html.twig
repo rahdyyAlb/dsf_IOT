@@ -1,22 +1,72 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Senregistrer{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+<div class="text-center d-flex align-items-center justify-content-center align-middle height-100">
 
-    {{ form_errors(registrationForm) }}
+    <div class="text-center align-items-center justify-content-center">
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.name) }}
-        {{ form_row(registrationForm.first_name) }}
-        {{ form_row(registrationForm.adress) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+        <div class ="card card-body text-center align-items-center justify-content-center width-40">
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+            <img class="mb-5 img-logo" src="{{ asset('build/images/logo.png') }}" alt="logo">
+    
+            <h1 class="h3 mb-4 font-weight-normal">S'ENREGISTRER</h1>
+
+            <div class="form-signin">
+            {{ form_errors(registrationForm) }}
+
+            <div class="sr-only mb-2">{{ form_start(registrationForm) }}
+            <div> {{ form_row(registrationForm.email, {
+                    'label': 'Email',
+                    'label_attr': {'class': 'd-flex sr-only text-center align-items-center justify-content-center autofocus'},
+                    'attr': {'class': 'form-control'}
+                }) }}
+                </div>
+
+            <div> {{ form_row(registrationForm.name, {
+                    'label': 'Nom',
+                    'label_attr': {'class': 'd-flex sr-only text-center align-items-center justify-content-center'},
+                    'attr': {'class': 'form-control'}
+                }) }}
+                </div>
+
+            <div> {{ form_row(registrationForm.first_name, {
+                    'label': 'Prénom',
+                    'label_attr': {'class': 'd-flex sr-only text-center align-items-center justify-content-center'},
+                    'attr': {'class': 'form-control'}
+                }) }}
+                </div>
+
+            <div> {{ form_row(registrationForm.adress, {
+                    'label': 'Adresse',
+                    'label_attr': {'class': 'd-flex sr-only text-center align-items-center justify-content-center'},
+                    'attr': {'class': 'form-control'}
+                }) }}
+                </div>
+
+                <div class="sr-only mb-2">{{ form_row(registrationForm.plainPassword, {
+                    'label': 'Mot de passe',
+                    'label_attr': {'class': 'd-flex sr-only text-center align-items-center justify-content-center'},
+                    'attr': {'class': 'form-control'}
+                }) }}
+                </div>
+                <div class="mb-3 d-flex">{{ form_row(registrationForm.agreeTerms, {
+                    'label': " ",
+                    'label_attr': {'class': 'w-75 mx-auto mt-3 d-flex sr-only text-center align-items-center justify-content-center'},
+                    'attr': {'class': 'form-check-label'},
+                }) }}
+                <label class="mx-auto mt-3 d-flex sr-only text-center align-items-center justify-content-center">&nbsp&nbspAccepter nos conditions d'utilisations</label>
+
+                </div>
+
+                <button type="submit" class="btn btn-lg btn-primary btn-block mt-3">S'enregistrer</button>
+            {{ form_end(registrationForm) }}
+            <label class="mt-4 small">Vous avez déjà un compte ? <a href="/login">Se connecter</a></label>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 {% endblock %}
