@@ -20,7 +20,37 @@ class TransactionsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Transactions::class);
     }
+	public function getTotalCashAmount(): float
+	{
+		$qb = $this->createQueryBuilder('t');
+		$qb->select('SUM(t.cashAmount) as totalCashAmount');
 
+		$query = $qb->getQuery();
+		$result = $query->getSingleScalarResult();
+
+		return (float) $result;
+	}
+	public function getTotalChequeAmount(): float
+	{
+		$qb = $this->createQueryBuilder('t');
+		$qb->select('SUM(t.chequeAmount) as totalChequeAmount');
+
+		$query = $qb->getQuery();
+		$result = $query->getSingleScalarResult();
+
+		return (float) $result;
+	}
+
+	public function getTotalCardAmount(): float
+	{
+		$qb = $this->createQueryBuilder('t');
+		$qb->select('SUM(t.cardAmount) as totalCardAmount');
+
+		$query = $qb->getQuery();
+		$result = $query->getSingleScalarResult();
+
+		return (float) $result;
+	}
 //    /**
 //     * @return Transactions[] Returns an array of Transactions objects
 //     */

@@ -19,10 +19,10 @@ class TransactionIteme
     private ?self $transactionIteme = null;
 
     #[ORM\OneToMany(mappedBy: 'transactionIteme', targetEntity: self::class)]
-    private Collection $transaction_id;
+    private Collection $transactionId;
 
     #[ORM\ManyToMany(targetEntity: Products::class, inversedBy: 'transactionItemes')]
-    private Collection $product_id;
+    private Collection $productId;
 
     #[ORM\Column]
     private ?int $quantity = null;
@@ -32,8 +32,8 @@ class TransactionIteme
 
     public function __construct()
     {
-        $this->transaction_id = new ArrayCollection();
-        $this->product_id = new ArrayCollection();
+        $this->transactionId = new ArrayCollection();
+        $this->productId = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -58,13 +58,13 @@ class TransactionIteme
      */
     public function getTransactionId(): Collection
     {
-        return $this->transaction_id;
+        return $this->transactionId;
     }
 
     public function addTransactionId(self $transactionId): static
     {
-        if (!$this->transaction_id->contains($transactionId)) {
-            $this->transaction_id->add($transactionId);
+        if (!$this->transactionId->contains($transactionId)) {
+            $this->transactionId->add($transactionId);
             $transactionId->setTransactionIteme($this);
         }
 
@@ -73,7 +73,7 @@ class TransactionIteme
 
     public function removeTransactionId(self $transactionId): static
     {
-        if ($this->transaction_id->removeElement($transactionId)) {
+        if ($this->transactionId->removeElement($transactionId)) {
             // set the owning side to null (unless already changed)
             if ($transactionId->getTransactionIteme() === $this) {
                 $transactionId->setTransactionIteme(null);
@@ -88,13 +88,13 @@ class TransactionIteme
      */
     public function getProductId(): Collection
     {
-        return $this->product_id;
+        return $this->productId;
     }
 
     public function addProductId(Products $productId): static
     {
-        if (!$this->product_id->contains($productId)) {
-            $this->product_id->add($productId);
+        if (!$this->productId->contains($productId)) {
+            $this->productId->add($productId);
         }
 
         return $this;
@@ -102,7 +102,7 @@ class TransactionIteme
 
     public function removeProductId(Products $productId): static
     {
-        $this->product_id->removeElement($productId);
+        $this->productId->removeElement($productId);
 
         return $this;
     }

@@ -18,16 +18,16 @@ class Day
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column]
-    private ?float $cash_total = null;
+    private ?float $cashTotal = null;
 
     #[ORM\Column]
-    private ?float $card_total = null;
+    private ?float $cardTotal = null;
 
     #[ORM\Column]
-    private ?float $cheque_total = null;
+    private ?float $chequeTotal = null;
 
     #[ORM\ManyToOne(inversedBy: 'days')]
-    private ?caisse $caisse_id = null;
+    private ?caisse $caisseId = null;
 
 
 
@@ -50,48 +50,48 @@ class Day
 
     public function getCashTotal(): ?float
     {
-        return $this->cash_total;
+        return $this->cashTotal;
     }
 
-    public function setCashTotal(float $cash_total): static
+    public function setCashTotal(float $cashTotal): static
     {
-        $this->cash_total = $cash_total;
+        $this->cashTotal = $cashTotal;
 
         return $this;
     }
 
     public function getCardTotal(): ?float
     {
-        return $this->card_total;
+        return $this->cardTotal;
     }
 
-    public function setCardTotal(float $card_total): static
+    public function setCardTotal(float $cardTotal): static
     {
-        $this->card_total = $card_total;
+        $this->cardTotal = $cardTotal;
 
         return $this;
     }
 
     public function getChequeTotal(): ?float
     {
-        return $this->cheque_total;
+        return $this->chequeTotal;
     }
 
-    public function setChequeTotal(float $cheque_total): static
+    public function setChequeTotal(float $chequeTotal): static
     {
-        $this->cheque_total = $cheque_total;
+        $this->chequeTotal = $chequeTotal;
 
         return $this;
     }
 
     public function getCaisseId(): ?caisse
     {
-        return $this->caisse_id;
+        return $this->caisseId;
     }
 
-    public function setCaisseId(?caisse $caisse_id): static
+    public function setCaisseId(?caisse $caisseId): static
     {
-        $this->caisse_id = $caisse_id;
+        $this->caisseId = $caisseId;
 
         return $this;
     }
