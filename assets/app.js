@@ -7,9 +7,7 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
-import './styles/material-dashboard.css';
-import './styles/nucleo-svg.css';
-import './styles/nucleo-icons.css';
+
 // Import Bootstrap's CSS
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-grid.css';
