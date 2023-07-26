@@ -1,11 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Categories{% endblock %}
+{% block title %}Nouvelle Categories{% endblock %}
 
 {% block body %}
-    <h1>Create new Categories</h1>
+<div class="text-center d-flex align-items-center justify-content-center align-middle height-100">
 
-    {{ include('categories/_form.html.twig') }}
+    <div class="text-center align-items-center justify-content-center">
 
-    <a href="{{ path('app_categories_index') }}">back to list</a>
+        <div class ="card card-body text-center align-items-center justify-content-center width-80">
+            <h1 class="m-2 pb-3 text-center ">Créer une nouvelle catégorie</h1>
+            {{ include('categories/_form.html.twig') }}
+
+            <a class="btn btn-secondary btn-small mb-1 mt-3" href="{{ path('app_categories_index') }}">Retour</a>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
