@@ -6,6 +6,7 @@ use App\Entity\Transactions;
 use App\Form\TransactionsType;
 use App\Repository\TransactionsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +24,8 @@ class TransactionsController extends AbstractController
     }
 
     #[Route('/new', name: 'app_transactions_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+	#[IsGranted('ROLE_ADMIN')]
+	public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $transaction = new Transactions();
         $form = $this->createForm(TransactionsType::class, $transaction);
@@ -43,7 +45,7 @@ class TransactionsController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_transactions_show', methods: ['GET'])]
-    public function show(Transactions $transaction): Response
+	public function show(Transactions $transaction): Response
     {
         return $this->render('transactions/show.html.twig', [
             'transaction' => $transaction,
@@ -51,7 +53,8 @@ class TransactionsController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_transactions_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Transactions $transaction, EntityManagerInterface $entityManager): Response
+	#[IsGranted('ROLE_ADMIN')]
+	public function edit(Request $request, Transactions $transaction, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(TransactionsType::class, $transaction);
         $form->handleRequest($request);
@@ -69,7 +72,8 @@ class TransactionsController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_transactions_delete', methods: ['POST'])]
-    public function delete(Request $request, Transactions $transaction, EntityManagerInterface $entityManager): Response
+	#[IsGranted('ROLE_ADMIN')]
+	public function delete(Request $request, Transactions $transaction, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$transaction->getId(), $request->request->get('_token'))) {
             $entityManager->remove($transaction);

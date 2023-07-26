@@ -6,6 +6,7 @@ use App\Entity\Caisse;
 use App\Form\CaisseType;
 use App\Repository\CaisseRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,6 +24,7 @@ class CaisseController extends AbstractController
     }
 
     #[Route('/new', name: 'app_caisse_new', methods: ['GET', 'POST'])]
+	#[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $caisse = new Caisse();
@@ -51,6 +53,7 @@ class CaisseController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_caisse_edit', methods: ['GET', 'POST'])]
+	#[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Caisse $caisse, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CaisseType::class, $caisse);
@@ -69,6 +72,7 @@ class CaisseController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_caisse_delete', methods: ['POST'])]
+	#[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Caisse $caisse, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$caisse->getId(), $request->request->get('_token'))) {

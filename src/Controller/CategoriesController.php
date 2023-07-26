@@ -6,6 +6,7 @@ use App\Entity\Categories;
 use App\Form\CategoriesType;
 use App\Repository\CategoriesRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,6 +24,7 @@ class CategoriesController extends AbstractController
     }
 
     #[Route('/new', name: 'app_categories_new', methods: ['GET', 'POST'])]
+	#[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $category = new Categories();
@@ -51,6 +53,7 @@ class CategoriesController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_categories_edit', methods: ['GET', 'POST'])]
+	#[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Categories $category, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CategoriesType::class, $category);
@@ -69,6 +72,7 @@ class CategoriesController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_categories_delete', methods: ['POST'])]
+	#[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Categories $category, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {

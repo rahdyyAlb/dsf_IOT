@@ -6,6 +6,7 @@ use App\Entity\Customers;
 use App\Form\CustomersType;
 use App\Repository\CustomersRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,6 +24,7 @@ class CustomersController extends AbstractController
     }
 
     #[Route('/new', name: 'app_customers_new', methods: ['GET', 'POST'])]
+	#[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $customer = new Customers();
@@ -51,6 +53,7 @@ class CustomersController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_customers_edit', methods: ['GET', 'POST'])]
+	#[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Customers $customer, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CustomersType::class, $customer);
@@ -69,6 +72,7 @@ class CustomersController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_customers_delete', methods: ['POST'])]
+	#[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Customers $customer, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$customer->getId(), $request->request->get('_token'))) {

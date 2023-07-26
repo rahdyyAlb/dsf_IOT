@@ -6,6 +6,7 @@ use App\Entity\TransactionIteme;
 use App\Form\TransactionItemeType;
 use App\Repository\TransactionItemeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +24,8 @@ class TransactionItemeController extends AbstractController
     }
 
     #[Route('/new', name: 'app_transaction_iteme_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+	#[IsGranted('ROLE_ADMIN')]
+	public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $transactionIteme = new TransactionIteme();
         $form = $this->createForm(TransactionItemeType::class, $transactionIteme);
@@ -43,7 +45,8 @@ class TransactionItemeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_transaction_iteme_show', methods: ['GET'])]
-    public function show(TransactionIteme $transactionIteme): Response
+	#[IsGranted('ROLE_ADMIN')]
+	public function show(TransactionIteme $transactionIteme): Response
     {
         return $this->render('transaction_iteme/show.html.twig', [
             'transaction_iteme' => $transactionIteme,
@@ -51,7 +54,8 @@ class TransactionItemeController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_transaction_iteme_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, TransactionIteme $transactionIteme, EntityManagerInterface $entityManager): Response
+	#[IsGranted('ROLE_ADMIN')]
+	public function edit(Request $request, TransactionIteme $transactionIteme, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(TransactionItemeType::class, $transactionIteme);
         $form->handleRequest($request);
@@ -69,7 +73,8 @@ class TransactionItemeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_transaction_iteme_delete', methods: ['POST'])]
-    public function delete(Request $request, TransactionIteme $transactionIteme, EntityManagerInterface $entityManager): Response
+	#[IsGranted('ROLE_ADMIN')]
+	public function delete(Request $request, TransactionIteme $transactionIteme, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$transactionIteme->getId(), $request->request->get('_token'))) {
             $entityManager->remove($transactionIteme);
