@@ -14,7 +14,7 @@ body {
 }
 
 .height-100 {
-    height: 100vh;
+    height: 100vh;  
 }
 
 .width-40 {
@@ -25,3 +25,129 @@ body {
     width: 80vw;
 }
 
+.width-100 {
+    width: 100vw;
+}
+
+.border {
+    border: solid black ;
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 3px solid green; */
+}
+
+/* ----------------- LABEL FORM PRODUIT  -----------------*/
+#products > div{
+    display: flex;
+    flex-direction: column;
+}
+
+label[for="products_name"] {
+    font-size: 0;
+}
+label[for="products_name"]:before {
+    content: "Nom du produit";
+    font-size: 16px;
+}
+
+label[for="products_price"] {
+    font-size: 0;
+}
+label[for="products_price"]:before {
+    content: "Prix";
+    font-size: 16px;
+}
+
+label[for="products_stock_quantity"] {
+    font-size: 0;
+}
+label[for="products_stock_quantity"]:before {
+    content: "Quantité en stock";
+    font-size: 16px;
+}
+
+label[for="products_transactionItemes"] {
+    font-size: 0;
+}
+label[for="products_transactionItemes"]:before {
+    content: "Objet de la transaction";
+    font-size: 16px;
+}
+
+/*  ----------------- LABEL FORM CATEGORIES  -----------------*/ 
+#categories > div{
+    display: flex;
+    flex-direction: column;
+}
+
+label[for="categories_name"] {
+    font-size: 0;
+}
+label[for="categories_name"]:before {
+    content: "Nom de la catégorie";
+    font-size: 16px;
+}
+
+label[for="categories_products"] {
+    font-size: 0;
+}
+label[for="categories_products"]:before {
+    content: "Produits";
+    font-size: 16px;
+}
+
+/*  ----------------- LABEL FORM CUSTOMERS  -----------------*/ 
+#customers > div{
+    display: flex;
+    flex-direction: column;
+}
+
+label[for="customers_name"] {
+    font-size: 0;
+}
+label[for="customers_name"]:before {
+    content: "Nom du client";
+    font-size: 16px;
+}
+
+label[for="customers_email"] {
+    font-size: 0;
+}
+label[for="customers_email"]:before {
+    content: "Email";
+    font-size: 16px;
+}
+
+label[for="customers_phone"] {
+    font-size: 0;
+}
+label[for="customers_phone"]:before {
+    content: "Téléphone";
+    font-size: 16px;
+}
+
+label[for="customers_address"] {
+    font-size: 0;
+}
+label[for="customers_address"]:before {
+    content: "Adresse";
+    font-size: 16px;
+}
+
+/*  ----------------- LABEL FORM CAISSE  -----------------*/ 
+#caisse > div{
+    display: flex;
+    flex-direction: column;
+}
+
+label[for="caisse_number"] {
+    font-size: 0;
+}
+label[for="caisse_number"]:before {
+    content: "N° de caisse";
+    font-size: 16px;
+}

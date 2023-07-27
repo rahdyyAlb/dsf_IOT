@@ -3,7 +3,7 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<div class="text-center d-flex align-items-center justify-content-center align-middle height-100">
+<div class="text-center d-flex align-items-center justify-content-center align-middle centered">
 
     <div class="text-center align-items-center justify-content-center">
 
@@ -23,18 +23,21 @@
 
                 <h1 class="h3 mb-4 font-weight-normal">CONNECTER-VOUS</h1>
                 <label for="inputEmail" class="sr-only">Email</label>
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="border form-control" autocomplete="email" required autofocus>
                 <label for="inputPassword" class="sr-only">Mot de passe</label>
-                <input type="password" name="password" id="inputPassword" class="form-control mb-2" autocomplete="current-password" required>
+                <input type="password" name="password" id="inputPassword" class="border form-control mb-2" autocomplete="current-password" required>
 
                 <input type="hidden" name="_csrf_token"
                     value="{{ csrf_token('authenticate') }}"
                 >
+                
+                <div class="text-center d-flex align-items-center justify-content-center align-middle flex-column">
 
-                <button class="btn btn-lg btn-primary btn-block mt-3" type="submit">
-                    Se connecter
-                </button>
-                <label class="mt-4 small">Vous n'avez pas de compte ? <a href="/register">S'enregister</a></label>
+                    <button class="btn btn-lg btn-primary btn-block mt-3" type="submit">
+                        Se connecter
+                    </button>
+                    <label class="mt-4 small">Vous n'avez pas de compte ? <a href="/register">S'enregister</a></label>
+                </div>
             </form>
 
         </div>

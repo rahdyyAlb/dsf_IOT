@@ -1,34 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Products{% endblock %}
+{% block title %}Produits{% endblock %}
 
 {% block body %}
-    <h1>Products</h1>
+<div class="text-center d-flex align-items-center justify-content-center align-middle centered">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ product.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ product.name }}</td>
-            </tr>
-            <tr>
-                <th>Price</th>
-                <td>{{ product.price }}</td>
-            </tr>
-            <tr>
-                <th>Stock_quantity</th>
-                <td>{{ product.stockQuantity }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="text-center align-items-center justify-content-center">
 
-    <a href="{{ path('app_products_index') }}">back to list</a>
+        <div class ="card card-body text-center align-items-center justify-content-center width-80">
 
-    <a href="{{ path('app_products_edit', {'id': product.id}) }}">edit</a>
+            <h1 class="m-2 pb-3 text-center">Info sur le produits</h1>
 
-    {{ include('products/_delete_form.html.twig') }}
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>ID</th>
+                        <td>{{ product.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nom</th>
+                        <td>{{ product.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Prix</th>
+                        <td>{{ product.price }}</td>
+                    </tr>
+                    <tr>
+                        <th>Quantité en stock</th>
+                        <td>{{ product.stockQuantity }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="align-items-center justify-content-between align-self-center">
+                <a class="btn btn-warning btn-small mt-1" href="{{ path('app_products_edit', {'id': product.id}) }}">Editer</a>
+                {{ include('products/_delete_form.html.twig') }}
+                <a class="btn btn-secondary btn-small mt-3" href="{{ path('app_products_index') }}">Retour</a>
+            </div>
+
+        </div>
+    </div>
+</div>
 {% endblock %}
