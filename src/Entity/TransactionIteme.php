@@ -18,8 +18,6 @@ class TransactionIteme
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'transaction_id')]
     private ?self $transactionIteme = null;
 
-    #[ORM\OneToMany(mappedBy: 'transactionIteme', targetEntity: self::class)]
-    private Collection $transactionId;
 
     #[ORM\ManyToMany(targetEntity: Products::class, inversedBy: 'transactionItemes')]
     private Collection $productId;
@@ -29,6 +27,9 @@ class TransactionIteme
 
     #[ORM\Column]
     private ?float $total = null;
+
+    #[ORM\ManyToMany(targetEntity: Transactions::class, inversedBy: 'transactionItemes')]
+    private Collection $transactionId;
 
     public function __construct()
     {
@@ -49,36 +50,6 @@ class TransactionIteme
     public function setTransactionIteme(?self $transactionIteme): static
     {
         $this->transactionIteme = $transactionIteme;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, self>
-     */
-    public function getTransactionId(): Collection
-    {
-        return $this->transactionId;
-    }
-
-    public function addTransactionId(self $transactionId): static
-    {
-        if (!$this->transactionId->contains($transactionId)) {
-            $this->transactionId->add($transactionId);
-            $transactionId->setTransactionIteme($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTransactionId(self $transactionId): static
-    {
-        if ($this->transactionId->removeElement($transactionId)) {
-            // set the owning side to null (unless already changed)
-            if ($transactionId->getTransactionIteme() === $this) {
-                $transactionId->setTransactionIteme(null);
-            }
-        }
 
         return $this;
     }
@@ -127,6 +98,30 @@ class TransactionIteme
     public function setTotal(float $total): static
     {
         $this->total = $total;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transactions>
+     */
+    public function getTransactionId(): Collection
+    {
+        return $this->transactionId;
+    }
+
+    public function addTransactionId(Transactions $transactionId): static
+    {
+        if (!$this->transactionId->contains($transactionId)) {
+            $this->transactionId->add($transactionId);
+        }
+
+        return $this;
+    }
+
+    public function removeTransactionId(Transactions $transactionId): static
+    {
+        $this->transactionId->removeElement($transactionId);
 
         return $this;
     }

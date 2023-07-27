@@ -34,9 +34,13 @@ class Transactions
     #[ORM\Column(nullable: true)]
     private ?float $chequeAmount = null;
 
+    #[ORM\ManyToMany(targetEntity: TransactionIteme::class, mappedBy: 'transactionId')]
+    private Collection $transactionItemes;
+
     public function __construct()
     {
         $this->custumerId = new ArrayCollection();
+        $this->transactionItemes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -135,17 +139,44 @@ class Transactions
     }
 
 	public function calculateCashAmount(): float
-	{
-		$cashAmount = 0.0;
+               	{
+               		$cashAmount = 0.0;
+               
+               		foreach ($this->custumerId as $customer) {
+               			// Assuming the method for getting cash amount from the customer entity is 'getCashAmount()'
+               			$customerCashAmount = $customer->getCashAmount();
+               			if ($customerCashAmount !== null) {
+               				$cashAmount += $customerCashAmount;
+               			}
+               		}
+               
+               		return $cashAmount;
+               	}
 
-		foreach ($this->custumerId as $customer) {
-			// Assuming the method for getting cash amount from the customer entity is 'getCashAmount()'
-			$customerCashAmount = $customer->getCashAmount();
-			if ($customerCashAmount !== null) {
-				$cashAmount += $customerCashAmount;
-			}
-		}
+    /**
+     * @return Collection<int, TransactionIteme>
+     */
+    public function getTransactionItemes(): Collection
+    {
+        return $this->transactionItemes;
+    }
 
-		return $cashAmount;
-	}
+    public function addTransactionIteme(TransactionIteme $transactionIteme): static
+    {
+        if (!$this->transactionItemes->contains($transactionIteme)) {
+            $this->transactionItemes->add($transactionIteme);
+            $transactionIteme->addTransactionId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransactionIteme(TransactionIteme $transactionIteme): static
+    {
+        if ($this->transactionItemes->removeElement($transactionIteme)) {
+            $transactionIteme->removeTransactionId($this);
+        }
+
+        return $this;
+    }
 }
