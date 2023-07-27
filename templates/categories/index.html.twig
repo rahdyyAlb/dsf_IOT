@@ -3,42 +3,72 @@
 {% block title %}Catégories{% endblock %}
 
 {% block body %}
-<div class="text-center d-flex align-items-center justify-content-center align-middle height-100">
+<div class="col-lg-8 col-md-6 mb-md-0 mb-4">
+  <div class="card">
+    <div class="card-header pb-0">
+      <div class="row">
+        <div class="col-lg-6 col-7">
+          <h6>Catégories</h6>
+        </div>
+          
+         <div class="col-lg-6 col-5 my-auto text-end">
+          <div class="dropdown float-lg-end pe-4">
+            <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa fa-ellipsis-v text-secondary"></i>
+            </a>
+            <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
+              <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
+              <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
+              <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <div class="text-center align-items-center justify-content-center">
-
-        <div class ="card card-body text-center align-items-center justify-content-center width-80">
-            <h1 class="m-2 pb-3 text-center">Catégorie</h1>
-
-            <table class="table table-hover">
-                <thead class="thead-light">
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Nom de la catégorie</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
+   <div class="card-body px-0 pb-2">
+      <div class="table-responsive">
+        <table class="table align-items-center mb-0">
+          <thead>
+                <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nom de la catégorie</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
+                </tr>
+            </thead>
                 <tbody>
                 {% for category in categories %}
                     <tr>
-                        <th scope="row">{{ category.id }}</th>
-                        <td>{{ category.name }}</td>
-                        <td>
-                            <a class="btn btn-info" href="{{ path('app_categories_show', {'id': category.id}) }}">Info</a>
-                            <a class="btn btn-warning" href="{{ path('app_categories_edit', {'id': category.id}) }}">Editer</a>
-                        </td>
-                    </tr>
+                    <td>
+                        <div class="d-flex px-2 py-1">
+                            <div>
+                                <div class="d-flex flex-column justify-content-center">
+                                <h6 class="mb-0 text-sm"> {{ category.id }}</h6>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="avatar-group mt-2">
+                            <p>{{ category.name }}</p>
+                        </div>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                        <span class="text-xs font-weight-bold"> {{ category.price }} </span>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                        <span class="text-xs font-weight-bold"> {{ category.stockQuantity }} </span>
+                    </td>
+                </tr>
                 {% else %}
                     <tr>
                         <td colspan="3">Aucune catégorie</td>
                     </tr>
                 {% endfor %}
-                </tbody>
-            </table>
-
-            <a href="{{ path('app_categories_new') }}" class="m-2 btn btn-success">Créer une catégorie</a>
-            
-        </div>  
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
 </div>
+
 {% endblock %}

@@ -1,41 +1,84 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Customers index{% endblock %}
+{% block title %}Clients{% endblock %}
 
 {% block body %}
-    <h1>Customers index</h1>
 
-    <table class="table">
+<div class="col-lg-8 col-md-6 mb-md-0 mb-4">
+  <div class="card">
+    <div class="card-header pb-0">
+      <div class="row">
+        <div class="col-lg-6 col-7">
+            <h1>Clients</h1>
+        </div>
+     
+         <div class="col-lg-6 col-5 my-auto text-end">
+          <div class="dropdown float-lg-end pe-4">
+            <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa fa-ellipsis-v text-secondary"></i>
+            </a>
+            <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
+              <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
+              <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
+              <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+   <div class="card-body px-0 pb-2">
+      <div class="table-responsive">
+        <table class="table align-items-center mb-0">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Address</th>
-                <th>actions</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nom</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Téléphone</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Adresse</th>
             </tr>
         </thead>
         <tbody>
         {% for customer in customers %}
             <tr>
-                <td>{{ customer.id }}</td>
-                <td>{{ customer.name }}</td>
-                <td>{{ customer.email }}</td>
-                <td>{{ customer.phone }}</td>
-                <td>{{ customer.address }}</td>
+                    <td>
+                        <div class="d-flex px-2 py-1">
+                            <div>
+                                <div class="d-flex flex-column justify-content-center">
+                                <h6 class="mb-0 text-sm"> {{ customer.id }}</h6>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="avatar-group mt-2">
+                            <p>{{ customer.name }}</p>
+                        </div>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                        <span class="text-xs font-weight-bold"> {{ customer.email }} </span>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                        <span class="text-xs font-weight-bold"> {{ customer.phone }} </span>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                        <span class="text-xs font-weight-bold"> {{ customer.address }} </span>
+                    </td>
                 <td>
-                    <a href="{{ path('app_customers_show', {'id': customer.id}) }}">show</a>
-                    <a href="{{ path('app_customers_edit', {'id': customer.id}) }}">edit</a>
+                    <a class="btn btn-info btn-small mt-3" href="{{ path('app_customers_show', {'id': customer.id}) }}">Info</a>
+                    <a class="btn btn-warning btn-small mt-3" href="{{ path('app_customers_edit', {'id': customer.id}) }}">Editer</a>
                 </td>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_customers_new') }}">Create new</a>
+            {% else %}
+                <tr>
+                    <td colspan="6">Aucun client trouvé</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+    <a class="btn btn-success mt-3" href="{{ path('app_customers_new') }}">Create new</a>
 {% endblock %}

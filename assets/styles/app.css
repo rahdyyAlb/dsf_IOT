@@ -84,3 +84,41 @@ label[for="categories_products"]:before {
     content: "Produits";
     font-size: 16px;
 }
+
+/* LABEL FORM CUSTOMERS */ 
+#customers > div{
+    display: flex;
+    flex-direction: column;
+}
+
+label[for="customers_name"] {
+    font-size: 0;
+}
+label[for="customers_name"]:before {
+    content: "Nom du client";
+    font-size: 16px;
+}
+
+label[for="customers_email"] {
+    font-size: 0;
+}
+label[for="customers_email"]:before {
+    content: "Email";
+    font-size: 16px;
+}
+
+label[for="customers_phone"] {
+    font-size: 0;
+}
+label[for="customers_phone"]:before {
+    content: "Téléphone";
+    font-size: 16px;
+}
+
+label[for="customers_address"] {
+    font-size: 0;
+}
+label[for="customers_address"]:before {
+    content: "Adresse";
+    font-size: 16px;
+}
