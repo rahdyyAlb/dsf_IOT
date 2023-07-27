@@ -179,4 +179,8 @@ class Transactions
 
         return $this;
     }
+	public function calculateTotalAmount(): float
+	{
+		return $this->cashAmount + $this->cardAmount + $this->chequeAmount;
+	}
 }

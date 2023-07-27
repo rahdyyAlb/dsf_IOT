@@ -1,5 +1,5 @@
 App\Entity\User:
-  user_{1}:
+  User{1}:
     email: admin@user.fr
     password: password
     roles: [ 'ROLE_ADMIN' ]
@@ -7,7 +7,7 @@ App\Entity\User:
     adress: <address()>
     first_name: <firstName()>
 
-  user_{2}:
+  User{2}:
     email: user@user.fr
     password: password
     roles: ['ROLE_USER']
@@ -15,11 +15,12 @@ App\Entity\User:
     name: <lastName()>
     adress: <address()>
 
-  user_{3..20}:
+  User{3..20}:
     email: <email()>
     password: <password()>
     roles: ['ROLE_USER']
     name: <lastName()>
     adress: <address()>
     first_name: <firstName()>
+
 

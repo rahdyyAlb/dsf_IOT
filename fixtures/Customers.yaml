@@ -1,0 +1,6 @@
+App\Entity\Customers:
+  Customer{1..100}:
+    name: <firstName()> <lastName()>
+    email: <email()>
+    phone: <phoneNumber()>
+    address: <address()>
