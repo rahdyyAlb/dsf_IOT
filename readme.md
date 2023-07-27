@@ -29,6 +29,7 @@
 ### Création d'une base de données locale (Utilisation du projet sans docker)
 
 - Connectez-vous à votre base de données `mysql -u root -p`
-- executez la commande suivante dans votre mysql `CREATE DATABASE BARCODE_PRO;`
 - Décommentez la ligne 27 de votre .env et y mettre `DATABASE_URL="mysql://root:root@127.0.0.1:8889/BARCODE_PRO"` (Changez éventuellement le "root:root" si les identifiants de votre base de données sont différents)
+- executez la commande suivante `symfony console doctrine:database:create`
+- `symfony console doctrine:migration:migrate` 
 
