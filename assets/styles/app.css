@@ -25,3 +25,62 @@ body {
     width: 80vw;
 }
 
+/* LABEL FORM PRODUIT */
+#products > div{
+    display: flex;
+    flex-direction: column;
+}
+
+label[for="products_name"] {
+    font-size: 0;
+}
+label[for="products_name"]:before {
+    content: "Nom du produit";
+    font-size: 16px;
+}
+
+label[for="products_price"] {
+    font-size: 0;
+}
+label[for="products_price"]:before {
+    content: "Prix";
+    font-size: 16px;
+}
+
+label[for="products_stock_quantity"] {
+    font-size: 0;
+}
+label[for="products_stock_quantity"]:before {
+    content: "Quantité en stock";
+    font-size: 16px;
+}
+
+label[for="products_transactionItemes"] {
+    font-size: 0;
+}
+label[for="products_transactionItemes"]:before {
+    content: "Objet de la transaction";
+    font-size: 16px;
+}
+
+/* LABEL FORM CATEGORIES */ 
+#categories > div{
+    display: flex;
+    flex-direction: column;
+}
+
+label[for="categories_name"] {
+    font-size: 0;
+}
+label[for="categories_name"]:before {
+    content: "Nom de la catégorie";
+    font-size: 16px;
+}
+
+label[for="categories_products"] {
+    font-size: 0;
+}
+label[for="categories_products"]:before {
+    content: "Produits";
+    font-size: 16px;
+}

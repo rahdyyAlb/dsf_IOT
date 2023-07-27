@@ -22,43 +22,44 @@
                     'label_attr': {'class': 'd-flex sr-only text-center align-items-center justify-content-center autofocus'},
                     'attr': {'class': 'form-control'}
                 }) }}
-                </div>
+            </div>
 
             <div> {{ form_row(registrationForm.name, {
                     'label': 'Nom',
                     'label_attr': {'class': 'd-flex sr-only text-center align-items-center justify-content-center'},
                     'attr': {'class': 'form-control'}
                 }) }}
-                </div>
+            </div>
 
             <div> {{ form_row(registrationForm.first_name, {
                     'label': 'Prénom',
                     'label_attr': {'class': 'd-flex sr-only text-center align-items-center justify-content-center'},
                     'attr': {'class': 'form-control'}
                 }) }}
-                </div>
+            </div>
 
             <div> {{ form_row(registrationForm.adress, {
                     'label': 'Adresse',
                     'label_attr': {'class': 'd-flex sr-only text-center align-items-center justify-content-center'},
                     'attr': {'class': 'form-control'}
                 }) }}
-                </div>
+            </div>
 
-                <div class="sr-only mb-2">{{ form_row(registrationForm.plainPassword, {
-                    'label': 'Mot de passe',
-                    'label_attr': {'class': 'd-flex sr-only text-center align-items-center justify-content-center'},
-                    'attr': {'class': 'form-control'}
-                }) }}
-                </div>
-                <div class="mb-3 d-flex">{{ form_row(registrationForm.agreeTerms, {
-                    'label': " ",
-                    'label_attr': {'class': 'w-75 mx-auto mt-3 d-flex sr-only text-center align-items-center justify-content-center'},
-                    'attr': {'class': 'form-check-label'},
-                }) }}
-                <label class="mx-auto mt-3 d-flex sr-only text-center align-items-center justify-content-center">&nbsp&nbspAccepter nos conditions d'utilisations</label>
+            <div class="sr-only mb-2">{{ form_row(registrationForm.plainPassword, {
+                'label': 'Mot de passe',
+                'label_attr': {'class': 'd-flex sr-only text-center align-items-center justify-content-center'},
+                'attr': {'class': 'form-control'}
+            }) }}
+            </div>
+            
+            <div class="mb-3 d-flex">{{ form_row(registrationForm.agreeTerms, {
+                'label': " ",
+                'label_attr': {'class': 'w-75 mx-auto mt-3 d-flex sr-only text-center align-items-center justify-content-center'},
+                'attr': {'class': 'form-check-label'},
+            }) }}
+            <label class="mx-auto mt-3 d-flex sr-only text-center align-items-center justify-content-center">&nbsp&nbspAccepter nos conditions d'utilisations</label>
 
-                </div>
+            </div>
 
                 <button type="submit" class="btn btn-lg btn-primary btn-block mt-3">S'enregistrer</button>
             {{ form_end(registrationForm) }}

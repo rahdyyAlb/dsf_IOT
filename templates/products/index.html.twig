@@ -1,39 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Products index{% endblock %}
+{% block title %}Produits{% endblock %}
 
 {% block body %}
-    <h1>Products index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Stock_quantity</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for product in products %}
-            <tr>
-                <td>{{ product.id }}</td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.price }}</td>
-                <td>{{ product.stockQuantity }}</td>
-                <td>
-                    <a href="{{ path('app_products_show', {'id': product.id}) }}">show</a>
-                    <a href="{{ path('app_products_edit', {'id': product.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<div class="text-center d-flex align-items-center justify-content-center align-middle height-100">
 
-    <a href="{{ path('app_products_new') }}">Create new</a>
+    <div class="text-center align-items-center justify-content-center">
+
+        <div class ="card card-body text-center align-items-center justify-content-center width-80">
+            <h1 class="m-2 pb-3 text-center">Produits</h1>
+
+            <table class="table table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nom du produits</th>
+                        <th scope="col">Prix</th>
+                        <th scope="col">Quantité en stock</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td scope="row">{{ product.id }}</td>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.price }}</td>
+                        <td>{{ product.stockQuantity }}</td>
+                        <td>
+                            <a class="btn btn-info" href="{{ path('app_products_show', {'id': product.id}) }}">Info</a>
+                            <a class="btn btn-warning" href="{{ path('app_products_edit', {'id': product.id}) }}">Editer</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">Aucun produit</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <a href="{{ path('app_products_new') }}" class="m-2 btn btn-success">Créer un produit</a>
+        </div>  
+    </div>
+</div>
 {% endblock %}
