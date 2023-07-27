@@ -1,45 +1,113 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User index{% endblock %}
+{% block title %}Utilisateur{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
+<div class="text-center d-flex align-items-center justify-content-center align-middle centered ">        
+  <div class="text-center align-items-center justify-content-center">
+    <div class="card card-body width-100">
+      <div class="card-header pb-0">
+        <div class="row">
+            <div>
+                <h1 class="centered width-100">Utilisateur</h1>
+            </div>
 
-    <table class="table">
+            <div class="col-lg-6 col-5 my-auto text-end">
+                <div class="dropdown float-lg-end pe-4">
+                    <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-ellipsis-v text-secondary"></i>
+                    </a>
+                    <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
+                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
+                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
+                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body px-0 pb-2">
+        <div class="table-responsive">
+          <table class="table align-items-center mb-0">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>Name</th>
-                <th>Adress</th>
-                <th>First_name</th>
-                <th>actions</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Id</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2" >Email</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Roles</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" >Adress</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">First_name</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">actions</th>
             </tr>
         </thead>
         <tbody>
         {% for user in users %}
             <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.adress }}</td>
-                <td>{{ user.firstName }}</td>
                 <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+                    <div class="d-flex px-2 py-1">
+                        <div>
+                            <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm"> {{ user.id }}</h6>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="avatar-group mt-2">
+                        <div>
+                            <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm font-weight-normal"> {{ user.email }}</h6>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="avatar-group mt-2">
+                        <div>
+                            <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm font-weight-normal"> {{ user.roles ? user.roles|json_encode : '' }}</h6>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="avatar-group mt-2">
+                        <div>
+                            <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm font-weight-normal"> {{ user.name }}</h6>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="avatar-group mt-2">
+                        <div>
+                            <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm font-weight-normal">{{ user.adress }}</h6>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="avatar-group mt-2">
+                        <div>
+                            <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm font-weight-normal">{{ user.firstName }}</h6>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <a class="btn btn-dark btn-small" href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
+                    <a class="btn btn-info btn-small" href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">Aucun client trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_user_new') }}">Create new</a>
+      <a class="btn btn-success" href="{{ path('app_user_new') }}">Créer caisse</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

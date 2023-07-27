@@ -3,9 +3,17 @@
 {% block title %}New Caisse{% endblock %}
 
 {% block body %}
-    <h1>Create new Caisse</h1>
+<div class="text-center d-flex align-items-center justify-content-center align-middle centered">
 
-    {{ include('caisse/_form.html.twig') }}
+    <div class="text-center align-items-center justify-content-center">
 
-    <a href="{{ path('app_caisse_index') }}">back to list</a>
+        <div class ="card card-body text-center align-items-center justify-content-center width-80">
+            <h1 class="m-2 pb-3 text-center">Créer une nouvelle caisse</h1>
+
+            {{ include('caisse/_form.html.twig') }}
+
+            <a class="btn btn-secondary btn-small mb-1 mt-3" href="{{ path('app_caisse_index') }}">Retour</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
