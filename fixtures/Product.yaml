@@ -1,5 +1,5 @@
 App\Entity\Products:
-  Product{1..200}:
+  Product{1..800}:
     name: <name()>
     price: <randomFloat(2, 10, 100)>
     stockQuantity: <numberBetween(5, 100)>

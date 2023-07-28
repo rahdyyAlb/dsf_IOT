@@ -1,4 +1,4 @@
 App\Entity\Categories:
-  category_{1..15}{Product.*}:
+  category_{1..150}{Product.*}:
     name: <word()>
     products : '@Product*'

@@ -6,6 +6,7 @@ use App\Entity\Products;
 use App\Form\ProductsType;
 use App\Repository\ProductsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,11 +17,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductsController extends AbstractController
 {
     #[Route('/', name: 'app_products_index', methods: ['GET'])]
-    public function index(ProductsRepository $productsRepository): Response
-    {
-        return $this->render('products/index.html.twig', [
-            'products' => $productsRepository->findAll(),
-        ]);
+	public function index(Request $request, ProductsRepository $productsRepository, PaginatorInterface $paginator): Response    {
+		// Récupérer la requête pour construire le QueryBuilder
+		$query = $productsRepository->createQueryBuilder('e')->getQuery();
+
+		// Récupérer le numéro de page depuis la requête (par défaut, 1 si non spécifié)
+		$page = $request->query->getInt('page', 1);
+
+		// Nombre d'éléments par page
+		$itemsPerPage = 20;
+
+		// Paginer les résultats
+		$pagination = $paginator->paginate($query, $page, $itemsPerPage);
+
+		return $this->render('products/index.html.twig', [
+			'pagination' => $pagination,
+		]);
     }
 
     #[Route('/new', name: 'app_products_new', methods: ['GET', 'POST'])]

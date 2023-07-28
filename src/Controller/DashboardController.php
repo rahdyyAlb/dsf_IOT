@@ -11,11 +11,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractController
 {
-
 	#[Route('/admin', name: 'admin')]
 	#[IsGranted('ROLE_ADMIN')]
-    public function index(TransactionsRepository $transactionsRepository, ProductsRepository $productsRepository): Response
-    {
+	public function index(TransactionsRepository $transactionsRepository, ProductsRepository $productsRepository): Response
+	{
+		$user = $this->getUser();
+		$id = $user->getId();
+
 		// Récupérer le total des transactions par especes
 		$totalCashAmount = $transactionsRepository->getTotalCashAmount();
 		// Récupérer le total des transactions par carte bancaire
@@ -30,13 +32,15 @@ class DashboardController extends AbstractController
 		$transactions = $transactionsRepository->findBy([], ['id' => 'DESC'], 5);
 
 		return $this->render('dashboard/index.html.twig', [
-            'controller_name' => 'DashboardController',
+			'controller_name' => 'DashboardController',
 			'totalCashAmount' => $totalCashAmount,
 			'totalCardAmount' => $totalCardAmount,
 			'totalChequeAmount' => $totalChequeAmount,
 			'totalEncaisse' => $totalEncaisse,
 			'latestProducts' => $latestProducts,
 			'transactions' => $transactions,
-        ]);
-    }
+			'user' => $user,
+			'id' => $id,
+		]);
+	}
 }
