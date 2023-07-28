@@ -1,5 +1,5 @@
 App\Entity\Customers:
-  Customer{1..100}:
+  Customer{1..1000}:
     name: <firstName()> <lastName()>
     email: <email()>
     phone: <phoneNumber()>

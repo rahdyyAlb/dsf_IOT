@@ -19,7 +19,7 @@ class HomeController extends AbstractController
     {
 		// Récupérer l'utilisateur actuel
 		$User = $this->getUser();
-
+		$id = $User->getId();
 		// Récupérer le total des transactions par especes
 		$totalCashAmount = $transactionsRepository->getTotalCashAmount();
 		// Récupérer le total des transactions par carte bancaire
@@ -42,6 +42,7 @@ class HomeController extends AbstractController
 			'latestProducts' => $latestProducts,
 			'transactions' => $transactions,
 			'User' => $User,
+			'id'=>$id,
 		]);
 
 	}

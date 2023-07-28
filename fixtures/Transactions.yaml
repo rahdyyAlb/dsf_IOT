@@ -1,5 +1,5 @@
 App\Entity\Transactions:
-  transaction_{1..95}:
+  transaction_{1..395}:
     transactionsDate: <(new DateTimeImmutable('now'))>
     cashAmount: <randomFloat(2, 10, 200)>
     cardAmount: <randomFloat(2, 10, 200)>
