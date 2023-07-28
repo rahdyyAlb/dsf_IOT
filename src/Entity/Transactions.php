@@ -7,8 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
 #[ORM\Entity(repositoryClass: TransactionsRepository::class)]
+#[ORM\HasLifecycleCallbacks()]
 class Transactions
 {
     #[ORM\Id]
@@ -95,12 +95,19 @@ class Transactions
         return $this->totalAmount;
     }
 
-    public function setTotalAmount(float $totalAmount): static
-    {
-        $this->totalAmount = $totalAmount;
+	#[ORM\PrePersist]
+	#[ORM\PreUpdate]
+	public function updateTotalAmount(): void
+	{
+		$this->totalAmount = $this->calculateTotalAmount();
+	}
 
-        return $this;
-    }
+	private function calculateTotalAmount(): float
+	{
+		$totalAmount = $this->getCardAmount() + $this->getChequeAmount() + $this->getCashAmount();
+
+		return $totalAmount;
+	}
 
     public function getCashAmount(): ?float
     {
@@ -179,8 +186,4 @@ class Transactions
 
         return $this;
     }
-	public function calculateTotalAmount(): float
-	{
-		return $this->cashAmount + $this->cardAmount + $this->chequeAmount;
-	}
 }

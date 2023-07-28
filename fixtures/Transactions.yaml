@@ -4,4 +4,3 @@ App\Entity\Transactions:
     cashAmount: <randomFloat(2, 10, 200)>
     cardAmount: <randomFloat(2, 10, 200)>
     chequeAmount: <randomFloat(2, 10, 200)>
-    totalAmount: <randomFloat(2, 10, 200)>

@@ -1,7 +1,5 @@
 # BARCODE PRO 
 
-![logo.png](assets%2Fimages%2Flogo.png)
-
 ## Mise en place du projet 
 
 ### Prérequis
