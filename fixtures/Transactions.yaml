@@ -1,6 +1,7 @@
 App\Entity\Transactions:
-  transaction_{1..395}:
+  transaction_{1..395}{Product.*}:
     transactionsDate: <(new DateTimeImmutable('now'))>
     cashAmount: <randomFloat(2, 10, 200)>
     cardAmount: <randomFloat(2, 10, 200)>
     chequeAmount: <randomFloat(2, 10, 200)>
+    products: ['@Product*','@Product*','@Product*','@Product*','@Product*','@Product*','@Product*','@Product*','@Product*']

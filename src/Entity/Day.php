@@ -26,7 +26,7 @@ class Day
     #[ORM\Column]
     private ?float $chequeTotal = null;
 
-    #[ORM\ManyToOne(inversedBy: 'days')]
+    #[ORM\ManyToOne(inversedBy: 'days' , targetEntity: Caisse::class  )]
     private ?caisse $caisseId = null;
 
 

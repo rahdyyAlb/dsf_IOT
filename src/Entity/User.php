@@ -38,6 +38,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $first_name = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Caisse $caisse = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -140,6 +144,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFirstName(string $first_name): static
     {
         $this->first_name = $first_name;
+
+        return $this;
+    }
+
+    public function getCaisse(): ?Caisse
+    {
+        return $this->caisse;
+    }
+
+    public function setCaisse(Caisse $caisse): static
+    {
+        $this->caisse = $caisse;
 
         return $this;
     }

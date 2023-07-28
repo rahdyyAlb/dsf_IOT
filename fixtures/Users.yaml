@@ -1,26 +1,38 @@
 App\Entity\User:
-  User{1}:
+  User{1}{Caisse.*}:
     email: admin@user.fr
     password: password
     roles: [ 'ROLE_ADMIN' ]
     name: <lastName()>
     adress: <address()>
     first_name: <firstName()>
+    caisse: '@Caisse1'
 
-  User{2}:
+  User{2}{Caisse.*}:
     email: user@user.fr
     password: password
     roles: ['ROLE_USER']
     first_name: <firstName()>
     name: <lastName()>
     adress: <address()>
+    caisse: '@Caisse2'
 
-  User{3..20}:
-    email: <email()>
+  User{3}{Caisse.*}:
+    email: user3@user.fr
     password: password
     roles: ['ROLE_USER']
     name: <lastName()>
     adress: <address()>
     first_name: <firstName()>
+    caisse: '@Caisse3'
+
+  User{4}{Caisse.*}:
+    email: user4@user.fr
+    password: password
+    roles: ['ROLE_USER']
+    name: <lastName()>
+    adress: <address()>
+    first_name: <firstName()>
+    caisse: '@Caisse4'
 
 
