@@ -29,9 +29,12 @@ class ProductsController extends AbstractController
 
 		// Paginer les résultats
 		$pagination = $paginator->paginate($query, $page, $itemsPerPage);
-
+		$user = $this->getUser();
+		$id = $user->getId();
 		return $this->render('products/index.html.twig', [
 			'pagination' => $pagination,
+			'user' => $user,
+			'id' => $id,
 		]);
     }
 

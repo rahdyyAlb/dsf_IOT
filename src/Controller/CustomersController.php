@@ -18,8 +18,12 @@ class CustomersController extends AbstractController
     #[Route('/', name: 'app_customers_index', methods: ['GET'])]
     public function index(CustomersRepository $customersRepository): Response
     {
+		$user = $this->getUser();
+		$id = $user->getId();
         return $this->render('customers/index.html.twig', [
             'customers' => $customersRepository->findAll(),
+			'user' => $user,
+			'id' => $id,
         ]);
     }
 

@@ -17,13 +17,18 @@ class CategoriesController extends AbstractController
 {
     #[Route('/', name: 'app_categories_index', methods: ['GET'])]
     public function index(CategoriesRepository $categoriesRepository): Response
-    {
+	{
+		$user = $this->getUser();
+		$id = $user->getId();
+
         return $this->render('categories/index.html.twig', [
-            'categories' => $categoriesRepository->findAll(),
-        ]);
+			'categories' => $categoriesRepository->findAll(),
+			'user' => $user,
+			'id' => $id,
+		]);
     }
 
-    #[Route('/new', name: 'app_categories_new', methods: ['GET', 'POST'])]
+	#[Route('/new', name: 'app_categories_new', methods: ['GET', 'POST'])]
 	#[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
