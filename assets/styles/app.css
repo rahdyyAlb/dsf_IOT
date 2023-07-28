@@ -151,3 +151,126 @@ label[for="caisse_number"]:before {
     content: "N° de caisse";
     font-size: 16px;
 }
+
+/*  ----------------- LABEL FORM DAYS  -----------------*/ 
+
+#day > div{
+    display: flex;
+    flex-direction: column;
+}
+
+label[for="day_cash_total"] {
+    font-size: 0;
+}
+label[for="day_cash_total"]:before {
+    content: "Total en espèce";
+    font-size: 16px;
+}
+
+label[for="day_card_total"] {
+    font-size: 0;
+}
+label[for="day_card_total"]:before {
+    content: "Total par carte";
+    font-size: 16px;
+}
+
+label[for="day_cheque_total"] {
+    font-size: 0;
+}
+label[for="day_cheque_total"]:before {
+    content: "Total par carte";
+    font-size: 16px;
+}
+
+label[for="day_caisse_id"] {
+    font-size: 0;
+}
+label[for="day_caisse_id"]:before {
+    content: "Total par carte";
+    font-size: 16px;
+}
+
+/*  ----------------- LABEL FORM TRANSACTION ITEM  -----------------*/ 
+#transaction_iteme > div{
+    display: flex;
+    flex-direction: column;
+}
+
+label[for="transaction_iteme_quantity"] {
+    font-size: 0;
+}
+label[for="transaction_iteme_quantity"]:before {
+    content: "Quantité";
+    font-size: 16px;
+}
+
+label[for="transaction_iteme_total"] {
+    font-size: 0;
+}
+label[for="transaction_iteme_total"]:before {
+    content: "Total";
+    font-size: 16px;
+}
+
+label[for="transaction_iteme_transactionIteme"] {
+    font-size: 0;
+}
+label[for="transaction_iteme_transactionIteme"]:before {
+    content: "Objet de la transaction";
+    font-size: 16px;
+}
+
+label[for="transaction_iteme_product_id"] {
+    font-size: 0;
+}
+label[for="transaction_iteme_product_id"]:before {
+    content: "ID du produit";
+    font-size: 16px;
+}
+
+/*  ----------------- LABEL FORM TRANSACTION -----------------*/ 
+#transactions > div{
+    display: flex;
+    flex-direction: column;
+}
+
+label[for="transactions_transactions_date"] {
+    font-size: 0;
+}
+label[for="transactions_transactions_date"]:before {
+    content: "Date de la transaction";
+    font-size: 16px;
+}
+
+label[for="transactions_total_amount"] {
+    font-size: 0;
+}
+label[for="transactions_total_amount"]:before {
+    content: "Montant total";
+    font-size: 16px;
+}
+
+label[for="transactions_cash_amount"] {
+    font-size: 0;
+}
+label[for="transactions_cash_amount"]:before {
+    content: "Montant en espèce";
+    font-size: 16px;
+}
+
+label[for="transactions_card_amount"] {
+    font-size: 0;
+}
+label[for="transactions_card_amount"]:before {
+    content: "Montant par cartes";
+    font-size: 16px;
+}
+
+label[for="transactions_cheque_amount"] {
+    font-size: 0;
+}
+label[for="transactions_cheque_amount"]:before {
+    content: "Montant par chèque";
+    font-size: 16px;
+}

@@ -3,12 +3,17 @@
 {% block title %}Day{% endblock %}
 
 {% block body %}
-    <h1>Day</h1>
+<div class="text-center d-flex align-items-center justify-content-center align-middle centered">
+
+    <div class="text-center align-items-center justify-content-center">
+
+        <div class ="card card-body text-center align-items-center justify-content-center width-80">
+    <h1 class="m-2 pb-3 text-center">Jour</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
+                <th>ID</th>
                 <td>{{ day.id }}</td>
             </tr>
             <tr>
@@ -16,23 +21,29 @@
                 <td>{{ day.date ? day.date|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
-                <th>Cash_total</th>
+                <th>Total en espèce</th>
                 <td>{{ day.cashTotal }}</td>
             </tr>
             <tr>
-                <th>Card_total</th>
+                <th>Total par carte</th>
                 <td>{{ day.cardTotal }}</td>
             </tr>
             <tr>
-                <th>Cheque_total</th>
+                <th>Total par chèque</th>
                 <td>{{ day.chequeTotal }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_day_index') }}">back to list</a>
+            <div class="align-items-center justify-content-between align-self-center">
+                <a class="btn btn-warning btn-small mt-1" href="{{ path('app_day_edit', {'id': day.id}) }}">Edit</a>
 
-    <a href="{{ path('app_day_edit', {'id': day.id}) }}">edit</a>
+                {{ include('day/_delete_form.html.twig') }}
 
-    {{ include('day/_delete_form.html.twig') }}
+                <a class="btn btn-secondary btn-small mt-3" href="{{ path('app_day_index') }}">Retour</a>
+            </div>
+
+        </div>
+    </div>
+</div>
 {% endblock %}

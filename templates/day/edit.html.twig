@@ -1,13 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Day{% endblock %}
+{% block title %}Edition du jour{% endblock %}
 
 {% block body %}
-    <h1>Edit Day</h1>
+<div class="text-center d-flex align-items-center justify-content-center align-middle centered">
 
-    {{ include('day/_form.html.twig', {'button_label': 'Update'}) }}
+    <div class="text-center align-items-center justify-content-center">
 
-    <a href="{{ path('app_day_index') }}">back to list</a>
+        <div class ="card card-body text-center align-items-center justify-content-center width-80">
+            <h1 class="m-2 pb-3 text-center">Edition du jour</h1>
 
-    {{ include('day/_delete_form.html.twig') }}
+            {{ include('day/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+            {{ include('day/_delete_form.html.twig') }}
+
+            <a class="btn btn-secondary btn-small mt-3" href="{{ path('app_day_index') }}">Retour</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
