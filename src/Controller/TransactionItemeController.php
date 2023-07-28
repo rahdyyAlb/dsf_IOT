@@ -18,8 +18,12 @@ class TransactionItemeController extends AbstractController
     #[Route('/', name: 'app_transaction_iteme_index', methods: ['GET'])]
     public function index(TransactionItemeRepository $transactionItemeRepository): Response
     {
+		$user = $this->getUser();
+		$id = $user->getId();
         return $this->render('transaction_iteme/index.html.twig', [
             'transaction_itemes' => $transactionItemeRepository->findAll(),
+			'user' => $user,
+			'id' => $id,
         ]);
     }
 

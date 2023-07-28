@@ -3,7 +3,10 @@
 {% block title %}Caisse index{% endblock %}
 
 {% block body %}
-<div class="text-center d-flex align-items-center justify-content-center align-middle centered">        
+<div class="d-flex justify-content-end">
+    {% include 'sidebar.html.twig' %}
+
+    <div class="text-center d-flex align-items-center justify-content-center align-middle centered">
   <div class="col-lg-8 col-md-6 mb-md-0 mb-4 text-center align-items-center justify-content-center">
     <div class="card card-body ">
       <div class="card-header pb-0">
@@ -70,5 +73,6 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 {% endblock %}

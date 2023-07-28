@@ -18,8 +18,12 @@ class CaisseController extends AbstractController
     #[Route('/', name: 'app_caisse_index', methods: ['GET'])]
     public function index(CaisseRepository $caisseRepository): Response
     {
+		$user = $this->getUser();
+		$id = $user->getId();
         return $this->render('caisse/index.html.twig', [
             'caisses' => $caisseRepository->findAll(),
+			'user' => $user,
+			'id' => $id,
         ]);
     }
 
@@ -41,6 +45,7 @@ class CaisseController extends AbstractController
         return $this->render('caisse/new.html.twig', [
             'caisse' => $caisse,
             'form' => $form,
+
         ]);
     }
 
