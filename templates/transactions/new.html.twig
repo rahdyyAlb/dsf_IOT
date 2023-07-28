@@ -1,11 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Transactions{% endblock %}
+{% block title %}Nouvelle transaction{% endblock %}
 
 {% block body %}
-    <h1>Create new Transactions</h1>
+<div class="text-center d-flex align-items-center justify-content-center align-middle centered">
 
-    {{ include('transactions/_form.html.twig') }}
+    <div class="text-center align-items-center justify-content-center">
 
-    <a href="{{ path('app_transactions_index') }}">back to list</a>
+        <div class ="card card-body text-center align-items-center justify-content-center width-80">
+            <h1 class="m-2 pb-3 text-center">Créer nouvelle transactions</h1>
+
+            {{ include('transactions/_form.html.twig') }}
+
+            <a class="btn btn-secondary btn-small mb-1 mt-3" href="{{ path('app_transactions_index') }}">Retour</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
