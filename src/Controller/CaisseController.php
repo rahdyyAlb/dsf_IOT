@@ -18,17 +18,17 @@ class CaisseController extends AbstractController
     #[Route('/', name: 'app_caisse_index', methods: ['GET'])]
     public function index(CaisseRepository $caisseRepository): Response
     {
-		$user = $this->getUser();
-		$id = $user->getId();
+        $user = $this->getUser();
+        $id = $user->getId();
         return $this->render('caisse/index.html.twig', [
             'caisses' => $caisseRepository->findAll(),
-			'user' => $user,
-			'id' => $id,
+            'user' => $user,
+            'id' => $id,
         ]);
     }
 
     #[Route('/new', name: 'app_caisse_new', methods: ['GET', 'POST'])]
-	#[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $caisse = new Caisse();
@@ -58,7 +58,7 @@ class CaisseController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_caisse_edit', methods: ['GET', 'POST'])]
-	#[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Caisse $caisse, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CaisseType::class, $caisse);
@@ -77,7 +77,7 @@ class CaisseController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_caisse_delete', methods: ['POST'])]
-	#[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Caisse $caisse, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$caisse->getId(), $request->request->get('_token'))) {

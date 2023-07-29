@@ -20,93 +20,93 @@ class TransactionsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Transactions::class);
     }
-	public function getTotalCashAmount(): float
-	{
-		$qb = $this->createQueryBuilder('t');
-		$qb->select('SUM(t.cashAmount) as totalCashAmount');
+    public function getTotalCashAmount(): float
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->select('SUM(t.cashAmount) as totalCashAmount');
 
-		$query = $qb->getQuery();
-		$result = $query->getSingleScalarResult();
+        $query = $qb->getQuery();
+        $result = $query->getSingleScalarResult();
 
-		return (float) $result;
-	}
-	public function getTotalChequeAmount(): float
-	{
-		$qb = $this->createQueryBuilder('t');
-		$qb->select('SUM(t.chequeAmount) as totalChequeAmount');
+        return (float) $result;
+    }
+    public function getTotalChequeAmount(): float
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->select('SUM(t.chequeAmount) as totalChequeAmount');
 
-		$query = $qb->getQuery();
-		$result = $query->getSingleScalarResult();
+        $query = $qb->getQuery();
+        $result = $query->getSingleScalarResult();
 
-		return (float) $result;
-	}
+        return (float) $result;
+    }
 
-	public function getTotalCardAmount(): float
-	{
-		$qb = $this->createQueryBuilder('t');
-		$qb->select('SUM(t.cardAmount) as totalCardAmount');
+    public function getTotalCardAmount(): float
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->select('SUM(t.cardAmount) as totalCardAmount');
 
-		$query = $qb->getQuery();
-		$result = $query->getSingleScalarResult();
+        $query = $qb->getQuery();
+        $result = $query->getSingleScalarResult();
 
-		return (float) $result;
-	}
-	public function getTotalAmount(): float
-	{
-		$qb = $this->createQueryBuilder('t');
-		$qb->select('SUM(t.totalAmount) as totalAmount');
+        return (float) $result;
+    }
+    public function getTotalAmount(): float
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->select('SUM(t.totalAmount) as totalAmount');
 
-		$query = $qb->getQuery();
-		$result = $query->getSingleScalarResult();
+        $query = $qb->getQuery();
+        $result = $query->getSingleScalarResult();
 
-		return (float) $result;
-	}
+        return (float) $result;
+    }
 
-	public function getTotalAmountForCaisse(int $caisseId): ?float
-	{
-		$qb = $this->createQueryBuilder('t');
-		$qb->select('SUM(t.totalAmount) as totalAmount');
-		$qb->andWhere('t.caisse = :caisseId');
-		$qb->setParameter('caisseId', $caisseId);
+    public function getTotalAmountForCaisse(int $caisseId): ?float
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->select('SUM(t.totalAmount) as totalAmount');
+        $qb->andWhere('t.caisse = :caisseId');
+        $qb->setParameter('caisseId', $caisseId);
 
-		$query = $qb->getQuery();
-		$result = $query->getSingleScalarResult();
+        $query = $qb->getQuery();
+        $result = $query->getSingleScalarResult();
 
-		return (float) $result;
-	}
+        return (float) $result;
+    }
 
-	public function getLastTransactionForCaisse(int $caisseId): ?Transactions
-	{
-		$qb = $this->createQueryBuilder('t');
-		$qb->andWhere('t.caisse = :caisseId');
-		$qb->setParameter('caisseId', $caisseId);
-		$qb->orderBy('t.transactionsDate', 'DESC');
-		$qb->setMaxResults(1);
+    public function getLastTransactionForCaisse(int $caisseId): ?Transactions
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->andWhere('t.caisse = :caisseId');
+        $qb->setParameter('caisseId', $caisseId);
+        $qb->orderBy('t.transactionsDate', 'DESC');
+        $qb->setMaxResults(1);
 
-		return $qb->getQuery()->getOneOrNullResult();
-	}
-//    /**
-//     * @return Transactions[] Returns an array of Transactions objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+    //    /**
+    //     * @return Transactions[] Returns an array of Transactions objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('t.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Transactions
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Transactions
+    //    {
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

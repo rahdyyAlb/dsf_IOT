@@ -17,30 +17,31 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductsController extends AbstractController
 {
     #[Route('/', name: 'app_products_index', methods: ['GET'])]
-	public function index(Request $request, ProductsRepository $productsRepository, PaginatorInterface $paginator): Response    {
-		// Récupérer la requête pour construire le QueryBuilder
-		$query = $productsRepository->createQueryBuilder('e')->getQuery();
+    public function index(Request $request, ProductsRepository $productsRepository, PaginatorInterface $paginator): Response
+    {
+        // Récupérer la requête pour construire le QueryBuilder
+        $query = $productsRepository->createQueryBuilder('e')->getQuery();
 
-		// Récupérer le numéro de page depuis la requête (par défaut, 1 si non spécifié)
-		$page = $request->query->getInt('page', 1);
+        // Récupérer le numéro de page depuis la requête (par défaut, 1 si non spécifié)
+        $page = $request->query->getInt('page', 1);
 
-		// Nombre d'éléments par page
-		$itemsPerPage = 20;
+        // Nombre d'éléments par page
+        $itemsPerPage = 20;
 
-		// Paginer les résultats
-		$pagination = $paginator->paginate($query, $page, $itemsPerPage);
-		$user = $this->getUser();
-		$id = $user->getId();
-		return $this->render('products/index.html.twig', [
-			'pagination' => $pagination,
-			'user' => $user,
-			'id' => $id,
-		]);
+        // Paginer les résultats
+        $pagination = $paginator->paginate($query, $page, $itemsPerPage);
+        $user = $this->getUser();
+        $id = $user->getId();
+        return $this->render('products/index.html.twig', [
+            'pagination' => $pagination,
+            'user' => $user,
+            'id' => $id,
+        ]);
     }
 
     #[Route('/new', name: 'app_products_new', methods: ['GET', 'POST'])]
-	#[IsGranted('ROLE_ADMIN')]
-	public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[IsGranted('ROLE_ADMIN')]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $product = new Products();
         $form = $this->createForm(ProductsType::class, $product);
@@ -68,8 +69,8 @@ class ProductsController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_products_edit', methods: ['GET', 'POST'])]
-	#[IsGranted('ROLE_ADMIN')]
-	public function edit(Request $request, Products $product, EntityManagerInterface $entityManager): Response
+    #[IsGranted('ROLE_ADMIN')]
+    public function edit(Request $request, Products $product, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ProductsType::class, $product);
         $form->handleRequest($request);
@@ -87,8 +88,8 @@ class ProductsController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_products_delete', methods: ['POST'])]
-	#[IsGranted('ROLE_ADMIN')]
-	public function delete(Request $request, Products $product, EntityManagerInterface $entityManager): Response
+    #[IsGranted('ROLE_ADMIN')]
+    public function delete(Request $request, Products $product, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
             $entityManager->remove($product);

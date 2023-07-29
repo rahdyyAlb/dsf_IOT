@@ -15,39 +15,39 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 #[Route('/')]
 class UserController extends AbstractController
 {
-	#[Route(path: '/', name: 'app_login')]
-	public function login(AuthenticationUtils $authenticationUtils): Response
-	{
+    #[Route(path: '/', name: 'app_login')]
+    public function login(AuthenticationUtils $authenticationUtils): Response
+    {
 
 
-		// get the login error if there is one
-		$error = $authenticationUtils->getLastAuthenticationError();
-		// last username entered by the user
-		$lastUsername = $authenticationUtils->getLastUsername();
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
 
-		// Check if the user is authenticated and has the ROLE_ADMIN
-		if ($this->getUser() && $this->isGranted('ROLE_ADMIN')) {
-			// If the user is an admin, redirect to the admin route
-			return $this->redirectToRoute('admin');
-		}
+        // Check if the user is authenticated and has the ROLE_ADMIN
+        if ($this->getUser() && $this->isGranted('ROLE_ADMIN')) {
+            // If the user is an admin, redirect to the admin route
+            return $this->redirectToRoute('admin');
+        }
 
-		return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
-	}
-	#[Route(path: '/logout', name: 'app_logout')]
-	public function logout(): void
-	{
-		throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
-	}
+        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+    }
+    #[Route(path: '/logout', name: 'app_logout')]
+    public function logout(): void
+    {
+        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    }
 
-	#[Route('/alluser', name: 'app_user_index', methods: ['GET'])]
+    #[Route('/alluser', name: 'app_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
-		$user = $this->getUser();
-		$id = $user->getId();
+        $user = $this->getUser();
+        $id = $user->getId();
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
-			'user' => $user,
-			'id' => $id,
+            'user' => $user,
+            'id' => $id,
         ]);
     }
 

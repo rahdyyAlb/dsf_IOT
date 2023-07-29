@@ -26,15 +26,15 @@ class Day
     #[ORM\Column]
     private ?float $chequeTotal = null;
 
-    #[ORM\ManyToOne(inversedBy: 'days' , targetEntity: Caisse::class  )]
+    #[ORM\ManyToOne(inversedBy: 'days', targetEntity: Caisse::class)]
     private ?caisse $caisseId = null;
 
 
 
-	public function getId(): ?int
-             {
-                 return $this->id;
-             }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     public function getDate(): ?\DateTimeInterface
     {

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+
 #[ORM\Entity(repositoryClass: TransactionsRepository::class)]
 #[ORM\HasLifecycleCallbacks()]
 class Transactions
@@ -92,13 +93,13 @@ class Transactions
 
     public function setTransactionsDate(\DateTimeInterface $transactionsDate): static
     {
-		if ($transactionsDate !== null) {
-			$this->transactionsDate = $transactionsDate;
+        if ($transactionsDate !== null) {
+            $this->transactionsDate = $transactionsDate;
 
-		}
-		$this->transactionsDate = new \DateTime('now');
+        }
+        $this->transactionsDate = new \DateTime('now');
 
-		return $this;
+        return $this;
     }
 
     public function getTotalAmount(): ?float
@@ -106,26 +107,26 @@ class Transactions
         return $this->totalAmount;
     }
 
-	#[ORM\PrePersist]
-	#[ORM\PreUpdate]
-	public function updateTotalAmount(): void
-	{
-		$this->totalAmount = $this->calculateTotalAmount();
-	}
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function updateTotalAmount(): void
+    {
+        $this->totalAmount = $this->calculateTotalAmount();
+    }
 
-	private function calculateTotalAmount(): float
-	{
-		$totalAmount = 0.0;
+    private function calculateTotalAmount(): float
+    {
+        $totalAmount = 0.0;
 
-		/** @var Collection $products */
-		$products = $this->getProducts();
+        /** @var Collection $products */
+        $products = $this->getProducts();
 
-		foreach ($products as $product) {
-			$totalAmount += $product->getPrice();
-		}
+        foreach ($products as $product) {
+            $totalAmount += $product->getPrice();
+        }
 
-		return $totalAmount;
-	}
+        return $totalAmount;
+    }
     public function getCashAmount(): ?float
     {
         return $this->cashAmount;
@@ -162,20 +163,20 @@ class Transactions
         return $this;
     }
 
-	public function calculateCashAmount(): float
-	{
-		$cashAmount = 0.0;
+    public function calculateCashAmount(): float
+    {
+        $cashAmount = 0.0;
 
-		foreach ($this->custumerId as $customer) {
-			// Assuming the method for getting cash amount from the customer entity is 'getCashAmount()'
-			$customerCashAmount = $customer->getCashAmount();
-			if ($customerCashAmount !== null) {
-				$cashAmount += $customerCashAmount;
-			}
-		}
+        foreach ($this->custumerId as $customer) {
+            // Assuming the method for getting cash amount from the customer entity is 'getCashAmount()'
+            $customerCashAmount = $customer->getCashAmount();
+            if ($customerCashAmount !== null) {
+                $cashAmount += $customerCashAmount;
+            }
+        }
 
-		return $cashAmount;
-	}
+        return $cashAmount;
+    }
 
     /**
      * @return Collection<int, TransactionIteme>

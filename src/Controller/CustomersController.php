@@ -18,17 +18,17 @@ class CustomersController extends AbstractController
     #[Route('/', name: 'app_customers_index', methods: ['GET'])]
     public function index(CustomersRepository $customersRepository): Response
     {
-		$user = $this->getUser();
-		$id = $user->getId();
+        $user = $this->getUser();
+        $id = $user->getId();
         return $this->render('customers/index.html.twig', [
             'customers' => $customersRepository->findAll(),
-			'user' => $user,
-			'id' => $id,
+            'user' => $user,
+            'id' => $id,
         ]);
     }
 
     #[Route('/new', name: 'app_customers_new', methods: ['GET', 'POST'])]
-	#[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $customer = new Customers();
@@ -57,7 +57,7 @@ class CustomersController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_customers_edit', methods: ['GET', 'POST'])]
-	#[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Customers $customer, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CustomersType::class, $customer);
@@ -76,7 +76,7 @@ class CustomersController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_customers_delete', methods: ['POST'])]
-	#[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Customers $customer, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$customer->getId(), $request->request->get('_token'))) {
