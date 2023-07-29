@@ -107,19 +107,28 @@ class Transactions
     }
 
 	#[ORM\PrePersist]
-                        	#[ORM\PreUpdate]
-                        	public function updateTotalAmount(): void
-                        	{
-                        		$this->totalAmount = $this->calculateTotalAmount();
-                        	}
+	#[ORM\PreUpdate]
+	public function updateTotalAmount(): void
+	{
+		$this->totalAmount = $this->calculateTotalAmount();
+	}
 
 	private function calculateTotalAmount(): float
-                        	{
-                        		$totalAmount = $this->getCardAmount() + $this->getChequeAmount() + $this->getCashAmount();
-                        
-                        		return $totalAmount;
-                        	}
+	{
+		$totalAmount = 0.0;
 
+		// Supposons que vous avez une collection de produits dans votre entité, appelons-la $products.
+		// Ajustez cette partie en fonction de la façon dont vous accédez aux produits dans votre entité.
+		/** @var Collection $products */
+		$products = $this->getProducts();
+
+		foreach ($products as $product) {
+			// Supposons que chaque produit a une propriété 'price', ajustez cette partie en fonction de votre structure de produit.
+			$totalAmount += $product->getPrice();
+		}
+
+		return $totalAmount;
+	}
     public function getCashAmount(): ?float
     {
         return $this->cashAmount;
@@ -157,19 +166,19 @@ class Transactions
     }
 
 	public function calculateCashAmount(): float
-                                       	{
-                                       		$cashAmount = 0.0;
-                        
-                                       		foreach ($this->custumerId as $customer) {
-                                       			// Assuming the method for getting cash amount from the customer entity is 'getCashAmount()'
-                                       			$customerCashAmount = $customer->getCashAmount();
-                                       			if ($customerCashAmount !== null) {
-                                       				$cashAmount += $customerCashAmount;
-                                       			}
-                                       		}
-                        
-                                       		return $cashAmount;
-                                       	}
+	{
+		$cashAmount = 0.0;
+
+		foreach ($this->custumerId as $customer) {
+			// Assuming the method for getting cash amount from the customer entity is 'getCashAmount()'
+			$customerCashAmount = $customer->getCashAmount();
+			if ($customerCashAmount !== null) {
+				$cashAmount += $customerCashAmount;
+			}
+		}
+
+		return $cashAmount;
+	}
 
     /**
      * @return Collection<int, TransactionIteme>
