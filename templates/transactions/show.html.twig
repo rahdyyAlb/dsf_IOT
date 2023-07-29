@@ -8,7 +8,25 @@
     <div class="text-center align-items-center justify-content-center">
 
         <div class ="card card-body text-center align-items-center justify-content-center width-80">
-            <h1 class="m-2 pb-3 text-center">Transaction</h1>
+            <h1>Produits de la transaction n°{{ transaction.id }}</h1>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Nom du produit</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for product in transaction.products %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.price }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
 
             <table class="table">
                 <tbody>
@@ -19,10 +37,6 @@
                     <tr>
                         <th>Date de la transaction</th>
                         <td>{{ transaction.transactionsDate ? transaction.transactionsDate|date('Y-m-d H:i:s') : '' }}</td>
-                    </tr>
-                    <tr>
-                        <th>Montant total</th>
-                        <td>{{ transaction.totalAmount }}</td>
                     </tr>
                     <tr>
                         <th>Montant en espèce</th>
@@ -36,6 +50,11 @@
                         <th>Montant par chèque</th>
                         <td>{{ transaction.chequeAmount }}</td>
                     </tr>
+                    <tr>
+                        <th>Montant total</th>
+                        <td>{{ transaction.totalAmount }}</td>
+                    </tr>
+
                 </tbody>
             </table>
 
@@ -47,4 +66,6 @@
         </div>
     </div>
 </div>
+
+
 {% endblock %}

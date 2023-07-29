@@ -30,10 +30,14 @@ class Products
     #[ORM\ManyToMany(targetEntity: TransactionIteme::class, mappedBy: 'product_id')]
     private Collection $transactionItemes;
 
+    #[ORM\ManyToMany(targetEntity: Transactions::class, mappedBy: 'products')]
+    private Collection $transactions;
+
     public function __construct()
     {
         $this->categorieId = new ArrayCollection();
         $this->transactionItemes = new ArrayCollection();
+        $this->transactions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -129,6 +133,33 @@ class Products
     {
         if ($this->transactionItemes->removeElement($transactionIteme)) {
             $transactionIteme->removeProductId($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transactions>
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction(Transactions $transaction): static
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions->add($transaction);
+            $transaction->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransaction(Transactions $transaction): static
+    {
+        if ($this->transactions->removeElement($transaction)) {
+            $transaction->removeProduct($this);
         }
 
         return $this;

@@ -25,3 +25,6 @@ services:
     App\EventListener\UserEventListener:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
+    App\EventListener\TransactionListener:
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }

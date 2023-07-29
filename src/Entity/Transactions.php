@@ -19,7 +19,7 @@ class Transactions
     #[ORM\OneToMany(mappedBy: 'transactions', targetEntity: Customers::class)]
     private Collection $custumerId;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $transactionsDate = null;
 
     #[ORM\Column]
@@ -37,10 +37,17 @@ class Transactions
     #[ORM\ManyToMany(targetEntity: TransactionIteme::class, mappedBy: 'transactionId')]
     private Collection $transactionItemes;
 
+    #[ORM\ManyToOne(inversedBy: 'transactions')]
+    private ?Caisse $caisse = null;
+
+    #[ORM\ManyToMany(targetEntity: Products::class, inversedBy: 'transactions')]
+    private Collection $products;
+
     public function __construct()
     {
         $this->custumerId = new ArrayCollection();
         $this->transactionItemes = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -85,9 +92,13 @@ class Transactions
 
     public function setTransactionsDate(\DateTimeInterface $transactionsDate): static
     {
-        $this->transactionsDate = $transactionsDate;
+		if ($transactionsDate !== null) {
+			$this->transactionsDate = $transactionsDate;
 
-        return $this;
+		}
+		$this->transactionsDate = new \DateTime('now');
+
+		return $this;
     }
 
     public function getTotalAmount(): ?float
@@ -104,11 +115,17 @@ class Transactions
 
 	private function calculateTotalAmount(): float
 	{
-		$totalAmount = $this->getCardAmount() + $this->getChequeAmount() + $this->getCashAmount();
+		$totalAmount = 0.0;
+
+		/** @var Collection $products */
+		$products = $this->getProducts();
+
+		foreach ($products as $product) {
+			$totalAmount += $product->getPrice();
+		}
 
 		return $totalAmount;
 	}
-
     public function getCashAmount(): ?float
     {
         return $this->cashAmount;
@@ -146,19 +163,19 @@ class Transactions
     }
 
 	public function calculateCashAmount(): float
-               	{
-               		$cashAmount = 0.0;
-               
-               		foreach ($this->custumerId as $customer) {
-               			// Assuming the method for getting cash amount from the customer entity is 'getCashAmount()'
-               			$customerCashAmount = $customer->getCashAmount();
-               			if ($customerCashAmount !== null) {
-               				$cashAmount += $customerCashAmount;
-               			}
-               		}
-               
-               		return $cashAmount;
-               	}
+	{
+		$cashAmount = 0.0;
+
+		foreach ($this->custumerId as $customer) {
+			// Assuming the method for getting cash amount from the customer entity is 'getCashAmount()'
+			$customerCashAmount = $customer->getCashAmount();
+			if ($customerCashAmount !== null) {
+				$cashAmount += $customerCashAmount;
+			}
+		}
+
+		return $cashAmount;
+	}
 
     /**
      * @return Collection<int, TransactionIteme>
@@ -183,6 +200,42 @@ class Transactions
         if ($this->transactionItemes->removeElement($transactionIteme)) {
             $transactionIteme->removeTransactionId($this);
         }
+
+        return $this;
+    }
+
+    public function getCaisse(): ?Caisse
+    {
+        return $this->caisse;
+    }
+
+    public function setCaisse(?Caisse $caisse): static
+    {
+        $this->caisse = $caisse;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Products>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Products $product): static
+    {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Products $product): static
+    {
+        $this->products->removeElement($product);
 
         return $this;
     }

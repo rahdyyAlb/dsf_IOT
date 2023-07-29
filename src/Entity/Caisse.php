@@ -21,9 +21,13 @@ class Caisse
     #[ORM\OneToMany(mappedBy: 'caisse_id', targetEntity: Day::class)]
     private Collection $days;
 
+    #[ORM\OneToMany(mappedBy: 'caisse', targetEntity: Transactions::class)]
+    private Collection $transactions;
+
     public function __construct()
     {
         $this->days = new ArrayCollection();
+        $this->transactions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,6 +71,36 @@ class Caisse
             // set the owning side to null (unless already changed)
             if ($day->getCaisseId() === $this) {
                 $day->setCaisseId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transactions>
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction(Transactions $transaction): static
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions->add($transaction);
+            $transaction->setCaisse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransaction(Transactions $transaction): static
+    {
+        if ($this->transactions->removeElement($transaction)) {
+            // set the owning side to null (unless already changed)
+            if ($transaction->getCaisse() === $this) {
+                $transaction->setCaisse(null);
             }
         }
 

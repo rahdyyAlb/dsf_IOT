@@ -1,3 +1,12 @@
 App\Entity\Caisse:
-  caisse{1..20}:
-    number: caisse <numberBetween(0, 20)>
+  Caisse1:
+    number: caisse 1
+
+  Caisse2:
+    number: caisse 2
+
+  Caisse3:
+    number: caisse 3
+
+  Caisse4:
+    number: caisse 4

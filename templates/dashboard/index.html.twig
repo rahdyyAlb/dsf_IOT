@@ -12,62 +12,24 @@
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <div class="container-fluid py-4">
             <div class="row">
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                {% for caisseId, totalAmount in totalAmountsByCaisse %}
+                    {% set lastTransaction = lastTransactionsByCaisse[caisseId] %}
+
+                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                     <div class="card">
                         <div class="card-header p-3 pt-2">
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Total Espece</p>
-                                <h4 class="mb-0"> {{ totalCashAmount }} €</h4>
+                                <p class="text-sm mb-0 text-capitalize">Caisse n °: {{ caisseId }}</p>
+                                <h4 class="mb-0"> {{ totalAmount }} €</h4>
                             </div>
                         </div>
                         <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than last week</p>
+                            <p class="mb-0">Dernière transaction :  <span class="text-success text-sm font-weight-bolder"> {{ lastTransaction.totalAmount }} €</span></p>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                    <div class="card">
-                        <div class="card-header p-3 pt-2">
-                            <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Total Cheque</p>
-                                <h4 class="mb-0">{{ totalChequeAmount }} €</h4>
-                            </div>
-                        </div>
-                        <hr class="dark horizontal my-0">
-                        <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3% </span>than last month</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                    <div class="card">
-                        <div class="card-header p-3 pt-2">
-                            <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Total Card  </p>
-                                <h4 class="mb-0">{{ totalCardAmount }} €</h4>
-                            </div>
-                        </div>
-                        <hr class="dark horizontal my-0">
-                        <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-2%</span> than yesterday</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-sm-6">
-                    <div class="card">
-                        <div class="card-header p-3 pt-2">
-                            <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Total Encaissé </p>
-                                <h4 class="mb-0">{{ totalEncaisse }} €</h4>
-                            </div>
-                        </div>
-                        <hr class="dark horizontal my-0">
-                        <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+5% </span>than yesterday</p>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
             <div class="row mt-4">
                 <div class="col-lg-4 col-md-6 mt-4 mb-4">
@@ -81,11 +43,9 @@
                         </div>
                         <div class="card-body">
                             <h6 class="mb-0 ">Website Views</h6>
-                            <p class="text-sm ">Last Campaign Performance</p>
                             <hr class="dark horizontal">
                             <div class="d-flex ">
-                                <i class="material-icons text-sm my-auto me-1">schedule</i>
-                                <p class="mb-0 text-sm"> campaign sent 2 days ago </p>
+                                <p class="mb-0 text-sm"> Mise à jour il y a 3 minutes </p>
                             </div>
                         </div>
                     </div>
@@ -100,12 +60,10 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <h6 class="mb-0 "> Daily Sales </h6>
-                            <p class="text-sm "> (<span class="font-weight-bolder">+15%</span>) increase in today sales. </p>
+                            <h6 class="mb-0 "> Total Encaissé <span class="text-success"> {{ totalEncaisse }} €</span>   </h6>
                             <hr class="dark horizontal">
                             <div class="d-flex ">
-                                <i class="material-icons text-sm my-auto me-1">schedule</i>
-                                <p class="mb-0 text-sm"> updated 4 min ago </p>
+                                <p class="mb-0 text-sm"> Mise à jour il y a 4 minutes  </p>
                             </div>
                         </div>
                     </div>
@@ -121,11 +79,9 @@
                         </div>
                         <div class="card-body">
                             <h6 class="mb-0 ">Completed Tasks</h6>
-                            <p class="text-sm ">Last Campaign Performance</p>
                             <hr class="dark horizontal">
                             <div class="d-flex ">
-                                <i class="material-icons text-sm my-auto me-1">schedule</i>
-                                <p class="mb-0 text-sm">just updated</p>
+                                <p class="mb-0 text-sm">Mise à jour il y a 5 minutes</p>
                             </div>
                         </div>
                     </div>

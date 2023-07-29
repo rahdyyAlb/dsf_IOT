@@ -1,6 +1,20 @@
 App\Entity\Transactions:
-  transaction_{1..395}:
+  transaction_{1..105}{Product*.*}{Caisse*.*}:
     transactionsDate: <(new DateTimeImmutable('now'))>
-    cashAmount: <randomFloat(2, 10, 200)>
-    cardAmount: <randomFloat(2, 10, 200)>
-    chequeAmount: <randomFloat(2, 10, 200)>
+    products: ['@Product*','@Product*','@Product*','@Product*','@Product*','@Product*','@Product*','@Product*','@Product*']
+    caisse: '@Caisse3'
+
+  transaction_{106..200}{Product*.*}{Caisse*.*}:
+    transactionsDate: <(new DateTimeImmutable('now'))>
+    products: ['@Product*','@Product*','@Product*','@Product*','@Product*','@Product*','@Product*','@Product*','@Product*']
+    caisse: '@Caisse1'
+
+  transaction_{201..300}{Product*.*}{Caisse*.*}:
+    transactionsDate: <(new DateTimeImmutable('now'))>
+    products: ['@Product*','@Product*','@Product*','@Product*','@Product*','@Product*','@Product*','@Product*','@Product*']
+    caisse: '@Caisse2'
+
+  transaction_{301..400}{Product*.*}{Caisse*.*}:
+    transactionsDate: <(new DateTimeImmutable('now'))>
+    products: ['@Product*','@Product*','@Product*','@Product*','@Product*','@Product*','@Product*','@Product*','@Product*']
+    caisse: '@Caisse4'
