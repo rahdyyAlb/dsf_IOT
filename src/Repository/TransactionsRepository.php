@@ -51,6 +51,40 @@ class TransactionsRepository extends ServiceEntityRepository
 
 		return (float) $result;
 	}
+	public function getTotalAmount(): float
+	{
+		$qb = $this->createQueryBuilder('t');
+		$qb->select('SUM(t.totalAmount) as totalAmount');
+
+		$query = $qb->getQuery();
+		$result = $query->getSingleScalarResult();
+
+		return (float) $result;
+	}
+
+	public function getTotalAmountForCaisse(int $caisseId): ?float
+	{
+		$qb = $this->createQueryBuilder('t');
+		$qb->select('SUM(t.totalAmount) as totalAmount');
+		$qb->andWhere('t.caisse = :caisseId');
+		$qb->setParameter('caisseId', $caisseId);
+
+		$query = $qb->getQuery();
+		$result = $query->getSingleScalarResult();
+
+		return (float) $result;
+	}
+
+	public function getLastTransactionForCaisse(int $caisseId): ?Transactions
+	{
+		$qb = $this->createQueryBuilder('t');
+		$qb->andWhere('t.caisse = :caisseId');
+		$qb->setParameter('caisseId', $caisseId);
+		$qb->orderBy('t.transactionsDate', 'DESC');
+		$qb->setMaxResults(1);
+
+		return $qb->getQuery()->getOneOrNullResult();
+	}
 //    /**
 //     * @return Transactions[] Returns an array of Transactions objects
 //     */

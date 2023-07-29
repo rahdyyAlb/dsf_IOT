@@ -117,13 +117,10 @@ class Transactions
 	{
 		$totalAmount = 0.0;
 
-		// Supposons que vous avez une collection de produits dans votre entité, appelons-la $products.
-		// Ajustez cette partie en fonction de la façon dont vous accédez aux produits dans votre entité.
 		/** @var Collection $products */
 		$products = $this->getProducts();
 
 		foreach ($products as $product) {
-			// Supposons que chaque produit a une propriété 'price', ajustez cette partie en fonction de votre structure de produit.
 			$totalAmount += $product->getPrice();
 		}
 

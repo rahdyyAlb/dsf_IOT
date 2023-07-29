@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CaisseRepository;
 use App\Repository\ProductsRepository;
 use App\Repository\TransactionsRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -13,7 +14,7 @@ class DashboardController extends AbstractController
 {
 	#[Route('/admin', name: 'admin')]
 	#[IsGranted('ROLE_ADMIN')]
-	public function index(TransactionsRepository $transactionsRepository, ProductsRepository $productsRepository): Response
+	public function index(TransactionsRepository $transactionsRepository, ProductsRepository $productsRepository, CaisseRepository $caisseRepository): Response
 	{
 		$user = $this->getUser();
 		$id = $user->getId();
@@ -25,11 +26,29 @@ class DashboardController extends AbstractController
 		// Récupérer le total des transactions en chèques
 		$totalChequeAmount = $transactionsRepository->getTotalChequeAmount();
 		// Récupérer le total des transactions
-		$totalEncaisse = $totalChequeAmount + $totalCardAmount + $totalCashAmount;
+		$totalEncaisse = $transactionsRepository->getTotalAmount();
 		// Récupérer les 5 derniers produits ajoutés
 		$latestProducts = $productsRepository->findBy([], ['id' => 'DESC'], 5);
 		// Récupérer les 5 dernières transactions avec les IDs les plus grands
 		$transactions = $transactionsRepository->findBy([], ['id' => 'DESC'], 5);
+
+		$caisses = $caisseRepository->findAll();
+
+		$lastTransactionsByCaisse =[];
+		foreach ($caisses as $caisse) {
+			$caisseId = $caisse->getId();
+			$lastTransaction = $transactionsRepository->getLastTransactionForCaisse($caisseId);
+			$lastTransactionsByCaisse[$caisseId] = $lastTransaction;
+		}
+		// Récupérer le total des transactions pour chaque caisse
+		$totalAmountsByCaisse = [];
+		foreach ($caisses as $caisse) {
+			$caisseId = $caisse->getId();
+			$totalAmountsByCaisse[$caisseId] = $transactionsRepository->getTotalAmountForCaisse($caisseId);
+		}
+
+		// Vous pouvez maintenant accéder aux détails de la dernière transaction, par exemple :
+			$lastTransactionTotalAmount = $lastTransaction->getTotalAmount();
 
 		return $this->render('dashboard/index.html.twig', [
 			'controller_name' => 'DashboardController',
@@ -41,6 +60,12 @@ class DashboardController extends AbstractController
 			'transactions' => $transactions,
 			'user' => $user,
 			'id' => $id,
+			'totalAmountsByCaisse' => $totalAmountsByCaisse,
+			'caisses' => $caisses,
+			'caisseRepository' => $caisseRepository,
+			'lastTransaction' => $lastTransaction,
+			'lastTransactionTotalAmount' =>$lastTransactionTotalAmount,
+			'lastTransactionsByCaisse' => $lastTransactionsByCaisse,
 		]);
 	}
 }
