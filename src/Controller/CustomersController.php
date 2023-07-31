@@ -6,6 +6,7 @@ use App\Entity\Customers;
 use App\Form\CustomersType;
 use App\Repository\CustomersRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,12 +17,25 @@ use Symfony\Component\Routing\Annotation\Route;
 class CustomersController extends AbstractController
 {
     #[Route('/', name: 'app_customers_index', methods: ['GET'])]
-    public function index(CustomersRepository $customersRepository): Response
+    public function index(CustomersRepository $customersRepository , Request $request , PaginatorInterface $paginator): Response
     {
-        $user = $this->getUser();
+		// Récupérer la requête pour construire le QueryBuilder
+		$query = $customersRepository->createQueryBuilder('e')->getQuery();
+
+		// Récupérer le numéro de page depuis la requête (par défaut, 1 si non spécifié)
+		$page = $request->query->getInt('page', 1);
+
+		// Nombre d'éléments par page
+		$itemsPerPage = 20;
+
+		// Paginer les résultats
+		$pagination = $paginator->paginate($query, $page, $itemsPerPage);
+
+
+		$user = $this->getUser();
         $id = $user->getId();
         return $this->render('customers/index.html.twig', [
-            'customers' => $customersRepository->findAll(),
+			'pagination' => $pagination,
             'user' => $user,
             'id' => $id,
         ]);

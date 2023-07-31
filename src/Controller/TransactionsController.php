@@ -6,6 +6,7 @@ use App\Entity\Transactions;
 use App\Form\TransactionsType;
 use App\Repository\TransactionsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,12 +17,25 @@ use Symfony\Component\Routing\Annotation\Route;
 class TransactionsController extends AbstractController
 {
     #[Route('/', name: 'app_transactions_index', methods: ['GET'])]
-    public function index(TransactionsRepository $transactionsRepository): Response
+    public function index(TransactionsRepository $transactionsRepository , Request $request , PaginatorInterface $paginator): Response
     {
-        $user = $this->getUser();
+		// Récupérer la requête pour construire le QueryBuilder
+		$query = $transactionsRepository->createQueryBuilder('e')->getQuery();
+
+		// Récupérer le numéro de page depuis la requête (par défaut, 1 si non spécifié)
+		$page = $request->query->getInt('page', 1);
+
+		// Nombre d'éléments par page
+		$itemsPerPage = 20;
+
+		// Paginer les résultats
+		$pagination = $paginator->paginate($query, $page, $itemsPerPage);
+
+
+		$user = $this->getUser();
         $id = $user->getId();
         return $this->render('transactions/index.html.twig', [
-            'transactions' => $transactionsRepository->findAll(),
+            'transactions' => $pagination,
             'user' => $user,
             'id' => $id,
         ]);

@@ -5,9 +5,8 @@
 {% block body %}
 <div class="d-flex justify-content-end">
     {% include 'sidebar.html.twig' %}
-<div class="text-center d-flex align-items-center justify-content-center align-middle centered">     
-  <div class="col-lg-8 col-md-6 mb-md-0 mb-4 text-center align-items-center justify-content-center">
-    <div class="card card-body">
+  <div class="col-lg-8 col-md-6 mb-md-0 mb-4 w-80 text-center align-items-center justify-content-center">
+    <div class="card card-body w-100">
       <div class="card-header pb-0">
         <div class="row">
           <div>
@@ -34,7 +33,6 @@
           <table class="table align-items-center mb-0">
           <thead>
               <tr>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nom</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Téléphone</th>
@@ -43,16 +41,8 @@
               </tr>
           </thead>
           <tbody>
-          {% for customer in customers %}
+          {% for customer in pagination %}
               <tr>
-                      <td>
-                          <div class="d-flex px-2 py-1">
-                              <div>
-                                  <div class="d-flex flex-column justify-content-center">
-                                  <h6 class="mb-0 text-sm"> {{ customer.id }}</h6>
-                              </div>
-                          </div>
-                      </td>
                       <td>
                           <div class="avatar-group mt-2">
                               <p>{{ customer.name }}</p>
@@ -80,10 +70,12 @@
               </tbody>
           </table>
       <a class="btn btn-success mt-3" href="{{ path('app_customers_new') }}">Create new</a>
+            <div class="d-flex justify-content-center">
+                {{ knp_pagination_render(pagination) }}
+            </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 {% endblock %}

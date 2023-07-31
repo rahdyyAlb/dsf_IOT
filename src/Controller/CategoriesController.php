@@ -6,6 +6,7 @@ use App\Entity\Categories;
 use App\Form\CategoriesType;
 use App\Repository\CategoriesRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,16 +17,30 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoriesController extends AbstractController
 {
     #[Route('/', name: 'app_categories_index', methods: ['GET'])]
-    public function index(CategoriesRepository $categoriesRepository): Response
+    public function index(CategoriesRepository $categoriesRepository, PaginatorInterface $paginator, Request $request): Response
     {
+		// Récupérer la requête pour construire le QueryBuilder
+		$query = $categoriesRepository->createQueryBuilder('e')->getQuery();
+
+		// Récupérer le numéro de page depuis la requête (par défaut, 1 si non spécifié)
+		$page = $request->query->getInt('page', 1);
+
+		// Nombre d'éléments par page
+		$itemsPerPage = 20;
+
+		// Paginer les résultats
+		$pagination = $paginator->paginate($query, $page, $itemsPerPage);
+		$user = $this->getUser();
+		$id = $user->getId();
+
         $user = $this->getUser();
         $id = $user->getId();
 
-        return $this->render('categories/index.html.twig', [
-            'categories' => $categoriesRepository->findAll(),
+		return $this->render('categories/index.html.twig', [
+			'pagination' => $pagination,
             'user' => $user,
             'id' => $id,
-        ]);
+		]);
     }
 
     #[Route('/new', name: 'app_categories_new', methods: ['GET', 'POST'])]
