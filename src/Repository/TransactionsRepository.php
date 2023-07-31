@@ -16,11 +16,12 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TransactionsRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Transactions::class);
-    }
-	public function getTotalCashAmount(): float
+	public function __construct (ManagerRegistry $registry)
+	{
+		parent::__construct($registry, Transactions::class);
+	}
+
+	public function getTotalCashAmount (): float
 	{
 		$qb = $this->createQueryBuilder('t');
 		$qb->select('SUM(t.cashAmount) as totalCashAmount');
@@ -28,9 +29,10 @@ class TransactionsRepository extends ServiceEntityRepository
 		$query = $qb->getQuery();
 		$result = $query->getSingleScalarResult();
 
-		return (float) $result;
+		return (float)$result;
 	}
-	public function getTotalChequeAmount(): float
+
+	public function getTotalChequeAmount (): float
 	{
 		$qb = $this->createQueryBuilder('t');
 		$qb->select('SUM(t.chequeAmount) as totalChequeAmount');
@@ -38,10 +40,10 @@ class TransactionsRepository extends ServiceEntityRepository
 		$query = $qb->getQuery();
 		$result = $query->getSingleScalarResult();
 
-		return (float) $result;
+		return (float)$result;
 	}
 
-	public function getTotalCardAmount(): float
+	public function getTotalCardAmount (): float
 	{
 		$qb = $this->createQueryBuilder('t');
 		$qb->select('SUM(t.cardAmount) as totalCardAmount');
@@ -49,9 +51,10 @@ class TransactionsRepository extends ServiceEntityRepository
 		$query = $qb->getQuery();
 		$result = $query->getSingleScalarResult();
 
-		return (float) $result;
+		return (float)$result;
 	}
-	public function getTotalAmount(): float
+
+	public function getTotalAmount (): float
 	{
 		$qb = $this->createQueryBuilder('t');
 		$qb->select('SUM(t.totalAmount) as totalAmount');
@@ -59,10 +62,10 @@ class TransactionsRepository extends ServiceEntityRepository
 		$query = $qb->getQuery();
 		$result = $query->getSingleScalarResult();
 
-		return (float) $result;
+		return (float)$result;
 	}
 
-	public function getTotalAmountForCaisse(int $caisseId): ?float
+	public function getTotalAmountForCaisse (int $caisseId): ?float
 	{
 		$qb = $this->createQueryBuilder('t');
 		$qb->select('SUM(t.totalAmount) as totalAmount');
@@ -72,10 +75,10 @@ class TransactionsRepository extends ServiceEntityRepository
 		$query = $qb->getQuery();
 		$result = $query->getSingleScalarResult();
 
-		return (float) $result;
+		return (float)$result;
 	}
 
-	public function getLastTransactionForCaisse(int $caisseId): ?Transactions
+	public function getLastTransactionForCaisse (int $caisseId): ?Transactions
 	{
 		$qb = $this->createQueryBuilder('t');
 		$qb->andWhere('t.caisse = :caisseId');
@@ -85,28 +88,28 @@ class TransactionsRepository extends ServiceEntityRepository
 
 		return $qb->getQuery()->getOneOrNullResult();
 	}
-//    /**
-//     * @return Transactions[] Returns an array of Transactions objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+	//    /**
+	//     * @return Transactions[] Returns an array of Transactions objects
+	//     */
+	//    public function findByExampleField($value): array
+	//    {
+	//        return $this->createQueryBuilder('t')
+	//            ->andWhere('t.exampleField = :val')
+	//            ->setParameter('val', $value)
+	//            ->orderBy('t.id', 'ASC')
+	//            ->setMaxResults(10)
+	//            ->getQuery()
+	//            ->getResult()
+	//        ;
+	//    }
 
-//    public function findOneBySomeField($value): ?Transactions
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+	//    public function findOneBySomeField($value): ?Transactions
+	//    {
+	//        return $this->createQueryBuilder('t')
+	//            ->andWhere('t.exampleField = :val')
+	//            ->setParameter('val', $value)
+	//            ->getQuery()
+	//            ->getOneOrNullResult()
+	//        ;
+	//    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\EventListener;
 
 use App\Entity\Day;
@@ -7,7 +8,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 
 class TransactionListener
 {
-	public function postPersist(LifecycleEventArgs $args)
+	public function postPersist (LifecycleEventArgs $args)
 	{
 		$entity = $args->getObject();
 

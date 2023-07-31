@@ -1,21 +1,21 @@
 <?php
+
 namespace App\EventListener;
 
+use App\Entity\User;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use App\Entity\User;
 
 class UserEventListener
 {
-
 	private $passwordEncoder;
 
-	public function __construct(UserPasswordHasherInterface $passwordEncoder)
+	public function __construct (UserPasswordHasherInterface $passwordEncoder)
 	{
 		$this->passwordEncoder = $passwordEncoder;
 	}
 
-	public function prePersist(LifecycleEventArgs $args)
+	public function prePersist (LifecycleEventArgs $args)
 	{
 		$entity = $args->getObject();
 

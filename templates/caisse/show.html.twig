@@ -3,15 +3,15 @@
 {% block title %}Caisse{% endblock %}
 
 {% block body %}
-<div class="text-center d-flex align-items-center justify-content-center align-middle centered">
+    <div class="text-center d-flex align-items-center justify-content-center align-middle centered">
 
-    <div class="text-center align-items-center justify-content-center">
+        <div class="text-center align-items-center justify-content-center">
 
-        <div class ="card card-body text-center align-items-center justify-content-center width-80">
-            <h1 class="m-2 pb-3 text-center">Info sur la caisse</h1>
+            <div class="card card-body text-center align-items-center justify-content-center width-80">
+                <h1 class="m-2 pb-3 text-center">Info sur la caisse</h1>
 
-            <table class="table">
-                <tbody>
+                <table class="table">
+                    <tbody>
                     <tr>
                         <th>ID</th>
                         <td>{{ caisse.id }}</td>
@@ -20,15 +20,15 @@
                         <th>Numero de la caisse</th>
                         <td>{{ caisse.number }}</td>
                     </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
 
-            <div class="align-items-center justify-content-between align-self-center">
-                <a class="btn btn-warning btn-small mt-1" href="{{ path('app_caisse_edit', {'id': caisse.id}) }}">Editer</a>
-                {{ include('caisse/_delete_form.html.twig') }}
-                <a class="btn btn-secondary btn-small mt-3" href="{{ path('app_caisse_index') }}">Retour</a>
+                <div class="align-items-center justify-content-between align-self-center">
+                    <a class="btn btn-warning btn-small mt-1" href="{{ path('app_caisse_edit', {'id': caisse.id}) }}">Editer</a>
+                    {{ include('caisse/_delete_form.html.twig') }}
+                    <a class="btn btn-secondary btn-small mt-3" href="{{ path('app_caisse_index') }}">Retour</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

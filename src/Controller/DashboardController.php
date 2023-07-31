@@ -14,7 +14,7 @@ class DashboardController extends AbstractController
 {
 	#[Route('/admin', name: 'admin')]
 	#[IsGranted('ROLE_ADMIN')]
-	public function index(TransactionsRepository $transactionsRepository, ProductsRepository $productsRepository, CaisseRepository $caisseRepository): Response
+	public function index (TransactionsRepository $transactionsRepository, ProductsRepository $productsRepository, CaisseRepository $caisseRepository): Response
 	{
 		$user = $this->getUser();
 		$id = $user->getId();
@@ -34,7 +34,7 @@ class DashboardController extends AbstractController
 
 		$caisses = $caisseRepository->findAll();
 
-		$lastTransactionsByCaisse =[];
+		$lastTransactionsByCaisse = [];
 		foreach ($caisses as $caisse) {
 			$caisseId = $caisse->getId();
 			$lastTransaction = $transactionsRepository->getLastTransactionForCaisse($caisseId);
@@ -48,7 +48,7 @@ class DashboardController extends AbstractController
 		}
 
 		// Vous pouvez maintenant accéder aux détails de la dernière transaction, par exemple :
-			$lastTransactionTotalAmount = $lastTransaction->getTotalAmount();
+		$lastTransactionTotalAmount = $lastTransaction->getTotalAmount();
 
 		return $this->render('dashboard/index.html.twig', [
 			'controller_name' => 'DashboardController',
@@ -64,7 +64,7 @@ class DashboardController extends AbstractController
 			'caisses' => $caisses,
 			'caisseRepository' => $caisseRepository,
 			'lastTransaction' => $lastTransaction,
-			'lastTransactionTotalAmount' =>$lastTransactionTotalAmount,
+			'lastTransactionTotalAmount' => $lastTransactionTotalAmount,
 			'lastTransactionsByCaisse' => $lastTransactionsByCaisse,
 		]);
 	}
