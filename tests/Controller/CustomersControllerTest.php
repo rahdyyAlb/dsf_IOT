@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Test\Controller;
 
 use App\Entity\Customers;
@@ -38,7 +40,7 @@ class CustomersControllerTest extends WebTestCase
 
     public function testNew(): void
     {
-        $originalNumObjectsInRepository = count($this->repository->findAll());
+        $originalNumObjectsInRepository = \count($this->repository->findAll());
 
         $this->markTestIncomplete();
         $this->client->request('GET', sprintf('%snew', $this->path));
@@ -55,7 +57,7 @@ class CustomersControllerTest extends WebTestCase
 
         self::assertResponseRedirects('/customers/');
 
-        self::assertSame($originalNumObjectsInRepository + 1, count($this->repository->findAll()));
+        self::assertSame($originalNumObjectsInRepository + 1, \count($this->repository->findAll()));
     }
 
     public function testShow(): void
@@ -117,7 +119,7 @@ class CustomersControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
 
-        $originalNumObjectsInRepository = count($this->repository->findAll());
+        $originalNumObjectsInRepository = \count($this->repository->findAll());
 
         $fixture = new Customers();
         $fixture->setName('My Title');
@@ -129,12 +131,12 @@ class CustomersControllerTest extends WebTestCase
         $this->manager->persist($fixture);
         $this->manager->flush();
 
-        self::assertSame($originalNumObjectsInRepository + 1, count($this->repository->findAll()));
+        self::assertSame($originalNumObjectsInRepository + 1, \count($this->repository->findAll()));
 
         $this->client->request('GET', sprintf('%s%s', $this->path, $fixture->getId()));
         $this->client->submitForm('Delete');
 
-        self::assertSame($originalNumObjectsInRepository, count($this->repository->findAll()));
+        self::assertSame($originalNumObjectsInRepository, \count($this->repository->findAll()));
         self::assertResponseRedirects('/customers/');
     }
 }

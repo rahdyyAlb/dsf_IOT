@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Products;
@@ -16,86 +18,87 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/products')]
 class ProductsController extends AbstractController
 {
-	#[Route('/', name: 'app_products_index', methods: ['GET'])]
-	public function index (Request $request, ProductsRepository $productsRepository, PaginatorInterface $paginator): Response
-	{
-		// Récupérer la requête pour construire le QueryBuilder
-		$query = $productsRepository->createQueryBuilder('e')->getQuery();
+    #[Route('/', name: 'app_products_index', methods: ['GET'])]
+    public function index(Request $request, ProductsRepository $productsRepository, PaginatorInterface $paginator): Response
+    {
+        // Récupérer la requête pour construire le QueryBuilder
+        $query = $productsRepository->createQueryBuilder('e')->getQuery();
 
-		// Récupérer le numéro de page depuis la requête (par défaut, 1 si non spécifié)
-		$page = $request->query->getInt('page', 1);
+        // Récupérer le numéro de page depuis la requête (par défaut, 1 si non spécifié)
+        $page = $request->query->getInt('page', 1);
 
-		// Nombre d'éléments par page
-		$itemsPerPage = 20;
+        // Nombre d'éléments par page
+        $itemsPerPage = 20;
 
-		// Paginer les résultats
-		$pagination = $paginator->paginate($query, $page, $itemsPerPage);
-		$user = $this->getUser();
-		$id = $user->getId();
-		return $this->render('products/index.html.twig', [
-			'pagination' => $pagination,
-			'user' => $user,
-			'id' => $id,
-		]);
-	}
+        // Paginer les résultats
+        $pagination = $paginator->paginate($query, $page, $itemsPerPage);
+        $user = $this->getUser();
+        $id = $user->getId();
 
-	#[Route('/new', name: 'app_products_new', methods: ['GET', 'POST'])]
-	#[IsGranted('ROLE_ADMIN')]
-	public function new (Request $request, EntityManagerInterface $entityManager): Response
-	{
-		$product = new Products();
-		$form = $this->createForm(ProductsType::class, $product);
-		$form->handleRequest($request);
+        return $this->render('products/index.html.twig', [
+            'pagination' => $pagination,
+            'user' => $user,
+            'id' => $id,
+        ]);
+    }
 
-		if ($form->isSubmitted() && $form->isValid()) {
-			$entityManager->persist($product);
-			$entityManager->flush();
+    #[Route('/new', name: 'app_products_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $product = new Products();
+        $form = $this->createForm(ProductsType::class, $product);
+        $form->handleRequest($request);
 
-			return $this->redirectToRoute('app_products_index', [], Response::HTTP_SEE_OTHER);
-		}
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($product);
+            $entityManager->flush();
 
-		return $this->render('products/new.html.twig', [
-			'product' => $product,
-			'form' => $form,
-		]);
-	}
+            return $this->redirectToRoute('app_products_index', [], Response::HTTP_SEE_OTHER);
+        }
 
-	#[Route('/{id}', name: 'app_products_show', methods: ['GET'])]
-	public function show (Products $product): Response
-	{
-		return $this->render('products/show.html.twig', [
-			'product' => $product,
-		]);
-	}
+        return $this->render('products/new.html.twig', [
+            'product' => $product,
+            'form' => $form,
+        ]);
+    }
 
-	#[Route('/{id}/edit', name: 'app_products_edit', methods: ['GET', 'POST'])]
-	#[IsGranted('ROLE_ADMIN')]
-	public function edit (Request $request, Products $product, EntityManagerInterface $entityManager): Response
-	{
-		$form = $this->createForm(ProductsType::class, $product);
-		$form->handleRequest($request);
+    #[Route('/{id}', name: 'app_products_show', methods: ['GET'])]
+    public function show(Products $product): Response
+    {
+        return $this->render('products/show.html.twig', [
+            'product' => $product,
+        ]);
+    }
 
-		if ($form->isSubmitted() && $form->isValid()) {
-			$entityManager->flush();
+    #[Route('/{id}/edit', name: 'app_products_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function edit(Request $request, Products $product, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(ProductsType::class, $product);
+        $form->handleRequest($request);
 
-			return $this->redirectToRoute('app_products_index', [], Response::HTTP_SEE_OTHER);
-		}
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
 
-		return $this->render('products/edit.html.twig', [
-			'product' => $product,
-			'form' => $form,
-		]);
-	}
+            return $this->redirectToRoute('app_products_index', [], Response::HTTP_SEE_OTHER);
+        }
 
-	#[Route('/{id}', name: 'app_products_delete', methods: ['POST'])]
-	#[IsGranted('ROLE_ADMIN')]
-	public function delete (Request $request, Products $product, EntityManagerInterface $entityManager): Response
-	{
-		if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
-			$entityManager->remove($product);
-			$entityManager->flush();
-		}
+        return $this->render('products/edit.html.twig', [
+            'product' => $product,
+            'form' => $form,
+        ]);
+    }
 
-		return $this->redirectToRoute('app_products_index', [], Response::HTTP_SEE_OTHER);
-	}
+    #[Route('/{id}', name: 'app_products_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function delete(Request $request, Products $product, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($product);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_products_index', [], Response::HTTP_SEE_OTHER);
+    }
 }

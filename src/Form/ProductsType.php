@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\Products;
@@ -9,19 +11,19 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductsType extends AbstractType
 {
-	public function buildForm (FormBuilderInterface $builder, array $options): void
-	{
-		$builder
-			->add('name')
-			->add('price')
-			->add('stock_quantity')
-			->add('transactionItemes');
-	}
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('name')
+            ->add('price')
+            ->add('stock_quantity')
+            ->add('transactionItemes');
+    }
 
-	public function configureOptions (OptionsResolver $resolver): void
-	{
-		$resolver->setDefaults([
-			'data_class' => Products::class,
-		]);
-	}
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Products::class,
+        ]);
+    }
 }
