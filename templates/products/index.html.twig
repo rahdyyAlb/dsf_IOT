@@ -6,9 +6,8 @@
   <div class="d-flex justify-content-end">
   {% include 'sidebar.html.twig' %}
 
-  <div class="text-center d-flex align-items-center justify-content-center align-middle centered">
-  <div class="col-lg-8 col-md-6 mb-md-0 mb-4 centered width-80 text-center align-items-center justify-content-center">
-    <div class="card width-80">
+  <div class="col-lg-8 col-md-6 mb-md-0 mb-4 centered w-80 text-center align-items-center justify-content-center">
+    <div class="card w-100">
       <div class="card-header pb-0">
         <div class="row">
           <div>
@@ -64,11 +63,12 @@
             </tbody>
           </table>
           <a class="btn btn-success" href="{{ path('app_products_new') }}">Créer produit</a>
+          <div class="d-flex justify-content-center">
+    {{ knp_pagination_render(pagination) }}
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-  </div>
-  {{ knp_pagination_render(pagination) }}
 {% endblock %}
