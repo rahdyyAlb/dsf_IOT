@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\User;
@@ -9,21 +11,21 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
-	public function buildForm (FormBuilderInterface $builder, array $options): void
-	{
-		$builder
-			->add('email')
-			->add('roles')
-			->add('password')
-			->add('name')
-			->add('adress')
-			->add('first_name');
-	}
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('email')
+            ->add('roles')
+            ->add('password')
+            ->add('name')
+            ->add('adress')
+            ->add('first_name');
+    }
 
-	public function configureOptions (OptionsResolver $resolver): void
-	{
-		$resolver->setDefaults([
-			'data_class' => User::class,
-		]);
-	}
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => User::class,
+        ]);
+    }
 }
