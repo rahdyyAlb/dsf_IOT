@@ -9,20 +9,19 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TransactionItemeType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        $builder
-            ->add('quantity')
-            ->add('total')
-            ->add('transactionIteme')
-            ->add('product_id')
-        ;
-    }
+	public function buildForm (FormBuilderInterface $builder, array $options): void
+	{
+		$builder
+			->add('quantity')
+			->add('total')
+			->add('transactionIteme')
+			->add('product_id');
+	}
 
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => TransactionIteme::class,
-        ]);
-    }
+	public function configureOptions (OptionsResolver $resolver): void
+	{
+		$resolver->setDefaults([
+			'data_class' => TransactionIteme::class,
+		]);
+	}
 }

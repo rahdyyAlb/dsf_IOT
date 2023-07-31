@@ -15,76 +15,76 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/transaction/iteme')]
 class TransactionItemeController extends AbstractController
 {
-    #[Route('/', name: 'app_transaction_iteme_index', methods: ['GET'])]
-    public function index(TransactionItemeRepository $transactionItemeRepository): Response
-    {
-        $user = $this->getUser();
-        $id = $user->getId();
-        return $this->render('transaction_iteme/index.html.twig', [
-            'transaction_itemes' => $transactionItemeRepository->findAll(),
-            'user' => $user,
-            'id' => $id,
-        ]);
-    }
+	#[Route('/', name: 'app_transaction_iteme_index', methods: ['GET'])]
+	public function index (TransactionItemeRepository $transactionItemeRepository): Response
+	{
+		$user = $this->getUser();
+		$id = $user->getId();
+		return $this->render('transaction_iteme/index.html.twig', [
+			'transaction_itemes' => $transactionItemeRepository->findAll(),
+			'user' => $user,
+			'id' => $id,
+		]);
+	}
 
-    #[Route('/new', name: 'app_transaction_iteme_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_ADMIN')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $transactionIteme = new TransactionIteme();
-        $form = $this->createForm(TransactionItemeType::class, $transactionIteme);
-        $form->handleRequest($request);
+	#[Route('/new', name: 'app_transaction_iteme_new', methods: ['GET', 'POST'])]
+	#[IsGranted('ROLE_ADMIN')]
+	public function new (Request $request, EntityManagerInterface $entityManager): Response
+	{
+		$transactionIteme = new TransactionIteme();
+		$form = $this->createForm(TransactionItemeType::class, $transactionIteme);
+		$form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($transactionIteme);
-            $entityManager->flush();
+		if ($form->isSubmitted() && $form->isValid()) {
+			$entityManager->persist($transactionIteme);
+			$entityManager->flush();
 
-            return $this->redirectToRoute('app_transaction_iteme_index', [], Response::HTTP_SEE_OTHER);
-        }
+			return $this->redirectToRoute('app_transaction_iteme_index', [], Response::HTTP_SEE_OTHER);
+		}
 
-        return $this->render('transaction_iteme/new.html.twig', [
-            'transaction_iteme' => $transactionIteme,
-            'form' => $form,
-        ]);
-    }
+		return $this->render('transaction_iteme/new.html.twig', [
+			'transaction_iteme' => $transactionIteme,
+			'form' => $form,
+		]);
+	}
 
-    #[Route('/{id}', name: 'app_transaction_iteme_show', methods: ['GET'])]
-    #[IsGranted('ROLE_ADMIN')]
-    public function show(TransactionIteme $transactionIteme): Response
-    {
-        return $this->render('transaction_iteme/show.html.twig', [
-            'transaction_iteme' => $transactionIteme,
-        ]);
-    }
+	#[Route('/{id}', name: 'app_transaction_iteme_show', methods: ['GET'])]
+	#[IsGranted('ROLE_ADMIN')]
+	public function show (TransactionIteme $transactionIteme): Response
+	{
+		return $this->render('transaction_iteme/show.html.twig', [
+			'transaction_iteme' => $transactionIteme,
+		]);
+	}
 
-    #[Route('/{id}/edit', name: 'app_transaction_iteme_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_ADMIN')]
-    public function edit(Request $request, TransactionIteme $transactionIteme, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(TransactionItemeType::class, $transactionIteme);
-        $form->handleRequest($request);
+	#[Route('/{id}/edit', name: 'app_transaction_iteme_edit', methods: ['GET', 'POST'])]
+	#[IsGranted('ROLE_ADMIN')]
+	public function edit (Request $request, TransactionIteme $transactionIteme, EntityManagerInterface $entityManager): Response
+	{
+		$form = $this->createForm(TransactionItemeType::class, $transactionIteme);
+		$form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+		if ($form->isSubmitted() && $form->isValid()) {
+			$entityManager->flush();
 
-            return $this->redirectToRoute('app_transaction_iteme_index', [], Response::HTTP_SEE_OTHER);
-        }
+			return $this->redirectToRoute('app_transaction_iteme_index', [], Response::HTTP_SEE_OTHER);
+		}
 
-        return $this->render('transaction_iteme/edit.html.twig', [
-            'transaction_iteme' => $transactionIteme,
-            'form' => $form,
-        ]);
-    }
+		return $this->render('transaction_iteme/edit.html.twig', [
+			'transaction_iteme' => $transactionIteme,
+			'form' => $form,
+		]);
+	}
 
-    #[Route('/{id}', name: 'app_transaction_iteme_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_ADMIN')]
-    public function delete(Request $request, TransactionIteme $transactionIteme, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$transactionIteme->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($transactionIteme);
-            $entityManager->flush();
-        }
+	#[Route('/{id}', name: 'app_transaction_iteme_delete', methods: ['POST'])]
+	#[IsGranted('ROLE_ADMIN')]
+	public function delete (Request $request, TransactionIteme $transactionIteme, EntityManagerInterface $entityManager): Response
+	{
+		if ($this->isCsrfTokenValid('delete' . $transactionIteme->getId(), $request->request->get('_token'))) {
+			$entityManager->remove($transactionIteme);
+			$entityManager->flush();
+		}
 
-        return $this->redirectToRoute('app_transaction_iteme_index', [], Response::HTTP_SEE_OTHER);
-    }
+		return $this->redirectToRoute('app_transaction_iteme_index', [], Response::HTTP_SEE_OTHER);
+	}
 }
