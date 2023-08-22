@@ -35,6 +35,9 @@ class Products
     #[ORM\ManyToMany(targetEntity: Transactions::class, mappedBy: 'products')]
     private Collection $transactions;
 
+    #[ORM\Column(length: 255)]
+    private ?string $barCode = null;
+
     public function __construct()
     {
         $this->categorieId = new ArrayCollection();
@@ -163,6 +166,18 @@ class Products
         if ($this->transactions->removeElement($transaction)) {
             $transaction->removeProduct($this);
         }
+
+        return $this;
+    }
+
+    public function getBarCode(): ?string
+    {
+        return $this->barCode;
+    }
+
+    public function setBarCode(string $barCode): static
+    {
+        $this->barCode = $barCode;
 
         return $this;
     }

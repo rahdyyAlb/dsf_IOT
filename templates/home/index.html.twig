@@ -10,45 +10,46 @@
 {% block body %}
     <div class="mt-5 me-5 ms-5">
         <div class="row mb-4 justify-content-between d-flex ">
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-50">
-                    <div class="card-header pb-0">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                            <tr>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                    Name
-                                </th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                    Firstname
-                                </th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                    Email
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="text-xs font-weight-bold"> {{ User.name }} </span>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="text-xs font-weight-bold"> {{ User.firstName }} </span>
-                                </td>
-                                <td>
-                                    <div class="avatar-group mt-2">
-                                        <p>{{ User.email }}</p>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+            <a class="btn-success bg-success btn w-15 h-25" href="{{path('admin',{'id': User.id}) }} }}">Dashboard</a>
+            <a class="btn-danger bg-danger btn w-15 h-25" href="{{ logout_path('main') }}">Déconnexion</a>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-50">
+                <div class="card-header pb-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                        <tr>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                Name
+                            </th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                Firstname
+                            </th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                Email
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="align-middle text-center text-sm">
+                                <span class="text-xs font-weight-bold"> {{ User.name }} </span>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                                <span class="text-xs font-weight-bold"> {{ User.firstName }} </span>
+                            </td>
+                            <td>
+                                <div class="avatar-group mt-2">
+                                    <p>{{ User.email }}</p>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <a class="btn-danger bg-danger btn w-15 h-25" href="{{ logout_path('main') }}">Déconnexion</a>
-
         </div>
+
         <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
             <div class="card">
                 <div class="card-header pb-0">
