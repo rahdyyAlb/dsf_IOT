@@ -1,5 +1,18 @@
 App\Entity\Products:
-  Product{1..800}:
+  Product{1}:
+    name: Coca-Cola
+    price: 1.59
+    stockQuantity: <numberBetween(50, 200)>
+    barCode: 5449000130389
+    img: cocaCola.png
+  Product{2}:
+    name: Prince Chocolat biscuits
+    price: 2.59
+    stockQuantity: <numberBetween(50, 200)>
+    barCode: 7622210449283
+    img: prince.jpeg
+  Product{3..800}:
     name: <name()>
     price: <randomFloat(2, 10, 100)>
     stockQuantity: <numberBetween(5, 100)>
+    barCode: 33449000130389

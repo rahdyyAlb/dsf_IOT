@@ -16,8 +16,7 @@ class ProductsType extends AbstractType
         $builder
             ->add('name')
             ->add('price')
-            ->add('stock_quantity')
-            ->add('transactionItemes');
+            ->add('stock_quantity');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

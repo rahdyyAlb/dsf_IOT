@@ -38,6 +38,9 @@ class Products
     #[ORM\Column(length: 255)]
     private ?string $barCode = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $img = null;
+
     public function __construct()
     {
         $this->categorieId = new ArrayCollection();
@@ -178,6 +181,18 @@ class Products
     public function setBarCode(string $barCode): static
     {
         $this->barCode = $barCode;
+
+        return $this;
+    }
+
+    public function getImg(): ?string
+    {
+        return $this->img;
+    }
+
+    public function setImg(?string $img): static
+    {
+        $this->img = $img;
 
         return $this;
     }

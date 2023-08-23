@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Caisse{% endblock %}
         {% block stylesheets %}
             {{ encore_entry_link_tags('dashboard') }}
 
@@ -49,7 +49,8 @@
                 </div>
             </div>
         </div>
-
+        <input type="text" id="searchInput" placeholder="Rechercher...">
+        <ul id="articleList"></ul>
         <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
             <div class="card">
                 <div class="card-header pb-0">
