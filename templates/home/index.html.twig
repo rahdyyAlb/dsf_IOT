@@ -51,7 +51,7 @@
         </div>
         <input type="text" id="searchInput" placeholder="Rechercher...">
         <ul id="articleList"></ul>
-        <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
+        <div class=" mb-md-0 mb-4">
             <div class="card">
                 <div class="card-header pb-0">
                     <div class="row">
@@ -65,7 +65,7 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                             <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Image</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                     Nom
                                 </th>
@@ -85,7 +85,7 @@
                                             <div>
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm"> {{ product.id }}</h6>
+                                                <img src="{{ asset('build/images/'  ~ product.img) }}" class="w-25" alt="{{ product.img }}">
                                             </div>
                                         </div>
                                     </td>
