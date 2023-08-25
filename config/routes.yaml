@@ -3,3 +3,6 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+api_scanned_products:
+    path: '/api/scanned-products/{id}'
+    controller: App\Controller\HomeController::getScannedProductsJson

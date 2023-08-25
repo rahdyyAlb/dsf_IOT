@@ -9,6 +9,7 @@ use App\Repository\ProductsRepository;
 use App\Repository\TransactionsRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -45,5 +46,25 @@ class HomeController extends AbstractController
             'User' => $User,
             'id' => $id,
         ]);
+    }
+
+    #[Route('/api/products/{barcode}', methods: ['GET'])]
+    public function getProductByBarcode($barcode, ProductsRepository $productsRepository)
+    {
+        $product = $productsRepository->findOneBy(['barCode' => $barcode]);
+
+        if (!$product) {
+            return new JsonResponse(['message' => 'Product not found'], 404);
+        }
+
+        // Convertir l'objet Product en un tableau pour le renvoyer en JSON
+        $productData = [
+            'id' => $product->getId(),
+            'name' => $product->getName(),
+            'price' => $product->getPrice(),
+            'img' => $product->getImg(),
+        ];
+
+        return $this->json($productData);
     }
 }
