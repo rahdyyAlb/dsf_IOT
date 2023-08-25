@@ -11,8 +11,57 @@ App\Entity\Products:
     stockQuantity: <numberBetween(50, 200)>
     barCode: 7622210449283
     img: prince.webp
-  Product{3..800}:
-    name: <name()>
-    price: <randomFloat(2, 10, 100)>
-    stockQuantity: <numberBetween(5, 100)>
-    barCode: 33449000130389
+  Product{3}:
+    name: NESTLE NESQUIK Céréales 450g - 450 g
+    price: 4.59
+    stockQuantity: <numberBetween(50, 200)>
+    barCode: 7613035144699
+    img: nesquik.jpg
+  Product{4}:
+    name: Granola - L'original - chocolat au lait - LU - 200 g
+    price: 2.79
+    stockQuantity: <numberBetween(50, 200)>
+    barCode: 7622210601988
+    img: granola.jpg
+  Product{5}:
+    name: Spaghetti n.5 - Barilla - 500 g
+    price: 2.40
+    stockQuantity: <numberBetween(50, 200)>
+    barCode: 8076800195057
+    img: Spaghetti.jpg
+  Product{6}:
+    name: Napolitain - L'original - LU - 180 g (6 x 30 g)
+    price: 3.60
+    stockQuantity: <numberBetween(50, 200)>
+    barCode: 7622201809638
+    img: napolitain.jpg
+  Product{7}:
+    name: Alpine Milk - Milka - 100 g
+    price: 2.90
+    stockQuantity: <numberBetween(50, 200)>
+    barCode: 3045140105502
+    img: milka.jpg
+  Product{8}:
+    name: Pain AMS complet - Harrys - 600 g
+    price: 2.59
+    stockQuantity: <numberBetween(50, 200)>
+    barCode: 3228857000906
+    img: harrys.jpg
+  Product{9}:
+    name: Céréales Chocapic - Nestlé - 430 g
+    price: 3.99
+    stockQuantity: <numberBetween(50, 200)>
+    barCode: 7613034626844
+    img: chocapic.jpg
+  Product{10}:
+    name: Nutella - Ferrero - 400 g
+    price: 4.59
+    stockQuantity: <numberBetween(50, 200)>
+    barCode: 3017620422003
+    img: nutella.jpg
+  Product{11}:
+    name: Orangina 50 cl
+    price: 1.59
+    stockQuantity: <numberBetween(50, 200)>
+    barCode: 312480167026
+    img: orangina.jpeg
