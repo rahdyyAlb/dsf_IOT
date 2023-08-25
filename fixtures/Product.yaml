@@ -10,7 +10,7 @@ App\Entity\Products:
     price: 2.59
     stockQuantity: <numberBetween(50, 200)>
     barCode: 7622210449283
-    img: prince.jpeg
+    img: prince.webp
   Product{3..800}:
     name: <name()>
     price: <randomFloat(2, 10, 100)>
