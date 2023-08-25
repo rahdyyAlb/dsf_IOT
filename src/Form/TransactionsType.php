@@ -15,10 +15,7 @@ class TransactionsType extends AbstractType
     {
         $builder
             ->add('transactions_date')
-            ->add('total_amount')
-            ->add('cash_amount')
-            ->add('card_amount')
-            ->add('cheque_amount');
+            ->add('total_amount');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

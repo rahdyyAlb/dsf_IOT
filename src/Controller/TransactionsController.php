@@ -22,7 +22,7 @@ class TransactionsController extends AbstractController
     public function index(TransactionsRepository $transactionsRepository, Request $request, PaginatorInterface $paginator): Response
     {
         // Récupérer la requête pour construire le QueryBuilder
-        $query = $transactionsRepository->createQueryBuilder('e')->getQuery();
+        $query = $transactionsRepository->createQueryBuilder('e')->orderBy('e.id', 'DESC')->getQuery();
 
         // Récupérer le numéro de page depuis la requête (par défaut, 1 si non spécifié)
         $page = $request->query->getInt('page', 1);

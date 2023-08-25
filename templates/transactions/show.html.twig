@@ -21,6 +21,9 @@
                     <tbody>
                     {% for product in transaction.products %}
                         <tr>
+                            <td>
+                                <img src="{{ asset('build/images/'  ~ product.img) }}" class="w-25" alt="{{ product.img }}">
+                            </td>
                             <td>{{ product.name }}</td>
                             <td>{{ product.price }}</td>
                         </tr>
@@ -37,18 +40,6 @@
                     <tr>
                         <th>Date de la transaction</th>
                         <td>{{ transaction.transactionsDate ? transaction.transactionsDate|date('Y-m-d H:i:s') : '' }}</td>
-                    </tr>
-                    <tr>
-                        <th>Montant en espèce</th>
-                        <td>{{ transaction.cashAmount }}</td>
-                    </tr>
-                    <tr>
-                        <th>Montant par carte</th>
-                        <td>{{ transaction.cardAmount }}</td>
-                    </tr>
-                    <tr>
-                        <th>Montant par chèque</th>
-                        <td>{{ transaction.chequeAmount }}</td>
                     </tr>
                     <tr>
                         <th>Montant total</th>
