@@ -76,7 +76,6 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for product in latestProducts %}
                                 <tr>
                                     <td>
                                         <div class="d-flex px-2 py-1">
@@ -99,7 +98,6 @@
                                         <span class="text-xs font-weight-bold">  </span>
                                     </td>
                                 </tr>
-                            {% endfor %}
                             </tbody>
                         </table>
                     </div>
@@ -107,8 +105,21 @@
             </div>
         </div>
     </div>
-    <form action="{{ path('app_validate_transaction') }}" method="post">
-        <button type="submit">Valider</button>
+
+    <ul>
+        {% for product in scannedProducts %}
+            <li>
+                <strong>{{ product.name }}</strong><br>
+                Prix : {{ product.price }} €<br>
+                Code-barres : {{ product.barCode }}<br>
+                <!-- Ajoutez d'autres détails du produit ici -->
+            </li>
+            <hr>
+        {% endfor %}
+    </ul>
+    <form action="{{ path('app_validate_transaction') }}" method="post" >
+        <button type="submit" class="btn-success bg-success btn w-15 h-25">Valider</button>
     </form>
-    {{ dump(productData) }}
+    {{ dump(transactions) }}
+    {{ dump(session) }}
 {% endblock %}
