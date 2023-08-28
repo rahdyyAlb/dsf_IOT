@@ -39,10 +39,13 @@ class HomeController extends AbstractController
         $latestProducts = $productsRepository->findBy([], ['id' => 'DESC'], 5);
         // Récupérer les 5 dernières transactions avec les IDs les plus grands
         $transactions = $transactionsRepository->findBy([], ['id' => 'DESC'], 5);
-        $barcode = 8076800195057;
+        $barcodes = [3228857000906, 8076800195057, 3045140105502];
+        $productData = [];
         $httpClient = HttpClient::create();
-        $response = $httpClient->request('GET', 'http://localhost:8000/api/products/'.$barcode);
-        $productData = $response->toArray();
+        foreach ($barcodes as $barcode) {
+            $response = $httpClient->request('GET', 'http://localhost:8000/api/products/'.$barcode);
+            $productData[] = $response->toArray();
+        }
         $session->getFlashBag()->add('scanned_product', $productData);
 
         return $this->render('home/index.html.twig', [
@@ -76,7 +79,7 @@ class HomeController extends AbstractController
             'name' => $product->getName(),
             'price' => $product->getPrice(),
             'img' => $product->getImg(),
-            'barcode ' => $product->getBarCode(),
+            'barcode' => $product->getBarCode(),
         ];
 
         return $this->json($productData);
@@ -97,12 +100,16 @@ class HomeController extends AbstractController
         $transaction->updateTotalAmount();
         $transaction->setCaisse($caisse);
         // Ajout des produits scannés à la transaction
-        foreach ($scannedProducts as $scannedProduct) {
-            // Recherche du produit dans la base de données par code-barres
-            $product = $productsRepository->findOneBy(['id' => $scannedProduct['id']]);
+        foreach ($scannedProducts as $scannedProductArray) {
+            foreach ($scannedProductArray as $scannedProduct) {
+                $barcode = $scannedProduct['barcode'];
 
-            if ($product) {
-                $transaction->addProduct($product);
+                // Recherche du produit dans la base de données par code-barres
+                $product = $productsRepository->findOneBy(['barCode' => $barcode]);
+
+                if ($product) {
+                    $transaction->addProduct($product);
+                }
             }
         }
         $entityManager->persist($transaction);
