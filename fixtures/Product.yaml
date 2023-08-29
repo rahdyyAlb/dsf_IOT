@@ -63,5 +63,5 @@ App\Entity\Products:
     name: Orangina 50 cl
     price: 1.59
     stockQuantity: <numberBetween(50, 200)>
-    barCode: 312480167026
+    barCode: 3124480167026
     img: orangina.jpeg

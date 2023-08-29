@@ -41,11 +41,15 @@ class Products
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $img = null;
 
+    #[ORM\OneToMany(mappedBy: 'cart', targetEntity: Panier::class)]
+    private Collection $paniers;
+
     public function __construct()
     {
         $this->categorieId = new ArrayCollection();
         $this->transactionItemes = new ArrayCollection();
         $this->transactions = new ArrayCollection();
+        $this->paniers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -193,6 +197,36 @@ class Products
     public function setImg(?string $img): static
     {
         $this->img = $img;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Panier>
+     */
+    public function getPaniers(): Collection
+    {
+        return $this->paniers;
+    }
+
+    public function addPanier(Panier $panier): static
+    {
+        if (!$this->paniers->contains($panier)) {
+            $this->paniers->add($panier);
+            $panier->setProducts($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanier(Panier $panier): static
+    {
+        if ($this->paniers->removeElement($panier)) {
+            // set the owning side to null (unless already changed)
+            if ($panier->getProducts() === $this) {
+                $panier->setProducts(null);
+            }
+        }
 
         return $this;
     }
