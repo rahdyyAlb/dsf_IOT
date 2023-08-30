@@ -23,7 +23,7 @@
                     {% for product in transaction.products %}
                         <tr>
                             <td>
-                                <img src="{{ asset('build/images/'  ~ product.img) }}" class="w-25" alt="{{ product.img }}">
+                                <img src="{{ asset('build/images/'  ~ product.img) }}" class="height-10 rounded" alt="{{ product.img }}">
                             </td>
                             <td>{{ product.name }}</td>
                             <td>{{ product.price }}</td>
@@ -51,11 +51,11 @@
                     </tbody>
                 </table>
 
-                <div class="align-items-center justify-content-between align-self-center">
-                    <a class="btn btn-secondary btn-small mt-3"
+                <div class="d-flex align-items-center justify-content-around align-self-center m-2">
+                    <a class="btn btn-warning btn-small mt-1 m-2"
                        href="{{ path('app_transactions_edit', {'id': transaction.id}) }}">Editer</a>
                     {{ include('transactions/_delete_form.html.twig') }}
-                    <a class="btn btn-warning btn-small mt-1" href="{{ path('app_transactions_index') }}">Retour</a>
+                    <a class="btn btn-secondary btn-small m-2" href="{{ path('app_transactions_index') }}">Retour</a>
                 </div>
             </div>
         </div>

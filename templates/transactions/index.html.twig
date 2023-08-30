@@ -44,15 +44,7 @@
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                     Montant total
                                 </th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                    Montant en espèce
-                                </th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                    Montant par carte
-                                </th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                    Montant par chèque
-                                </th>
+                               
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                     Actions
                                 </th>
@@ -81,23 +73,13 @@
                                         <span class="text-xs font-weight-bold"> {{ transaction.totalAmount }} </span>
                                     </td>
 
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="text-xs font-weight-bold"> {{ transaction.cashAmount }} </span>
-                                    </td>
 
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="text-xs font-weight-bold"> {{ transaction.cardAmount }} </span>
-                                    </td>
-
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="text-xs font-weight-bold"> {{ transaction.chequeAmount }} </span>
-                                    </td>
 
                                     <td class="align-middle text-center text-sm">
                                         <a class="btn btn-dark btn-small"
-                                           href="{{ path('app_transactions_show', {'id': transaction.id}) }}">show</a>
+                                           href="{{ path('app_transactions_show', {'id': transaction.id}) }}">Info</a>
                                         <a class="btn btn-info btn-small"
-                                           href="{{ path('app_transactions_edit', {'id': transaction.id}) }}">edit</a>
+                                           href="{{ path('app_transactions_edit', {'id': transaction.id}) }}">Editer</a>
                                     </td>
                                 </tr>
                             {% else %}
@@ -107,7 +89,7 @@
                             {% endfor %}
                             </tbody>
                         </table>
-                        <a class="btn btn-success" href="{{ path('app_transactions_new') }}">Create new</a>
+                        <a class="btn btn-success" href="{{ path('app_transactions_new') }}">Créer transaction</a>
                         <div class="d-flex justify-content-center">
                             {{ knp_pagination_render(transactions) }}
                         </div>
