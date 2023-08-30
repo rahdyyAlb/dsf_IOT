@@ -26,25 +26,56 @@ class HomeController extends AbstractController
     {
         $User = $this->getUser();
         $id = $User->getId();
+        $currentUser = $session->get('User');
 
         // Récupérer tous les éléments du panier associés à l'utilisateur actuel
-        $panierItems = $panierRepository->findAll();
+        $panierItems = $panierRepository->findAll(); // Supposant que le champ qui relie l'utilisateur aux éléments du panier est 'user'
+
+        $productsInPanier = [];
+
+        foreach ($panierItems as $panierItem) {
+            $product = $panierItem->getProducts();
+
+            $productData = [
+                'id' => $product->getId(),
+                'name' => $product->getName(),
+                'price' => $product->getPrice(),
+                'img' => $product->getImg(),
+                'barcode' => $product->getBarCode(),
+            ];
+
+            $productsInPanier[] = $productData;
+        }
 
         return $this->render('home/index.html.twig', [
             'User' => $User,
             'id' => $id,
-            'panierItems' => $panierItems, // Passer les éléments du panier à la vue
+            'panierItems' => $panierItems,
+            'currentUser' => $currentUser,
+            'productsInPanier' => $productsInPanier, // Passer les produits dans le panier à la vue
+            'session' => $session,
         ]);
     }
 
     #[Route('/api/products/{barcode}', methods: ['GET'])]
     public function getProductByBarcode($barcode, ProductsRepository $productsRepository, SessionInterface $session, EntityManagerInterface $entityManager)
     {
+        $user = $this->getUser();
+
         $product = $productsRepository->findOneBy(['barCode' => $barcode]);
 
         if (!$product) {
             return new JsonResponse(['message' => 'Product not found'], 404);
         }
+
+        // Créer un nouvel élément de panier et le configurer
+        $panierItem = new Panier();
+        $panierItem->setUser($user); // Associer l'utilisateur à l'élément du panier
+        $panierItem->setProducts($product); // Associer le produit à l'élément du panier
+
+        // Persistez l'élément du panier et enregistrez-le dans la base de données
+        $entityManager->persist($panierItem);
+        $entityManager->flush();
 
         // Convertir l'objet Product en un tableau pour le renvoyer en JSON
         $productData = [
@@ -54,11 +85,6 @@ class HomeController extends AbstractController
             'img' => $product->getImg(),
             'barcode' => $product->getBarCode(),
         ];
-
-        $panierItem = new Panier();
-        $panierItem->setProducts($product);
-        $entityManager->persist($panierItem);
-        $entityManager->flush();
 
         return $this->json($productData);
     }

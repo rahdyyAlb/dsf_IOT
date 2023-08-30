@@ -65,3 +65,33 @@ App\Entity\Products:
     stockQuantity: <numberBetween(50, 200)>
     barCode: 3124480167026
     img: orangina.jpeg
+  Product{12}:
+    name: Volvic fraise 1.5L
+    price: 1.59
+    stockQuantity: <numberBetween(50, 200)>
+    barCode: 3057640467233
+    img: eau-juicy-fraise.jpg
+  Product{13}:
+    name: Evian 1L
+    price: 2.59
+    stockQuantity: <numberBetween(50, 200)>
+    barCode: 3068320080000
+    img: evian.jpeg
+  Product{14}:
+    name: Hollywood 2fresh
+    price: 2.59
+    stockQuantity: <numberBetween(50, 200)>
+    barCode: 30067608
+    img: hollywood.jpeg
+  Product{15}:
+    name: Paille d'or
+    price: 3.59
+    stockQuantity: <numberBetween(50, 200)>
+    barCode: 7622210422163
+    img: lu.jpeg
+  Product{16}:
+    name: Lulu L'ourson
+    price: 3.60
+    stockQuantity: <numberBetween(50, 200)>
+    barCode: 3048282322646
+    img: lulu.webp
