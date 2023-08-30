@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Utilisateur{% endblock %}
+{% block title %}Utilisateurs{% endblock %}
 
 {% block body %}
     <div class="d-flex justify-content-end">
@@ -11,7 +11,7 @@
                 <div class="card-header pb-0">
                     <div class="row">
                         <div>
-                            <h1 class="centered width-100">Utilisateur</h1>
+                            <h1 class="centered width-100">Utilisateurs</h1>
                         </div>
 
                         <div class="col-lg-6 col-5 my-auto text-end">
@@ -102,9 +102,9 @@
                                     </td>
                                     <td>
                                         <a class="btn btn-dark btn-small"
-                                           href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
+                                           href="{{ path('app_user_show', {'id': user.id}) }}">Info</a>
                                         <a class="btn btn-info btn-small"
-                                           href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+                                           href="{{ path('app_user_edit', {'id': user.id}) }}">Editer</a>
                                     </td>
                                 </tr>
                             {% else %}
@@ -114,7 +114,7 @@
                             {% endfor %}
                             </tbody>
                         </table>
-                        <a class="btn btn-success" href="{{ path('app_user_new') }}">Créer caisse</a>
+                        <a class="btn btn-success" href="{{ path('app_user_new') }}">Créer client</a>
                     </div>
                 </div>
             </div>
