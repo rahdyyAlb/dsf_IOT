@@ -21,6 +21,9 @@ class Panier
     #[ORM\ManyToOne(inversedBy: 'paniers')]
     private ?User $user = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $quantity = 1;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,6 +49,18 @@ class Panier
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(?int $quantity): static
+    {
+        $this->quantity = $quantity;
 
         return $this;
     }

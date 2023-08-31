@@ -9,7 +9,6 @@ use App\Entity\Transactions;
 use App\Entity\User;
 use App\Repository\PanierRepository;
 use App\Repository\ProductsRepository;
-use App\Repository\TransactionsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,16 +21,16 @@ class HomeController extends AbstractController
 {
     #[Route('/home/{id}', name: 'app_home', methods: ['GET'])]
     #[ParamConverter('user', User::class)]
-    public function index(TransactionsRepository $transactionsRepository, PanierRepository $panierRepository, ProductsRepository $productsRepository, SessionInterface $session, User $user): Response
+    public function index(EntityManagerInterface $entityManager, PanierRepository $panierRepository, SessionInterface $session): Response
     {
         $User = $this->getUser();
         $id = $User->getId();
         $currentUser = $session->get('User');
+        $panierRepository->updatePanierQuantities($entityManager);
+        $productsInPaniers = [];
 
         // Récupérer tous les éléments du panier associés à l'utilisateur actuel
         $panierItems = $panierRepository->findAll(); // Supposant que le champ qui relie l'utilisateur aux éléments du panier est 'user'
-
-        $productsInPanier = [];
 
         foreach ($panierItems as $panierItem) {
             $product = $panierItem->getProducts();
@@ -44,7 +43,7 @@ class HomeController extends AbstractController
                 'barcode' => $product->getBarCode(),
             ];
 
-            $productsInPanier[] = $productData;
+            $productsInPaniers[] = $productData;
         }
 
         return $this->render('home/index.html.twig', [
@@ -52,7 +51,7 @@ class HomeController extends AbstractController
             'id' => $id,
             'panierItems' => $panierItems,
             'currentUser' => $currentUser,
-            'productsInPanier' => $productsInPanier, // Passer les produits dans le panier à la vue
+            'productsInPanier' => $productsInPaniers,
             'session' => $session,
         ]);
     }
@@ -90,7 +89,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/api/validate-transaction', name: 'app_validate_transaction', methods: ['POST'])]
-    public function validateTransaction(EntityManagerInterface $entityManager, ProductsRepository $productsRepository, SessionInterface $session)
+    public function validateTransaction(EntityManagerInterface $entityManager, PanierRepository $panierRepository, SessionInterface $session): Response
     {
         $user = $this->getUser();
         $scannedProducts = $session->getFlashBag()->get('scanned_product', []);
@@ -98,34 +97,31 @@ class HomeController extends AbstractController
         // Récupérer l'instance de la caisse associée à l'utilisateur
         $caisse = $user->getCaisse();
 
+        // Créer une nouvelle transaction
         $transaction = new Transactions();
-
         $transaction->setTransactionsDate(new \DateTime('now'));
-        $transaction->updateTotalAmount();
         $transaction->setCaisse($caisse);
-        // Ajout des produits scannés à la transaction
-        $panierItems = $entityManager->getRepository(Panier::class);
+
+        // Récupérer les éléments du panier associés à l'utilisateur
+        $panierItems = $panierRepository->findAll();
+
         foreach ($panierItems as $panierItem) {
-            $product = $panierItem->getProduit();
+            $product = $panierItem->getProducts();
+
+            // Ajouter le produit à la transaction
             $transaction->addProduct($product);
 
-            // Supprimer le produit du panier après l'ajout à la transaction
+            // Supprimer l'élément du panier
             $entityManager->remove($panierItem);
         }
 
-        // Enregistrer la transaction
+        // Enregistrer la transaction et vider le panier
         $entityManager->persist($transaction);
-        $entityManager->flush();
-
-        // Vider la table Panier pour l'utilisateur actuel
-        foreach ($panierItems as $panierItem) {
-            $entityManager->remove($panierItem);
-        }
         $entityManager->flush();
 
         $session->getFlashBag()->set('scanned_product', []);
 
-        $id = $this->getUser()->getId();
+        $id = $user->getId();
         $this->addFlash('success', 'La transaction a été validée avec succès.');
 
         return $this->redirectToRoute('app_home', ['id' => $id]);
