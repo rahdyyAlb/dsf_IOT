@@ -71,6 +71,10 @@ body {
     background-color: transparent;
 }
 
+th {
+    min-width: 75px;
+}
+
 /* ----------------- LABEL FORM PRODUIT  -----------------*/
 #products > div{
     display: flex;
