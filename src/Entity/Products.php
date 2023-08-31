@@ -26,7 +26,7 @@ class Products
     #[ORM\Column]
     private ?int $stockQuantity = null;
 
-    #[ORM\OneToMany(mappedBy: 'products', targetEntity: categories::class)]
+    #[ORM\OneToMany(mappedBy: 'products', targetEntity: Categories::class)]
     private Collection $categorieId;
 
     #[ORM\ManyToMany(targetEntity: TransactionIteme::class, mappedBy: 'product_id')]
