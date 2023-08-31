@@ -23,7 +23,9 @@
                     {% for product in transaction.products %}
                         <tr>
                             <td>
-                                <img src="{{ asset('build/images/'  ~ product.img) }}" class="height-10 rounded" alt="{{ product.img }}">
+                                <div class="img-box">
+                                    <img src="{{ asset('build/images/'  ~ product.img) }}" class=" rounded" alt="{{ product.img }}">
+                                </div>
                             </td>
                             <td>{{ product.name }}</td>
                             <td>{{ product.price }}</td>
