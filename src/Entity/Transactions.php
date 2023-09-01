@@ -14,263 +14,263 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks()]
 class Transactions
 {
-	#[ORM\Id]
-	#[ORM\GeneratedValue]
-	#[ORM\Column]
-	private ?int $id = null;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-	#[ORM\OneToMany(mappedBy: 'transactions', targetEntity: Customers::class)]
-	private Collection $custumerId;
+    #[ORM\OneToMany(mappedBy: 'transactions', targetEntity: Customers::class)]
+    private Collection $custumerId;
 
-	#[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-	private ?\DateTimeInterface $transactionsDate = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $transactionsDate = null;
 
-	#[ORM\Column]
-	private ?float $totalAmount = null;
+    #[ORM\Column]
+    private ?float $totalAmount = null;
 
-	#[ORM\Column(nullable: true)]
-	private ?float $cashAmount = null;
+    #[ORM\Column(nullable: true)]
+    private ?float $cashAmount = null;
 
-	#[ORM\Column(nullable: true)]
-	private ?float $cardAmount = null;
+    #[ORM\Column(nullable: true)]
+    private ?float $cardAmount = null;
 
-	#[ORM\Column(nullable: true)]
-	private ?float $chequeAmount = null;
+    #[ORM\Column(nullable: true)]
+    private ?float $chequeAmount = null;
 
-	#[ORM\ManyToOne(inversedBy: 'transactions')]
-	private ?Caisse $caisse = null;
+    #[ORM\ManyToOne(inversedBy: 'transactions')]
+    private ?Caisse $caisse = null;
 
-	#[ORM\OneToMany(mappedBy: 'transaction', targetEntity: TransactionsProducts::class, cascade: ['persist'])]
-	private Collection $transactionsProducts;
+    #[ORM\OneToMany(mappedBy: 'transaction', targetEntity: TransactionsProducts::class, cascade: ['persist'])]
+    private Collection $transactionsProducts;
 
-	public function __construct ()
-	{
-		$this->custumerId = new ArrayCollection();
-		$this->products = new ArrayCollection();
-		$this->transactionsProducts = new ArrayCollection();
-	}
+    public function __construct()
+    {
+        $this->custumerId = new ArrayCollection();
+        $this->products = new ArrayCollection();
+        $this->transactionsProducts = new ArrayCollection();
+    }
 
-	/**
-	 * @return Collection<int, Customers>
-	 */
-	public function getCustumerId (): Collection
-	{
-		return $this->custumerId;
-	}
+    /**
+     * @return Collection<int, Customers>
+     */
+    public function getCustumerId(): Collection
+    {
+        return $this->custumerId;
+    }
 
-	public function addCustumerId (Customers $custumerId): static
-	{
-		if (!$this->custumerId->contains($custumerId)) {
-			$this->custumerId->add($custumerId);
-			$custumerId->setTransactions($this);
-		}
+    public function addCustumerId(Customers $custumerId): static
+    {
+        if (!$this->custumerId->contains($custumerId)) {
+            $this->custumerId->add($custumerId);
+            $custumerId->setTransactions($this);
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function removeCustumerId (Customers $custumerId): static
-	{
-		if ($this->custumerId->removeElement($custumerId)) {
-			// set the owning side to null (unless already changed)
-			if ($custumerId->getTransactions() === $this) {
-				$custumerId->setTransactions(null);
-			}
-		}
+    public function removeCustumerId(Customers $custumerId): static
+    {
+        if ($this->custumerId->removeElement($custumerId)) {
+            // set the owning side to null (unless already changed)
+            if ($custumerId->getTransactions() === $this) {
+                $custumerId->setTransactions(null);
+            }
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function getTransactionsDate (): ?\DateTimeInterface
-	{
-		return $this->transactionsDate;
-	}
+    public function getTransactionsDate(): ?\DateTimeInterface
+    {
+        return $this->transactionsDate;
+    }
 
-	public function setTransactionsDate (\DateTimeInterface $transactionsDate): static
-	{
-		if ($transactionsDate !== null) {
-			$this->transactionsDate = $transactionsDate;
-		}
-		$this->transactionsDate = new \DateTime('now');
+    public function setTransactionsDate(\DateTimeInterface $transactionsDate): static
+    {
+        if ($transactionsDate !== null) {
+            $this->transactionsDate = $transactionsDate;
+        }
+        $this->transactionsDate = new \DateTime('now');
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function getTotalAmount (): ?float
-	{
-		return $this->totalAmount;
-	}
+    public function getTotalAmount(): ?float
+    {
+        return $this->totalAmount;
+    }
 
-	#[ORM\PrePersist]
-	#[ORM\PreUpdate]
-	public function updateTotalAmount (): void
-	{
-		$this->totalAmount = $this->calculateTotalAmount();
-	}
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function updateTotalAmount(): void
+    {
+        $this->totalAmount = $this->calculateTotalAmount();
+    }
 
-	private function calculateTotalAmount (): float
-	{
-		$totalAmount = 0.0;
+    /**
+     * @return Collection<int, TransactionsProducts>
+     */
+    public function getTransactionsProducts(): Collection
+    {
+        return $this->transactionsProducts;
+    }
 
-		/** @var Collection $transactionProducts */
-		$transactionProducts = $this->getTransactionsProducts();
+    /**
+     * @return Collection<int, Products>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
 
-		foreach ($transactionProducts as $transactionProduct) {
-			$product = $transactionProduct->getProduct();
-			$quantity = $transactionProduct->getQuantity();
-			$totalAmount += ($product->getPrice() * $quantity);
-		}
+    public function getCardAmount(): ?float
+    {
+        return $this->cardAmount;
+    }
 
-		return $totalAmount;
-	}
+    public function setCardAmount(?float $cardAmount): static
+    {
+        $this->cardAmount = $cardAmount;
 
-	/**
-	 * @return Collection<int, TransactionsProducts>
-	 */
-	public function getTransactionsProducts (): Collection
-	{
-		return $this->transactionsProducts;
-	}
+        return $this;
+    }
 
-	/**
-	 * @return Collection<int, Products>
-	 */
-	public function getProducts (): Collection
-	{
-		return $this->products;
-	}
+    public function getChequeAmount(): ?float
+    {
+        return $this->chequeAmount;
+    }
 
-	public function getCardAmount (): ?float
-	{
-		return $this->cardAmount;
-	}
+    public function setChequeAmount(?float $chequeAmount): static
+    {
+        $this->chequeAmount = $chequeAmount;
 
-	public function setCardAmount (?float $cardAmount): static
-	{
-		$this->cardAmount = $cardAmount;
+        return $this;
+    }
 
-		return $this;
-	}
+    public function calculateCashAmount(): float
+    {
+        $cashAmount = 0.0;
 
-	public function getChequeAmount (): ?float
-	{
-		return $this->chequeAmount;
-	}
+        foreach ($this->custumerId as $customer) {
+            // Assuming the method for getting cash amount from the customer entity is 'getCashAmount()'
+            $customerCashAmount = $customer->getCashAmount();
+            if ($customerCashAmount !== null) {
+                $cashAmount += $customerCashAmount;
+            }
+        }
 
-	public function setChequeAmount (?float $chequeAmount): static
-	{
-		$this->chequeAmount = $chequeAmount;
+        return $cashAmount;
+    }
 
-		return $this;
-	}
+    public function getCashAmount(): ?float
+    {
+        return $this->cashAmount;
+    }
 
-	public function calculateCashAmount (): float
-	{
-		$cashAmount = 0.0;
+    public function setCashAmount(?float $cashAmount): static
+    {
+        $this->cashAmount = $cashAmount;
 
-		foreach ($this->custumerId as $customer) {
-			// Assuming the method for getting cash amount from the customer entity is 'getCashAmount()'
-			$customerCashAmount = $customer->getCashAmount();
-			if ($customerCashAmount !== null) {
-				$cashAmount += $customerCashAmount;
-			}
-		}
+        return $this;
+    }
 
-		return $cashAmount;
-	}
+    public function getCaisse(): ?Caisse
+    {
+        return $this->caisse;
+    }
 
-	public function getCashAmount (): ?float
-	{
-		return $this->cashAmount;
-	}
+    public function setCaisse(?Caisse $caisse): static
+    {
+        $this->caisse = $caisse;
 
-	public function setCashAmount (?float $cashAmount): static
-	{
-		$this->cashAmount = $cashAmount;
+        return $this;
+    }
 
-		return $this;
-	}
+    public function addProduct(Products $product): static
+    {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+        }
 
-	public function getCaisse (): ?Caisse
-	{
-		return $this->caisse;
-	}
+        return $this;
+    }
 
-	public function setCaisse (?Caisse $caisse): static
-	{
-		$this->caisse = $caisse;
+    public function removeProduct(Products $product): static
+    {
+        $this->products->removeElement($product);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function addProduct (Products $product): static
-	{
-		if (!$this->products->contains($product)) {
-			$this->products->add($product);
-		}
+    public function addProductWithQuantity(Products $product, int $quantity): self
+    {
+        $transactionProduct = new TransactionsProducts();
+        $transactionProduct->setTransaction($this);
+        $transactionProduct->setProduct($product);
+        $transactionProduct->setQuantity($quantity);
 
-		return $this;
-	}
+        $this->addTransactionsProduct($transactionProduct);
 
-	public function removeProduct (Products $product): static
-	{
-		$this->products->removeElement($product);
+        return $this;
+    }
 
-		return $this;
-	}
+    public function addTransactionsProduct(TransactionsProducts $transactionsProduct): static
+    {
+        if (!$this->transactionsProducts->contains($transactionsProduct)) {
+            $this->transactionsProducts->add($transactionsProduct);
+            $transactionsProduct->setTransaction($this);
+        }
 
-	public function addProductWithQuantity (Products $product, int $quantity): self
-	{
-		$transactionProduct = new TransactionsProducts();
-		$transactionProduct->setTransaction($this);
-		$transactionProduct->setProduct($product);
-		$transactionProduct->setQuantity($quantity);
+        return $this;
+    }
 
-		$this->addTransactionsProduct($transactionProduct);
+    public function removeTransactionsProduct(TransactionsProducts $transactionsProduct): static
+    {
+        if ($this->transactionsProducts->removeElement($transactionsProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($transactionsProduct->getTransaction() === $this) {
+                $transactionsProduct->setTransaction(null);
+            }
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function addTransactionsProduct (TransactionsProducts $transactionsProduct): static
-	{
-		if (!$this->transactionsProducts->contains($transactionsProduct)) {
-			$this->transactionsProducts->add($transactionsProduct);
-			$transactionsProduct->setTransaction($this);
-		}
+    public function calculateItemTotals(): array
+    {
+        $itemTotals = [];
 
-		return $this;
-	}
+        /** @var TransactionsProducts $transactionProduct */
+        foreach ($this->getTransactionsProducts() as $transactionProduct) {
+            $product = $transactionProduct->getProduct();
+            $quantity = $transactionProduct->getQuantity();
+            $price = $product->getUnitPrice();
+            $itemTotal = $quantity * $price;
 
-	public function removeTransactionsProduct (TransactionsProducts $transactionsProduct): static
-	{
-		if ($this->transactionsProducts->removeElement($transactionsProduct)) {
-			// set the owning side to null (unless already changed)
-			if ($transactionsProduct->getTransaction() === $this) {
-				$transactionsProduct->setTransaction(null);
-			}
-		}
+            $itemTotals[$product->getId()] = $itemTotal;
+        }
 
-		return $this;
-	}
+        return $itemTotals;
+    }
 
-	public function calculateItemTotals (): array
-	{
-		$itemTotals = [];
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-		/** @var TransactionsProducts $transactionProduct */
-		foreach ($this->getTransactionsProducts() as $transactionProduct) {
-			$product = $transactionProduct->getProduct();
-			$quantity = $transactionProduct->getQuantity();
-			$price = $product->getUnitPrice();
-			$itemTotal = $quantity * $price;
+    private function calculateTotalAmount(): float
+    {
+        $totalAmount = 0.0;
 
-			$itemTotals[$product->getId()] = $itemTotal;
-		}
+        /** @var Collection $transactionProducts */
+        $transactionProducts = $this->getTransactionsProducts();
 
-		return $itemTotals;
-	}
+        foreach ($transactionProducts as $transactionProduct) {
+            $product = $transactionProduct->getProduct();
+            $quantity = $transactionProduct->getQuantity();
+            $totalAmount += ($product->getPrice() * $quantity);
+        }
 
-	public function getId (): ?int
-	{
-		return $this->id;
-	}
+        return $totalAmount;
+    }
 }

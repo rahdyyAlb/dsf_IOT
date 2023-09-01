@@ -11,17 +11,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CategoriesType extends AbstractType
 {
-	public function buildForm (FormBuilderInterface $builder, array $options): void
-	{
-		$builder
-			->add('name')
-			->add('products');
-	}
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('name')
+            ->add('products');
+    }
 
-	public function configureOptions (OptionsResolver $resolver): void
-	{
-		$resolver->setDefaults([
-			'data_class' => Categories::class,
-		]);
-	}
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Categories::class,
+        ]);
+    }
 }

@@ -11,20 +11,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomersType extends AbstractType
 {
-	public function buildForm (FormBuilderInterface $builder, array $options): void
-	{
-		$builder
-			->add('name')
-			->add('email')
-			->add('phone')
-			->add('address')
-			->add('transactions');
-	}
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('name')
+            ->add('email')
+            ->add('phone')
+            ->add('address')
+            ->add('transactions');
+    }
 
-	public function configureOptions (OptionsResolver $resolver): void
-	{
-		$resolver->setDefaults([
-			'data_class' => Customers::class,
-		]);
-	}
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Customers::class,
+        ]);
+    }
 }
