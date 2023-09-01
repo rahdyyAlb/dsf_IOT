@@ -107,13 +107,16 @@ class HomeController extends AbstractController
 
         foreach ($panierItems as $panierItem) {
             $product = $panierItem->getProducts();
+            $quantity = $panierItem->getQuantity(); // Assurez-vous que vous avez cette propriété dans votre entité Panier
 
-            // Ajouter le produit à la transaction
-            $transaction->addProduct($product);
+            // Ajouter le produit à la transaction avec la quantité
+            $transaction->addProductWithQuantity($product, $quantity);
 
             // Supprimer l'élément du panier
             $entityManager->remove($panierItem);
         }
+
+        $transaction->updateTotalAmount();
 
         // Enregistrer la transaction et vider le panier
         $entityManager->persist($transaction);

@@ -37,20 +37,18 @@ class Transactions
     #[ORM\Column(nullable: true)]
     private ?float $chequeAmount = null;
 
-    #[ORM\ManyToMany(targetEntity: TransactionIteme::class, mappedBy: 'transactionId')]
-    private Collection $transactionItemes;
-
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     private ?Caisse $caisse = null;
 
-    #[ORM\ManyToMany(targetEntity: Products::class, inversedBy: 'transactions')]
-    private Collection $products;
+    #[ORM\OneToMany(mappedBy: 'transaction', targetEntity: TransactionsProducts::class, cascade: ['persist'])]
+
+    private Collection $transactionsProducts;
 
     public function __construct()
     {
         $this->custumerId = new ArrayCollection();
-        $this->transactionItemes = new ArrayCollection();
         $this->products = new ArrayCollection();
+        $this->transactionsProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -174,33 +172,6 @@ class Transactions
         return $this;
     }
 
-    /**
-     * @return Collection<int, TransactionIteme>
-     */
-    public function getTransactionItemes(): Collection
-    {
-        return $this->transactionItemes;
-    }
-
-    public function addTransactionIteme(TransactionIteme $transactionIteme): static
-    {
-        if (!$this->transactionItemes->contains($transactionIteme)) {
-            $this->transactionItemes->add($transactionIteme);
-            $transactionIteme->addTransactionId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTransactionIteme(TransactionIteme $transactionIteme): static
-    {
-        if ($this->transactionItemes->removeElement($transactionIteme)) {
-            $transactionIteme->removeTransactionId($this);
-        }
-
-        return $this;
-    }
-
     public function getCaisse(): ?Caisse
     {
         return $this->caisse;
@@ -229,15 +200,59 @@ class Transactions
         return $this;
     }
 
+    /**
+     * @return Collection<int, TransactionsProducts>
+     */
+    public function getTransactionsProducts(): Collection
+    {
+        return $this->transactionsProducts;
+    }
+
+    public function addTransactionsProduct(TransactionsProducts $transactionsProduct): static
+    {
+        if (!$this->transactionsProducts->contains($transactionsProduct)) {
+            $this->transactionsProducts->add($transactionsProduct);
+            $transactionsProduct->setTransaction($this);
+        }
+
+        return $this;
+    }
+
+    public function addProductWithQuantity(Products $product, int $quantity): self
+    {
+        $transactionProduct = new TransactionsProducts();
+        $transactionProduct->setTransaction($this);
+        $transactionProduct->setProduct($product);
+        $transactionProduct->setQuantity($quantity);
+
+        $this->addTransactionsProduct($transactionProduct);
+
+        return $this;
+    }
+
+    public function removeTransactionsProduct(TransactionsProducts $transactionsProduct): static
+    {
+        if ($this->transactionsProducts->removeElement($transactionsProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($transactionsProduct->getTransaction() === $this) {
+                $transactionsProduct->setTransaction(null);
+            }
+        }
+
+        return $this;
+    }
+
     private function calculateTotalAmount(): float
     {
         $totalAmount = 0.0;
 
-        /** @var Collection $products */
-        $products = $this->getProducts();
+        /** @var Collection $transactionProducts */
+        $transactionProducts = $this->getTransactionsProducts();
 
-        foreach ($products as $product) {
-            $totalAmount += $product->getPrice();
+        foreach ($transactionProducts as $transactionProduct) {
+            $product = $transactionProduct->getProduct();
+            $quantity = $transactionProduct->getQuantity();
+            $totalAmount += ($product->getPrice() * $quantity);
         }
 
         return $totalAmount;
