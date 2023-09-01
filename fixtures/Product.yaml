@@ -1,97 +1,97 @@
 App\Entity\Products:
   Product{1}:
     name: Coca-Cola
-    price: 1.59
+    unitPrice: 1.59
     stockQuantity: <numberBetween(50, 200)>
     barCode: 5449000130389
     img: cocaCola.png
   Product{2}:
     name: Prince Chocolat biscuits
-    price: 2.59
+    unitPrice: 2.59
     stockQuantity: <numberBetween(50, 200)>
     barCode: 7622210449283
     img: prince.webp
   Product{3}:
     name: NESTLE NESQUIK Céréales 450g - 450 g
-    price: 4.59
+    unitPrice: 4.59
     stockQuantity: <numberBetween(50, 200)>
     barCode: 7613035144699
     img: nesquik.jpg
   Product{4}:
     name: Granola - L'original - chocolat au lait - LU - 200 g
-    price: 2.79
+    unitPrice: 2.79
     stockQuantity: <numberBetween(50, 200)>
     barCode: 7622210601988
     img: granola.jpg
   Product{5}:
     name: Spaghetti n.5 - Barilla - 500 g
-    price: 2.40
+    unitPrice: 2.40
     stockQuantity: <numberBetween(50, 200)>
     barCode: 8076800195057
     img: Spaghetti.jpg
   Product{6}:
     name: Napolitain - L'original - LU - 180 g (6 x 30 g)
-    price: 3.60
+    unitPrice: 3.60
     stockQuantity: <numberBetween(50, 200)>
     barCode: 7622201809638
     img: napolitain.jpg
   Product{7}:
     name: Alpine Milk - Milka - 100 g
-    price: 2.90
+    unitPrice: 2.90
     stockQuantity: <numberBetween(50, 200)>
     barCode: 3045140105502
     img: milka.jpg
   Product{8}:
     name: Pain AMS complet - Harrys - 600 g
-    price: 2.59
+    unitPrice: 2.59
     stockQuantity: <numberBetween(50, 200)>
     barCode: 3228857000906
     img: harrys.jpg
   Product{9}:
     name: Céréales Chocapic - Nestlé - 430 g
-    price: 3.99
+    unitPrice: 3.99
     stockQuantity: <numberBetween(50, 200)>
     barCode: 7613034626844
     img: chocapic.jpg
   Product{10}:
     name: Nutella - Ferrero - 400 g
-    price: 4.59
+    unitPrice: 4.59
     stockQuantity: <numberBetween(50, 200)>
     barCode: 3017620422003
     img: nutella.jpg
   Product{11}:
     name: Orangina 50 cl
-    price: 1.59
+    unitPrice: 1.59
     stockQuantity: <numberBetween(50, 200)>
     barCode: 3124480167026
     img: orangina.jpeg
   Product{12}:
     name: Volvic fraise 1.5L
-    price: 1.59
+    unitPrice: 1.59
     stockQuantity: <numberBetween(50, 200)>
     barCode: 3057640467233
     img: eau-juicy-fraise.jpg
   Product{13}:
     name: Evian 1L
-    price: 2.59
+    unitPrice: 2.59
     stockQuantity: <numberBetween(50, 200)>
     barCode: 3068320080000
     img: evian.jpeg
   Product{14}:
     name: Hollywood 2fresh
-    price: 2.59
+    unitPrice: 2.59
     stockQuantity: <numberBetween(50, 200)>
     barCode: 30067608
     img: hollywood.jpeg
   Product{15}:
     name: Paille d'or
-    price: 3.59
+    unitPrice: 3.59
     stockQuantity: <numberBetween(50, 200)>
     barCode: 7622210422163
     img: lu.jpeg
   Product{16}:
     name: Lulu L'ourson
-    price: 3.60
+    unitPrice: 3.60
     stockQuantity: <numberBetween(50, 200)>
     barCode: 3048282322646
     img: lulu.webp
