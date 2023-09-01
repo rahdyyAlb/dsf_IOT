@@ -100,11 +100,11 @@ class Transactions
         return $this->totalAmount;
     }
 
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function updateTotalAmount(): void
+    public function setTotalAmount(?float $totalAmount): static
     {
-        $this->totalAmount = $this->calculateTotalAmount();
+        $this->totalAmount = $totalAmount;
+
+        return $this;
     }
 
     /**
@@ -257,25 +257,4 @@ class Transactions
     {
         return $this->id;
     }
-
-    private function calculateTotalAmount(): float
-    {
-        $totalAmount = 0.0;
-
-        /** @var Collection $transactionProducts */
-        $transactionProducts = $this->getTransactionsProducts();
-
-        foreach ($transactionProducts as $transactionProduct) {
-            $product = $transactionProduct->getProduct();
-            $quantity = $transactionProduct->getQuantity();
-            $totalAmount += ($product->getPrice() * $quantity);
-        }
-
-        return $totalAmount;
-    }
-
-	public setTotalAmount($totalAmount)
-	{
-
-}
 }
