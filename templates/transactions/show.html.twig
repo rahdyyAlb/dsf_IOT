@@ -15,22 +15,27 @@
                     <tr>
                         <th>Image</th>
                         <th>Nom du produit</th>
-                        <th>Prix</th>
+                        <th>Prix unitaire</th>
                         <th>Quantité</th>
+                        <th>Prix</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for transactionProduct in transaction.getTransactionsProducts() %}
                         <tr>
                             <td>
-<div class="img-box">
-                                <img src="{{ asset('build/images/' ~ transactionProduct.getProduct().getImg()) }}" class=" rounded" alt="{{ transactionProduct.getProduct().getImg() }}">
-                            </div>
+                                <div class="img-box">
+                                    <img src="{{ asset('build/images/' ~ transactionProduct.getProduct().getImg()) }}"
+                                         class=" rounded" alt="{{ transactionProduct.getProduct().getImg() }}">
+                                </div>
                             </td>
                             <td>{{ transactionProduct.getProduct().getName() }}</td>
-                            <td>{{ transactionProduct.getProduct().getPrice() }}</td>
+                            <td>{{ transactionProduct.getProduct().getUnitPrice() }}</td>
                             <td>
                                 {{ transactionProduct.getQuantity() }}
+                            </td>
+                            <td>
+                                {{ transactionProduct.calculateTotalPrice() }} {# Appel de la méthode pour calculer le prix total #}
                             </td>
                         </tr>
                     {% endfor %}

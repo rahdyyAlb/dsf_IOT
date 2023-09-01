@@ -21,57 +21,57 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class UserAuthenticator extends AbstractLoginFormAuthenticator
 {
-    use TargetPathTrait;
+	use TargetPathTrait;
 
-    public const LOGIN_ROUTE = 'app_login';
+	public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
-    {
-    }
+	public function __construct (private UrlGeneratorInterface $urlGenerator)
+	{
+	}
 
-    public function authenticate(Request $request): Passport
-    {
-        $email = $request->request->get('email', '');
+	public function authenticate (Request $request): Passport
+	{
+		$email = $request->request->get('email', '');
 
-        $request->getSession()->set(Security::LAST_USERNAME, $email);
+		$request->getSession()->set(Security::LAST_USERNAME, $email);
 
-        return new Passport(
-            new UserBadge($email),
-            new PasswordCredentials($request->request->get('password', '')),
-            [
-                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
-                new RememberMeBadge(),
-            ]
-        );
-    }
+		return new Passport(
+			new UserBadge($email),
+			new PasswordCredentials($request->request->get('password', '')),
+			[
+				new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
+				new RememberMeBadge(),
+			]
+		);
+	}
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
-    {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
-            return new RedirectResponse($targetPath);
-        }
+	public function onAuthenticationSuccess (Request $request, TokenInterface $token, string $firewallName): ?Response
+	{
+		if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
+			return new RedirectResponse($targetPath);
+		}
 
-        // Récupérer l'utilisateur actuellement connecté
-        $user = $token->getUser();
+		// Récupérer l'utilisateur actuellement connecté
+		$user = $token->getUser();
 
-        if ($user instanceof User) {
-            // Récupérer l'identifiant de l'utilisateur
-            $id = $user->getId();
+		if ($user instanceof User) {
+			// Récupérer l'identifiant de l'utilisateur
+			$id = $user->getId();
 
-            // Générer l'URL de la route "app_home" avec l'identifiant en tant que paramètre
-            $url = $this->urlGenerator->generate('app_home', ['id' => $id]);
+			// Générer l'URL de la route "app_home" avec l'identifiant en tant que paramètre
+			$url = $this->urlGenerator->generate('app_home', ['id' => $id]);
 
-            // Rediriger l'utilisateur vers l'URL générée
-            return new RedirectResponse($url);
-        }
+			// Rediriger l'utilisateur vers l'URL générée
+			return new RedirectResponse($url);
+		}
 
-        // Si l'utilisateur n'est pas une instance de User (ce qui ne devrait pas arriver),
-        // redirigez-le vers la page d'accueil par défaut ou une autre page de votre choix.
-        return new RedirectResponse($this->urlGenerator->generate('default_home'));
-    }
+		// Si l'utilisateur n'est pas une instance de User (ce qui ne devrait pas arriver),
+		// redirigez-le vers la page d'accueil par défaut ou une autre page de votre choix.
+		return new RedirectResponse($this->urlGenerator->generate('default_home'));
+	}
 
-    protected function getLoginUrl(Request $request): string
-    {
-        return $this->urlGenerator->generate(self::LOGIN_ROUTE);
-    }
+	protected function getLoginUrl (Request $request): string
+	{
+		return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+	}
 }

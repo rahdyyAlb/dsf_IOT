@@ -11,16 +11,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CaisseType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        $builder
-            ->add('number');
-    }
+	public function buildForm (FormBuilderInterface $builder, array $options): void
+	{
+		$builder
+			->add('number');
+	}
 
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => Caisse::class,
-        ]);
-    }
+	public function configureOptions (OptionsResolver $resolver): void
+	{
+		$resolver->setDefaults([
+			'data_class' => Caisse::class,
+		]);
+	}
 }

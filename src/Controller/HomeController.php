@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Panier;
 use App\Entity\Transactions;
+use App\Entity\TransactionsProducts;
 use App\Entity\User;
 use App\Repository\PanierRepository;
 use App\Repository\ProductsRepository;
@@ -19,114 +20,128 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    #[Route('/home/{id}', name: 'app_home', methods: ['GET'])]
-    #[ParamConverter('user', User::class)]
-    public function index(EntityManagerInterface $entityManager, PanierRepository $panierRepository, SessionInterface $session): Response
-    {
-        $User = $this->getUser();
-        $id = $User->getId();
-        $currentUser = $session->get('User');
-        $panierRepository->updatePanierQuantities($entityManager);
-        $productsInPaniers = [];
+	#[Route('/home/{id}', name: 'app_home', methods: ['GET'])]
+	#[ParamConverter('user', User::class)]
+	public function index (EntityManagerInterface $entityManager, PanierRepository $panierRepository, SessionInterface $session): Response
+	{
+		$user = $this->getUser();
+		$id = $user->getId();
+		$currentUser = $session->get('User');
+		$panierRepository->updatePanierQuantities($entityManager);
+		$productsInPaniers = [];
 
-        // Récupérer tous les éléments du panier associés à l'utilisateur actuel
-        $panierItems = $panierRepository->findAll(); // Supposant que le champ qui relie l'utilisateur aux éléments du panier est 'user'
+		// Récupérer tous les éléments du panier associés à l'utilisateur actuel
+		$panierItems = $panierRepository->findAll(); // Supposant que le champ qui relie l'utilisateur aux éléments du panier est 'user'
 
-        foreach ($panierItems as $panierItem) {
-            $product = $panierItem->getProducts();
+		$cartTotal = 0.0; // Initialiser le prix total du panier
 
-            $productData = [
-                'id' => $product->getId(),
-                'name' => $product->getName(),
-                'price' => $product->getPrice(),
-                'img' => $product->getImg(),
-                'barcode' => $product->getBarCode(),
-            ];
+		foreach ($panierItems as $panierItem) {
+			$product = $panierItem->getProducts();
 
-            $productsInPaniers[] = $productData;
-        }
+			$productData = [
+				'id' => $product->getId(),
+				'name' => $product->getName(),
+				'price' => $product->getUnitPrice(),
+				'img' => $product->getImg(),
+				'barcode' => $product->getBarCode(),
+			];
 
-        return $this->render('home/index.html.twig', [
-            'User' => $User,
-            'id' => $id,
-            'panierItems' => $panierItems,
-            'currentUser' => $currentUser,
-            'productsInPanier' => $productsInPaniers,
-            'session' => $session,
-        ]);
-    }
+			$productsInPaniers[] = $productData;
 
-    #[Route('/api/products/{barcode}', methods: ['GET'])]
-    public function getProductByBarcode($barcode, ProductsRepository $productsRepository, SessionInterface $session, EntityManagerInterface $entityManager)
-    {
-        $user = $this->getUser();
+			// Ajouter le prix total de cet article au prix total du panier
+			$cartTotal += $productData['price'] * $panierItem->getQuantity();
+		}
 
-        $product = $productsRepository->findOneBy(['barCode' => $barcode]);
+		return $this->render('home/index.html.twig', [
+			'User' => $user,
+			'id' => $id,
+			'panierItems' => $panierItems,
+			'currentUser' => $currentUser,
+			'productsInPanier' => $productsInPaniers,
+			'session' => $session,
+			'cartTotal' => $cartTotal, // Passer le prix total du panier à la vue
+		]);
+	}
 
-        if (!$product) {
-            return new JsonResponse(['message' => 'Product not found'], 404);
-        }
+	#[Route('/api/products/{barcode}', methods: ['GET'])]
+	public function getProductByBarcode ($barcode, ProductsRepository $productsRepository, SessionInterface $session, EntityManagerInterface $entityManager)
+	{
+		$user = $this->getUser();
 
-        // Créer un nouvel élément de panier et le configurer
-        $panierItem = new Panier();
-        $panierItem->setUser($user); // Associer l'utilisateur à l'élément du panier
-        $panierItem->setProducts($product); // Associer le produit à l'élément du panier
+		$product = $productsRepository->findOneBy(['barCode' => $barcode]);
 
-        // Persistez l'élément du panier et enregistrez-le dans la base de données
-        $entityManager->persist($panierItem);
-        $entityManager->flush();
+		if (!$product) {
+			return new JsonResponse(['message' => 'Product not found'], 404);
+		}
 
-        // Convertir l'objet Product en un tableau pour le renvoyer en JSON
-        $productData = [
-            'id' => $product->getId(),
-            'name' => $product->getName(),
-            'price' => $product->getPrice(),
-            'img' => $product->getImg(),
-            'barcode' => $product->getBarCode(),
-        ];
+		// Créer un nouvel élément de panier et le configurer
+		$panierItem = new Panier();
+		$panierItem->setUser($user); // Associer l'utilisateur à l'élément du panier
+		$panierItem->setProducts($product); // Associer le produit à l'élément du panier
 
-        return $this->json($productData);
-    }
+		// Persistez l'élément du panier et enregistrez-le dans la base de données
+		$entityManager->persist($panierItem);
+		$entityManager->flush();
 
-    #[Route('/api/validate-transaction', name: 'app_validate_transaction', methods: ['POST'])]
-    public function validateTransaction(EntityManagerInterface $entityManager, PanierRepository $panierRepository, SessionInterface $session): Response
-    {
-        $user = $this->getUser();
-        $scannedProducts = $session->getFlashBag()->get('scanned_product', []);
+		// Convertir l'objet Product en un tableau pour le renvoyer en JSON
+		$productData = [
+			'id' => $product->getId(),
+			'name' => $product->getName(),
+			'price' => $product->getUnitPrice(),
+			'img' => $product->getImg(),
+			'barcode' => $product->getBarCode(),
+		];
 
-        // Récupérer l'instance de la caisse associée à l'utilisateur
-        $caisse = $user->getCaisse();
+		return $this->json($productData);
+	}
 
-        // Créer une nouvelle transaction
-        $transaction = new Transactions();
-        $transaction->setTransactionsDate(new \DateTime('now'));
-        $transaction->setCaisse($caisse);
+	#[Route('/api/validate-transaction', name: 'app_validate_transaction', methods: ['POST'])]
+	public function validateTransaction (EntityManagerInterface $entityManager, PanierRepository $panierRepository, SessionInterface $session): Response
+	{
+		$user = $this->getUser();
+		$scannedProducts = $session->getFlashBag()->get('scanned_product', []);
 
-        // Récupérer les éléments du panier associés à l'utilisateur
-        $panierItems = $panierRepository->findAll();
+		// Récupérer l'instance de la caisse associée à l'utilisateur
+		$caisse = $user->getCaisse();
 
-        foreach ($panierItems as $panierItem) {
-            $product = $panierItem->getProducts();
-            $quantity = $panierItem->getQuantity(); // Assurez-vous que vous avez cette propriété dans votre entité Panier
+		// Créer une nouvelle transaction
+		$transaction = new Transactions();
+		$transaction->setTransactionsDate(new \DateTime('now'));
+		$transaction->setCaisse($caisse);
 
-            // Ajouter le produit à la transaction avec la quantité
-            $transaction->addProductWithQuantity($product, $quantity);
+		// Récupérer les éléments du panier associés à l'utilisateur
+		$panierItems = $panierRepository->findAll();
 
-            // Supprimer l'élément du panier
-            $entityManager->remove($panierItem);
-        }
+		foreach ($panierItems as $panierItem) {
+			$product = $panierItem->getProducts();
+			$quantity = $panierItem->getQuantity();
 
-        $transaction->updateTotalAmount();
+			// Ajouter le produit à la transaction
+			$transactionProduct = new TransactionsProducts();
+			$transactionProduct->setProduct($product);
+			$transactionProduct->setTransaction($transaction);
+			$transactionProduct->setQuantity($quantity);
 
-        // Enregistrer la transaction et vider le panier
-        $entityManager->persist($transaction);
-        $entityManager->flush();
+			$entityManager->persist($transactionProduct);
 
-        $session->getFlashBag()->set('scanned_product', []);
+			// Supprimer l'élément du panier
+			$entityManager->remove($panierItem);
+		}
 
-        $id = $user->getId();
-        $this->addFlash('success', 'La transaction a été validée avec succès.');
+		// Enregistrer la transaction et vider le panier
+		$entityManager->persist($transaction);
+		$entityManager->flush();
 
-        return $this->redirectToRoute('app_home', ['id' => $id]);
-    }
+		$session->getFlashBag()->set('scanned_product', []);
+
+		// Calculer les totaux des articles dans la transaction
+		$itemTotals = $transaction->calculateItemTotals();
+
+		// Utilisez $itemTotals comme nécessaire (par exemple, pour afficher les totaux dans le template)
+
+		$id = $user->getId();
+		$this->addFlash('success', 'La transaction a été validée avec succès.');
+
+		return $this->redirectToRoute('app_home', ['id' => $id]);
+	}
 }

@@ -20,46 +20,46 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PanierRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Panier::class);
-    }
+	public function __construct (ManagerRegistry $registry)
+	{
+		parent::__construct($registry, Panier::class);
+	}
 
-    public function updatePanierQuantities(EntityManagerInterface $entityManager)
-    {
-        $panierItems = $entityManager->getRepository(Panier::class)->findAll();
+	public function updatePanierQuantities (EntityManagerInterface $entityManager)
+	{
+		$panierItems = $entityManager->getRepository(Panier::class)->findAll();
 
-        $productQuantities = [];
+		$productQuantities = [];
 
-        foreach ($panierItems as $panierItem) {
-            $product = $panierItem->getProducts();
-            $productId = $product->getId();
+		foreach ($panierItems as $panierItem) {
+			$product = $panierItem->getProducts();
+			$productId = $product->getId();
 
-            // Si ce produit n'a pas encore été rencontré, initialisez la quantité à 0
-            if (!isset($productQuantities[$productId])) {
-                $productQuantities[$productId] = 0;
-            }
+			// Si ce produit n'a pas encore été rencontré, initialisez la quantité à 0
+			if (!isset($productQuantities[$productId])) {
+				$productQuantities[$productId] = 0;
+			}
 
-            // Incrémentez la quantité pour ce produit (nombre de fois qu'il apparaît dans le panier)
-            $productQuantities[$productId] += $panierItem->getQuantity();
+			// Incrémentez la quantité pour ce produit (nombre de fois qu'il apparaît dans le panier)
+			$productQuantities[$productId] += $panierItem->getQuantity();
 
-            // Supprimez le doublon (panierItem) car il a été traité
-            $entityManager->remove($panierItem);
-        }
+			// Supprimez le doublon (panierItem) car il a été traité
+			$entityManager->remove($panierItem);
+		}
 
-        // Mettez à jour les quantités et persistez les changements
-        foreach ($productQuantities as $productId => $quantity) {
-            $product = $entityManager->getRepository(Products::class)->find($productId);
+		// Mettez à jour les quantités et persistez les changements
+		foreach ($productQuantities as $productId => $quantity) {
+			$product = $entityManager->getRepository(Products::class)->find($productId);
 
-            if ($product) {
-                $panierItem = new Panier();
+			if ($product) {
+				$panierItem = new Panier();
 
-                $panierItem->setProducts($product);
-                $panierItem->setQuantity($quantity);
-                $entityManager->persist($panierItem);
-            }
-        }
+				$panierItem->setProducts($product);
+				$panierItem->setQuantity($quantity);
+				$entityManager->persist($panierItem);
+			}
+		}
 
-        $entityManager->flush();
-    }
+		$entityManager->flush();
+	}
 }

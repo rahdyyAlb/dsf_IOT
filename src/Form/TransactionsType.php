@@ -11,17 +11,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TransactionsType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        $builder
-            ->add('transactions_date')
-            ->add('total_amount');
-    }
+	public function buildForm (FormBuilderInterface $builder, array $options): void
+	{
+		$builder
+			->add('transactions_date')
+			->add('total_amount');
+	}
 
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => Transactions::class,
-        ]);
-    }
+	public function configureOptions (OptionsResolver $resolver): void
+	{
+		$resolver->setDefaults([
+			'data_class' => Transactions::class,
+		]);
+	}
 }
