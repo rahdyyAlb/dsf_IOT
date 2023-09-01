@@ -273,4 +273,9 @@ class Transactions
 
         return $totalAmount;
     }
+
+	public setTotalAmount($totalAmount)
+	{
+
+}
 }

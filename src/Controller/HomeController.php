@@ -112,15 +112,21 @@ class HomeController extends AbstractController
         // Récupérer les éléments du panier associés à l'utilisateur
         $panierItems = $panierRepository->findAll();
 
+        $totalAmount = 0; // Initialiser le montant total à zéro
+
         foreach ($panierItems as $panierItem) {
             $product = $panierItem->getProducts();
+            $productPrice = $product->getUnitPrice();
             $quantity = $panierItem->getQuantity();
+            $itemTotal = $productPrice * $quantity; // Calculer le montant total pour cet article
+            $totalAmount += $itemTotal; // Ajouter cet article au montant total
 
             // Ajouter le produit à la transaction
             $transactionProduct = new TransactionsProducts();
             $transactionProduct->setProduct($product);
             $transactionProduct->setTransaction($transaction);
             $transactionProduct->setQuantity($quantity);
+            $transactionProduct->setPrice($itemTotal);
 
             $entityManager->persist($transactionProduct);
 
@@ -128,16 +134,16 @@ class HomeController extends AbstractController
             $entityManager->remove($panierItem);
         }
 
+        // Définir le montant total de la transaction
+        $transaction->updateTotalAmount($totalAmount);
+
         // Enregistrer la transaction et vider le panier
         $entityManager->persist($transaction);
         $entityManager->flush();
 
         $session->getFlashBag()->set('scanned_product', []);
 
-        // Calculer les totaux des articles dans la transaction
-        $itemTotals = $transaction->calculateItemTotals();
-
-        // Utilisez $itemTotals comme nécessaire (par exemple, pour afficher les totaux dans le template)
+        // Utilisez $totalAmount comme nécessaire (par exemple, pour afficher le montant total dans le template)
 
         $id = $user->getId();
         $this->addFlash('success', 'La transaction a été validée avec succès.');

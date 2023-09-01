@@ -114,4 +114,20 @@
             <button type="submit" class="btn-success bg-success btn w-15 h-25">Valider</button>
         </form>
     </div>
+
+    <script>
+        function refreshPanier() {
+            const id = {{ id }};
+            // Effectuer une requête AJAX pour récupérer les données mises à jour du panier
+            fetch('{{ path('app_home', {'id': id}) }}')  // Notez la virgule ici
+                .then(response => response.text())
+                .then(html => {
+                    // Mettre à jour le contenu de la table avec les nouvelles données
+                    document.getElementById('panier-table').innerHTML = html;
+                });
+        }
+
+        // Appeler la fonction de rafraîchissement toutes les secondes
+        setInterval(refreshPanier, 3000); // 1000 ms = 1 seconde
+    </script>
 {% endblock %}
