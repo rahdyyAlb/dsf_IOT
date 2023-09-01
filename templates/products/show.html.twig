@@ -10,7 +10,9 @@
             <div class="card card-body text-center align-items-center justify-content-center width-80">
 
                 <h1 class="m-2 pb-3 text-center">Info sur le produits</h1>
-                <img src="{{ asset('build/images/'  ~ product.img) }}" class="navbar-brand-img img-products rounded " alt="main_logo">
+                <div class="img-box-l">
+                    <img src="{{ asset('build/images/'  ~ product.img) }}" class="navbar-brand-img img-products rounded " alt="main_logo">
+                </div>
                 <table class="table">
                     <tbody>
                     <tr>
@@ -22,7 +24,7 @@
                         <td>{{ product.name }}</td>
                     </tr>
                     <tr>
-                        <th>Prix</th>
+                        <th>Prix</th>   
                         <td>{{ product.price }}</td>
                     </tr>
                     <tr>
@@ -30,7 +32,7 @@
                         <td>{{ product.stockQuantity }}</td>
                     </tr>
                     <tr>
-                        <th>Code bare</th>
+                        <th>Code barre</th>
                         <td>{{ product.barCode }}</td>
                     </tr>
                     </tbody>

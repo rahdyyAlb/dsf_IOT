@@ -23,7 +23,9 @@
                     {% for transactionProduct in transaction.getTransactionsProducts() %}
                         <tr>
                             <td>
-                                <img src="{{ asset('build/images/' ~ transactionProduct.getProduct().getImg()) }}" class="height-10 rounded" alt="{{ transactionProduct.getProduct().getImg() }}">
+<div class="img-box">
+                                <img src="{{ asset('build/images/' ~ transactionProduct.getProduct().getImg()) }}" class=" rounded" alt="{{ transactionProduct.getProduct().getImg() }}">
+                            </div>
                             </td>
                             <td>{{ transactionProduct.getProduct().getName() }}</td>
                             <td>{{ transactionProduct.getProduct().getPrice() }}</td>
