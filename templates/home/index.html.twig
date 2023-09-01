@@ -3,20 +3,20 @@
 {% block title %}Caisse{% endblock %}
         {% block stylesheets %}
             {{ encore_entry_link_tags('dashboard') }}
-
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         {% endblock %}
 
 
 {% block body %}
-    <div class="mt-5 me-5 ms-5">
+    <div class="mt-5 me-5 ms-5 " id="panier-table">
         <div class="row mb-4 justify-content-between d-flex ">
-            <a class="btn-success bg-success btn w-15 h-25" href="{{path('admin',{'id': User.id}) }} }}">Dashboard</a>
+            <a class="btn-success bg-success btn w-15 h-25" href="{{ path('admin',{'id': User.id}) }} }}">Dashboard</a>
             <a class="btn-danger bg-danger btn w-15 h-25" href="{{ logout_path('main') }}">Déconnexion</a>
         </div>
         <div class="col-lg-4 col-md-6">
             <div class="card h-50">
-                <div class="card-header pb-0">
-                    <table class="table align-items-center mb-0">
+                <div class="card-header table-responsive pb-0">
+                    <table id="product-table" class="table align-items-center mb-0">
                         <thead>
                         <tr>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -63,7 +63,8 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                             <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Image</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Image
+                                </th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                     Nom
                                 </th>
@@ -76,27 +77,28 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for product in productData %}
+                            {% for panierItem in panierItems %}
                                 <tr>
                                     <td>
                                         <div class="d-flex px-2 py-1">
                                             <div>
+                                                <img src="{{ asset('build/images/' ~ panierItem.products.img) }}"
+                                                     class="w-25" alt="{{ panierItem.products.img }}">
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
-                                                <img src="{{ asset('build/images/'  ~ product.img) }}" class="w-25" alt="{{ product.img }}">
                                             </div>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="avatar-group mt-2">
-                                            <p>{{ product.name }}</p>
+                                            <p>{{ panierItem.products.name }}</p>
                                         </div>
                                     </td>
                                     <td class="align-middle text-center text-sm">
-                                        <span class="text-xs font-weight-bold"> {{ product.price }} </span>
+                                        <span class="text-xs font-weight-bold">{{ panierItem.products.price }}</span>
                                     </td>
                                     <td class="align-middle text-center text-sm">
-                                        <span class="text-xs font-weight-bold">  </span>
+                                        <span class="text-xs font-weight-bold">{{ panierItem.quantity }}</span>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -106,22 +108,23 @@
                 </div>
             </div>
         </div>
+        <form action="{{ path('app_validate_transaction') }}" id="validation-form" method="post">
+            <button type="submit" class="btn-success bg-success btn w-15 h-25">Valider</button>
+        </form>
     </div>
+    <script>
+        function refreshPanier() {
+            const id = {{ id }};
+            // Effectuer une requête AJAX pour récupérer les données mises à jour du panier
+            fetch('{{ path('app_home', {'id': id}) }}')  // Notez la virgule ici
+                .then(response => response.text())
+                .then(html => {
+                    // Mettre à jour le contenu de la table avec les nouvelles données
+                    document.getElementById('panier-table').innerHTML = html;
+                });
+        }
 
-    <ul>
-        {% for product in scannedProducts %}
-            <li>
-                <strong>{{ product.name }}</strong><br>
-                Prix : {{ product.price }} €<br>
-                Code-barres : {{ product.barCode }}<br>
-                <!-- Ajoutez d'autres détails du produit ici -->
-            </li>
-            <hr>
-        {% endfor %}
-    </ul>
-    <form action="{{ path('app_validate_transaction') }}" method="post" >
-        <button type="submit" class="btn-success bg-success btn w-15 h-25">Valider</button>
-    </form>
-    {{ dump(transactions) }}
-    {{ dump(session) }}
+        // Appeler la fonction de rafraîchissement toutes les secondes
+        setInterval(refreshPanier, 3000); // 1000 ms = 1 seconde
+    </script>
 {% endblock %}

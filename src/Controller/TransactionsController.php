@@ -67,8 +67,11 @@ class TransactionsController extends AbstractController
     #[Route('/{id}', name: 'app_transactions_show', methods: ['GET'])]
     public function show(Transactions $transaction): Response
     {
+        $prixTotal = $transaction->getTotalAmount();
+
         return $this->render('transactions/show.html.twig', [
             'transaction' => $transaction,
+            'prixTotal' => $prixTotal,
         ]);
     }
 

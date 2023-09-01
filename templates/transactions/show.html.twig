@@ -20,16 +20,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for product in transaction.products %}
+                    {% for transactionProduct in transaction.getTransactionsProducts() %}
                         <tr>
                             <td>
-                                <div class="img-box">
-                                    <img src="{{ asset('build/images/'  ~ product.img) }}" class=" rounded" alt="{{ product.img }}">
-                                </div>
+<div class="img-box">
+                                <img src="{{ asset('build/images/' ~ transactionProduct.getProduct().getImg()) }}" class=" rounded" alt="{{ transactionProduct.getProduct().getImg() }}">
+                            </div>
                             </td>
-                            <td>{{ product.name }}</td>
-                            <td>{{ product.price }}</td>
-                            <td>1</td>
+                            <td>{{ transactionProduct.getProduct().getName() }}</td>
+                            <td>{{ transactionProduct.getProduct().getPrice() }}</td>
+                            <td>
+                                {{ transactionProduct.getQuantity() }}
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -47,7 +49,7 @@
                     </tr>
                     <tr>
                         <th>Montant total</th>
-                        <td>{{ transaction.totalAmount }}</td>
+                        <td>{{ transaction.getTotalAmount() }}</td>
                     </tr>
 
                     </tbody>

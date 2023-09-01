@@ -26,14 +26,8 @@ class Products
     #[ORM\Column]
     private ?int $stockQuantity = null;
 
-    #[ORM\OneToMany(mappedBy: 'products', targetEntity: categories::class)]
+    #[ORM\OneToMany(mappedBy: 'products', targetEntity: Categories::class)]
     private Collection $categorieId;
-
-    #[ORM\ManyToMany(targetEntity: TransactionIteme::class, mappedBy: 'product_id')]
-    private Collection $transactionItemes;
-
-    #[ORM\ManyToMany(targetEntity: Transactions::class, mappedBy: 'products')]
-    private Collection $transactions;
 
     #[ORM\Column(length: 255)]
     private ?string $barCode = null;
@@ -41,11 +35,19 @@ class Products
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $img = null;
 
+    #[ORM\OneToMany(mappedBy: 'cart', targetEntity: Panier::class)]
+    private Collection $paniers;
+
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: TransactionsProducts::class)]
+    private Collection $transactionsProducts;
+
     public function __construct()
     {
         $this->categorieId = new ArrayCollection();
         $this->transactionItemes = new ArrayCollection();
         $this->transactions = new ArrayCollection();
+        $this->paniers = new ArrayCollection();
+        $this->transactionsProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -119,60 +121,6 @@ class Products
         return $this;
     }
 
-    /**
-     * @return Collection<int, TransactionIteme>
-     */
-    public function getTransactionItemes(): Collection
-    {
-        return $this->transactionItemes;
-    }
-
-    public function addTransactionIteme(TransactionIteme $transactionIteme): static
-    {
-        if (!$this->transactionItemes->contains($transactionIteme)) {
-            $this->transactionItemes->add($transactionIteme);
-            $transactionIteme->addProductId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTransactionIteme(TransactionIteme $transactionIteme): static
-    {
-        if ($this->transactionItemes->removeElement($transactionIteme)) {
-            $transactionIteme->removeProductId($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Transactions>
-     */
-    public function getTransactions(): Collection
-    {
-        return $this->transactions;
-    }
-
-    public function addTransaction(Transactions $transaction): static
-    {
-        if (!$this->transactions->contains($transaction)) {
-            $this->transactions->add($transaction);
-            $transaction->addProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTransaction(Transactions $transaction): static
-    {
-        if ($this->transactions->removeElement($transaction)) {
-            $transaction->removeProduct($this);
-        }
-
-        return $this;
-    }
-
     public function getBarCode(): ?string
     {
         return $this->barCode;
@@ -193,6 +141,66 @@ class Products
     public function setImg(?string $img): static
     {
         $this->img = $img;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Panier>
+     */
+    public function getPaniers(): Collection
+    {
+        return $this->paniers;
+    }
+
+    public function addPanier(Panier $panier): static
+    {
+        if (!$this->paniers->contains($panier)) {
+            $this->paniers->add($panier);
+            $panier->setProducts($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanier(Panier $panier): static
+    {
+        if ($this->paniers->removeElement($panier)) {
+            // set the owning side to null (unless already changed)
+            if ($panier->getProducts() === $this) {
+                $panier->setProducts(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TransactionsProducts>
+     */
+    public function getTransactionsProducts(): Collection
+    {
+        return $this->transactionsProducts;
+    }
+
+    public function addTransactionsProduct(TransactionsProducts $transactionsProduct): static
+    {
+        if (!$this->transactionsProducts->contains($transactionsProduct)) {
+            $this->transactionsProducts->add($transactionsProduct);
+            $transactionsProduct->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransactionsProduct(TransactionsProducts $transactionsProduct): static
+    {
+        if ($this->transactionsProducts->removeElement($transactionsProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($transactionsProduct->getProduct() === $this) {
+                $transactionsProduct->setProduct(null);
+            }
+        }
 
         return $this;
     }
